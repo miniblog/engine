@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ruleset name="Miniblog Engine Coding Standard">
+    <!-- <config name="ignore_warnings_on_exit" value="1"/> -->
+
+    <exclude-pattern>*/tests/src/FrontControllerTest/*/templates/*$</exclude-pattern>
+
+    <file>public/</file>
+    <file>src/</file>
+    <file>templates/</file>
+    <file>tests/</file>
+
+    <arg name="extensions" value="php"/>
+    <arg value="p"/>
+    <arg name="colors"/>
+
+    <rule ref="PSR12">
+        <exclude name="Generic.Files.LineLength"/>
+    </rule>
+
+    <rule ref="./vendor/danbettles/codesniffer-standard/src/DanBettles">
+    </rule>
+</ruleset>

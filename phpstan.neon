@@ -1,0 +1,9 @@
+parameters:
+    excludePaths:
+        - tests/src/FrontControllerTest/*/templates/*
+    level: max
+    paths:
+        - public
+        - src
+        - templates
+        - tests

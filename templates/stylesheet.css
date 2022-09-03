@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital@0;1&family=Slabo+13px&display=swap');
+
+body {
+    font: 18px 'Lato', sans-serif;
+    line-height: 1.5;
+}
+
+body > * {
+    max-width: 40em;
+    color: #444;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Slabo 13px', serif;
+}
+
+a,
+a:link,
+a:visited {
+    color: #08c;
+}
+
+a:hover {
+    color: #0bf;
+}
+
+a:active {
+    color: #046;
+}
+
+.blog-title {
+    text-align: center;
+}
+
+.blog-title a {
+    text-decoration: none;
+}
+
+.list-title a {
+    color: #444;
+    text-decoration: none;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+footer {
+    color: #888;
+    padding: 1em;
+    margin: 2em auto 0;
+    background: #eee;
+    font-style: italic;
+    box-sizing: border-box;
+}
