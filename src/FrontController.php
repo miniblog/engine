@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine;
 
-use DanBettles\Marigold\TemplateProcessor;
+use DanBettles\Marigold\HttpResponse;
+use DanBettles\Marigold\TemplateEngine;
 use Throwable;
 
 use function array_key_exists;
@@ -34,12 +35,20 @@ class FrontController
         ;
     }
 
+    private function createInternalServerErrorResponse(): HttpResponse
+    {
+        $content = $this->render('http_500.html.php', [
+            'metaTitle' => 'Internal Server Error',
+        ]);
+
+        return new HttpResponse($content, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
     /**
      * @param array<string, string> $server
      * @param array<string, string> $query
-     * @return array{headers: string[], content: string}
      */
-    public function handle(array $server, array $query): array
+    public function handle(array $server, array $query): HttpResponse
     {
         try {
             if (array_key_exists('post', $query)) {
@@ -48,7 +57,7 @@ class FrontController
 
             return $this->postsAction($server, $query);
         } catch (Throwable $t) {
-            return $this->createInternalServerErrorResponse($server);
+            return $this->createInternalServerErrorResponse();
         }
     }
 
@@ -62,74 +71,40 @@ class FrontController
     ): string {
         /** @var string */
         $templatesDir = $this->getConfig()['templatesDir'];
-        $templateProcessor = new TemplateProcessor($templatesDir);
+        $templateEngine = new TemplateEngine($templatesDir);
 
         $variables['config'] = $this->getConfig();
         $variables['helper'] = new OutputHelper();
-        $variables['contentForLayout'] = $templateProcessor->render($contentTemplateBasename, $variables);
+        $variables['contentForLayout'] = $templateEngine->render($contentTemplateBasename, $variables);
 
-        return $templateProcessor->render('layout.html.php', $variables);
+        return $templateEngine->render('layout.html.php', $variables);
     }
 
-    /**
-     * @param array<string, string> $server
-     * @return array{headers: string[], content: string}
-     */
-    private function createNotFoundResponse(array $server): array
+    private function createNotFoundResponse(): HttpResponse
     {
-        return [
-            'headers' => [
-                "{$server['SERVER_PROTOCOL']} 404 Not Found",
-            ],
-            'content' => $this->render('http_404.html.php', [
-                'metaTitle' => 'Page Not Found',
-            ]),
-        ];
+        $content = $this->render('http_404.html.php', [
+            'metaTitle' => 'Page Not Found',
+        ]);
+
+        return new HttpResponse($content, HttpResponse::HTTP_NOT_FOUND);
     }
 
-    /**
-     * @param array<string, string> $server
-     * @return array{headers: string[], content: string}
-     */
-    private function createInternalServerErrorResponse(array $server): array
+    private function createOkResponse(string $content): HttpResponse
     {
-        return [
-            'headers' => [
-                "{$server['SERVER_PROTOCOL']} 500 Internal Server Error",
-            ],
-            'content' => $this->render('http_500.html.php', [
-                'metaTitle' => 'Internal Server Error',
-            ]),
-        ];
-    }
-
-    /**
-     * @param array<string, string> $server
-     * @param string $content
-     * @return array{headers: string[], content: string}
-     */
-    private function createOkResponse(array $server, string $content): array
-    {
-        return [
-            'headers' => [
-                "{$server['SERVER_PROTOCOL']} 200 OK",
-            ],
-            'content' => $content,
-        ];
+        return new HttpResponse($content);
     }
 
     /**
      * @param array<string, string> $server
      * @param array<string, string> $query
      * @param string $postId
-     * @return array{headers: string[], content: string}
      */
-    protected function postAction(array $server, array $query, string $postId): array
+    protected function postAction(array $server, array $query, string $postId): HttpResponse
     {
         $article = $this->getPostRepo()->find($postId);
 
         if (null === $article) {
-            return $this->createNotFoundResponse($server);
+            return $this->createNotFoundResponse();
         }
 
         $content = $this->render('post_action.html.php', [
@@ -138,22 +113,21 @@ class FrontController
             'article' => $article,
         ]);
 
-        return $this->createOkResponse($server, $content);
+        return $this->createOkResponse($content);
     }
 
     /**
      * @param array<string, string> $server
      * @param array<string, string> $query
-     * @return array{headers: string[], content: string}
      */
-    protected function postsAction(array $server, array $query): array
+    protected function postsAction(array $server, array $query): HttpResponse
     {
         $content = $this->render('posts_action.html.php', [
             'metaTitle' => 'All Posts',
             'articles' => $this->getPostRepo()->findAll(),
         ]);
 
-        return $this->createOkResponse($server, $content);
+        return $this->createOkResponse($content);
     }
 
     /**

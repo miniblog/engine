@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Miniblog\Engine\Tests;
 
 use DanBettles\Marigold\AbstractTestCase;
+use DanBettles\Marigold\HttpResponse;
 use Error;
 use Miniblog\Engine\FrontController;
 use Miniblog\Engine\MarkdownParser;
@@ -90,14 +91,16 @@ class FrontControllerTest extends AbstractTestCase
             'post' => $postId,
         ]);
 
-        $this->assertSame(<<<END
+        $expected = new HttpResponse(<<<END
         Before content
         Title
         Description
         Body
         2022-08-29
         After content
-        END, $response['content']);
+        END, 200);
+
+        $this->assertEquals($expected, $response);
     }
 
     public function testHandleReturnsA404IfThePostIdIsInvalid(): void
@@ -110,21 +113,13 @@ class FrontControllerTest extends AbstractTestCase
             'post' => 'Invalid_Id',
         ]);
 
-        $this->assertIsArray($response);
-
-        $this->assertArrayHasKey('headers', $response);
-
-        $this->assertEquals([
-            'HTTP/1.1 404 Not Found',
-        ], $response['headers']);
-
-        $this->assertArrayHasKey('content', $response);
-
-        $this->assertSame(<<<END
+        $expected = new HttpResponse(<<<END
         Before content
         Not Found
         After content
-        END, $response['content']);
+        END, 404);
+
+        $this->assertEquals($expected, $response);
     }
 
     public function testHandleReturnsA404IfThePostDoesNotExist(): void
@@ -137,21 +132,13 @@ class FrontControllerTest extends AbstractTestCase
             'post' => 'non-existent',
         ]);
 
-        $this->assertIsArray($response);
-
-        $this->assertArrayHasKey('headers', $response);
-
-        $this->assertEquals([
-            'HTTP/1.1 404 Not Found',
-        ], $response['headers']);
-
-        $this->assertArrayHasKey('content', $response);
-
-        $this->assertSame(<<<END
+        $expected = new HttpResponse(<<<END
         Before content
         Not Found
         After content
-        END, $response['content']);
+        END, 404);
+
+        $this->assertEquals($expected, $response);
     }
 
     /** @return array<int, array{0: Throwable}> */
@@ -198,21 +185,13 @@ class FrontControllerTest extends AbstractTestCase
             'post' => '2022-09-03',
         ]);
 
-        $this->assertIsArray($response);
-
-        $this->assertArrayHasKey('headers', $response);
-
-        $this->assertEquals([
-            'HTTP/1.1 500 Internal Server Error',
-        ], $response['headers']);
-
-        $this->assertArrayHasKey('content', $response);
-
-        $this->assertSame(<<<END
+        $expected = new HttpResponse(<<<END
         Before content
         Internal Server Error
         After content
-        END, $response['content']);
+        END, 500);
+
+        $this->assertEquals($expected, $response);
     }
 
     // Here it's easier to just do a full, *functional* test.
@@ -224,7 +203,7 @@ class FrontControllerTest extends AbstractTestCase
             'SERVER_PROTOCOL' => 'HTTP/1.1',
         ], []);
 
-        $this->assertSame(<<<END
+        $expected = new HttpResponse(<<<END
         Before content
         Article 3 Title
         Article 3 description
@@ -240,7 +219,9 @@ class FrontControllerTest extends AbstractTestCase
         2022-08-31
 
         After content
-        END, $response['content']);
+        END, 200);
+
+        $this->assertEquals($expected, $response);
     }
 
     /** @dataProvider providesErrors */
@@ -272,20 +253,12 @@ class FrontControllerTest extends AbstractTestCase
             'SERVER_PROTOCOL' => 'HTTP/1.1',
         ], []);
 
-        $this->assertIsArray($response);
-
-        $this->assertArrayHasKey('headers', $response);
-
-        $this->assertEquals([
-            'HTTP/1.1 500 Internal Server Error',
-        ], $response['headers']);
-
-        $this->assertArrayHasKey('content', $response);
-
-        $this->assertSame(<<<END
+        $expected = new HttpResponse(<<<END
         Before content
         Internal Server Error
         After content
-        END, $response['content']);
+        END, 500);
+
+        $this->assertEquals($expected, $response);
     }
 }

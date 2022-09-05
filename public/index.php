@@ -12,12 +12,5 @@ require "{$projectDir}/vendor/autoload.php";
 /** @var array<string, string> */
 $config = require "{$projectDir}/config.php";
 $frontController = new FrontController($config, new MarkdownParser());
-/** @var array{headers: string[], content: string} */
 $response = $frontController->handle($_SERVER, $_GET);
-
-foreach ($response['headers'] as $header) {
-    header($header);
-}
-
-// phpcs:ignore
-echo $response['content'];
+$response->send($_SERVER);
