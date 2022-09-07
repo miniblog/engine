@@ -10,7 +10,6 @@ use Throwable;
 
 use function array_key_exists;
 
-use const DIRECTORY_SEPARATOR;
 use const null;
 
 class FrontController
@@ -70,7 +69,7 @@ class FrontController
         array $variables = []
     ): string {
         /** @var string */
-        $templatesDir = $this->getConfig()['templatesDir'];
+        $templatesDir = $this->getConfig()['engineDir'] . '/templates';
         $templateEngine = new TemplateEngine($templatesDir);
 
         $variables['config'] = $this->getConfig();
@@ -161,8 +160,10 @@ class FrontController
     private function getPostRepo(): ArticleRepository
     {
         if (!isset($this->postRepo)) {
+            $contentDir = $this->getConfig()['projectDir'] . '/content';
+
             $this->postRepo = new ArticleRepository(
-                ($this->getConfig()['contentDir'] . DIRECTORY_SEPARATOR . 'posts'),
+                "{$contentDir}/posts",
                 $this->getMarkdownParser()
             );
         }

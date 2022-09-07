@@ -10,7 +10,6 @@ use Miniblog\Engine\ArticleRepository;
 use Miniblog\Engine\MarkdownParser;
 use RangeException;
 
-use const DIRECTORY_SEPARATOR;
 use const false;
 use const null;
 use const true;
@@ -112,7 +111,7 @@ class ArticleRepositoryTest extends AbstractTestCase
         $dataDir = $this->createFixturePathname(__FUNCTION__);
 
         $invalidId = 'Invalid_Id';
-        $articleFilePathname = $dataDir . DIRECTORY_SEPARATOR . "{$invalidId}.md";
+        $articleFilePathname = "{$dataDir}/{$invalidId}.md";
 
         // The file *does* exist...
         $this->assertFileExists($articleFilePathname);

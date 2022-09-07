@@ -26,7 +26,7 @@ use Miniblog\Engine\OutputHelper;
         <?php endif ?>
 
         <style>
-            <?= file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stylesheet.css') ?>
+            <?= file_get_contents(__DIR__ . '/stylesheet.css') ?>
         </style>
     </head>
 

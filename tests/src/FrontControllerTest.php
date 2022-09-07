@@ -16,7 +16,6 @@ use Throwable;
 
 use function file_get_contents;
 
-use const DIRECTORY_SEPARATOR;
 use const true;
 
 class FrontControllerTest extends AbstractTestCase
@@ -41,15 +40,14 @@ class FrontControllerTest extends AbstractTestCase
     private function createFrontController(string $projectDir): FrontController
     {
         return new FrontController([
-            'contentDir' => "{$projectDir}/content",
-            'templatesDir' => "{$projectDir}/templates",
+            'projectDir' => $projectDir,
+            'engineDir' => $projectDir,
         ], new MarkdownParser());
     }
 
     public function testHandleCallsPostactionIfAPostHasBeenRequested(): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
-        $contentDir = "{$projectDir}/content";
 
         $publishedAtStr = '2022-08-29';
         $postId = $publishedAtStr;
@@ -61,7 +59,7 @@ class FrontControllerTest extends AbstractTestCase
             ->getMock()
         ;
 
-        $postFilePathname = $contentDir . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . "{$postId}.md";
+        $postFilePathname = "{$projectDir}/content/posts/{$postId}.md";
         $articleFileContents = file_get_contents($postFilePathname);
 
         $parsedMarkdown = [
@@ -81,8 +79,8 @@ class FrontControllerTest extends AbstractTestCase
 
         /** @var MarkdownParser $markdownParserMock */
         $frontController = new FrontController([
-            'contentDir' => $contentDir,
-            'templatesDir' => "{$projectDir}/templates",
+            'projectDir' => $projectDir,
+            'engineDir' => $projectDir,
         ], $markdownParserMock);
 
         $response = $frontController->handle([
@@ -165,8 +163,8 @@ class FrontControllerTest extends AbstractTestCase
             ->onlyMethods(['postAction'])
             ->setConstructorArgs([
                 [
-                    'contentDir' => "{$projectDir}/content",
-                    'templatesDir' => "{$projectDir}/templates",
+                    'projectDir' => $projectDir,
+                    'engineDir' => $projectDir,
                 ],
                 new MarkdownParser(),
             ])
@@ -235,8 +233,8 @@ class FrontControllerTest extends AbstractTestCase
             ->onlyMethods(['postsAction'])
             ->setConstructorArgs([
                 [
-                    'contentDir' => "{$projectDir}/content",
-                    'templatesDir' => "{$projectDir}/templates",
+                    'projectDir' => $projectDir,
+                    'engineDir' => $projectDir,
                 ],
                 new MarkdownParser(),
             ])

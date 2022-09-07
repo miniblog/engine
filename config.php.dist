@@ -1,8 +1,6 @@
 <?php
 
 return [
-    'templatesDir' => __DIR__ . '/templates',
-    'contentDir' => __DIR__ . '/content',
-    'contactEmail' => 'danbettles@yahoo.co.uk',
     'blogTitle' => 'Miniblog',
+    'contactEmail' => 'danbettles@yahoo.co.uk',
 ];
