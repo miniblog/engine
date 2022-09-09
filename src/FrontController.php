@@ -14,7 +14,9 @@ use const null;
 
 class FrontController
 {
-    /** @var array<string, mixed> */
+    /**
+     * @var array<string, mixed>
+     */
     private array $config;
 
     private ArticleManager $articleManager;

@@ -26,7 +26,9 @@ use const null;
 
 class ArticleRepository
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private const ARTICLE_FILE_EXTENSION = 'md';
 
     private MarkdownParser $markdownParser;

@@ -17,7 +17,9 @@ use const null;
 
 class Article
 {
-    /** @var array<string, string> */
+    /**
+     * @var array<string, string>
+     */
     private static array $propertySetterNames;
 
     private ?string $id;
