@@ -26,17 +26,17 @@ class ArticleRepository
     /** @var string */
     private const ARTICLE_FILE_EXTENSION = 'md';
 
-    private string $dataDir;
-
     private MarkdownParser $markdownParser;
 
+    private string $dataDir;
+
     public function __construct(
-        string $dataDir,
-        MarkdownParser $markdownParser
+        MarkdownParser $markdownParser,
+        string $dataDir
     ) {
         $this
-            ->setDataDir($dataDir)
             ->setMarkdownParser($markdownParser)
+            ->setDataDir($dataDir)
         ;
     }
 

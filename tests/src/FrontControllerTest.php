@@ -7,6 +7,9 @@ namespace Miniblog\Engine\Tests;
 use DanBettles\Marigold\AbstractTestCase;
 use DanBettles\Marigold\HttpResponse;
 use Error;
+use Miniblog\Engine\Article;
+use Miniblog\Engine\ArticleManager;
+use Miniblog\Engine\ArticleRepository;
 use Miniblog\Engine\FrontController;
 use Miniblog\Engine\MarkdownParser;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -14,20 +17,23 @@ use ReflectionMethod;
 use RuntimeException;
 use Throwable;
 
-use function file_get_contents;
-
-use const true;
+use const false;
 
 class FrontControllerTest extends AbstractTestCase
 {
     public function testIsInstantiable(): void
     {
         $config = [];
-        $markdownParser = new MarkdownParser();
-        $controller = new FrontController($config, $markdownParser);
+
+        $articleManager = new ArticleManager(
+            new MarkdownParser(),
+            $this->createFixturePathname(__FUNCTION__)
+        );
+
+        $controller = new FrontController($config, $articleManager);
 
         $this->assertSame($config, $controller->getConfig());
-        $this->assertSame($markdownParser, $controller->getMarkdownParser());
+        $this->assertSame($articleManager, $controller->getArticleManager());
     }
 
     public function testHasProtectedActionMethods(): void
@@ -39,49 +45,64 @@ class FrontControllerTest extends AbstractTestCase
     // Factory method.
     private function createFrontController(string $projectDir): FrontController
     {
+        $articleManager = new ArticleManager(new MarkdownParser(), "{$projectDir}/content");
+
         return new FrontController([
             'projectDir' => $projectDir,
             'engineDir' => $projectDir,
-        ], new MarkdownParser());
+        ], $articleManager);
     }
 
-    public function testHandleCallsPostactionIfAPostHasBeenRequested(): void
+    public function testHandleWillRespondWithASingleArticleIfAPostIsRequested(): void
     {
-        $projectDir = $this->createFixturePathname(__FUNCTION__);
-
         $publishedAtStr = '2022-08-29';
         $postId = $publishedAtStr;
 
+        $article = (new Article())
+            ->setTitle('Title')
+            ->setDescription('Description')
+            ->setBody('Body')
+            ->setPublishedAt($publishedAtStr)
+            ->setIsLegacyArticle(false)
+        ;
+
         /** @var MockObject */
-        $markdownParserMock = $this
-            ->getMockBuilder(MarkdownParser::class)
-            ->onlyMethods(['parse'])
+        $postRepoMock = $this
+            ->getMockBuilder(ArticleRepository::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['find'])
             ->getMock()
         ;
 
-        $postFilePathname = "{$projectDir}/content/posts/{$postId}.md";
-        $articleFileContents = file_get_contents($postFilePathname);
-
-        $parsedMarkdown = [
-            'title' => 'Title',
-            'description' => 'Description',
-            'body' => 'Body',
-            'publishedAt' => $publishedAtStr,
-            'frontMatterIncluded' => true,
-        ];
-
-        $markdownParserMock
+        $postRepoMock
             ->expects($this->once())
-            ->method('parse')
-            ->with($this->equalTo($articleFileContents))
-            ->willReturn($parsedMarkdown)
+            ->method('find')
+            ->with($postId)
+            ->willReturn($article)
         ;
 
-        /** @var MarkdownParser $markdownParserMock */
+        /** @var MockObject */
+        $articleManagerMock = $this
+            ->getMockBuilder(ArticleManager::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getRepository'])
+            ->getMock()
+        ;
+
+        $articleManagerMock
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with('post')
+            ->willReturn($postRepoMock)
+        ;
+
+        $projectDir = $this->createFixturePathname(__FUNCTION__);
+
+        /** @var ArticleManager $articleManagerMock */
         $frontController = new FrontController([
             'projectDir' => $projectDir,
             'engineDir' => $projectDir,
-        ], $markdownParserMock);
+        ], $articleManagerMock);
 
         $response = $frontController->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
@@ -153,21 +174,21 @@ class FrontControllerTest extends AbstractTestCase
     }
 
     /** @dataProvider providesErrors */
-    public function testHandleReturnsA500IfAnErrorOccursInPostaction(Throwable $throwable): void
+    public function testHandleWillRespondWithA500IfAnErrorOccursInPostaction(Throwable $throwable): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
 
         /** @var MockObject */
         $frontControllerMock = $this
             ->getMockBuilder(FrontController::class)
-            ->onlyMethods(['postAction'])
             ->setConstructorArgs([
                 [
                     'projectDir' => $projectDir,
                     'engineDir' => $projectDir,
                 ],
-                new MarkdownParser(),
+                $this->createStub(ArticleManager::class),
             ])
+            ->onlyMethods(['postAction'])
             ->getMock()
         ;
 
@@ -192,8 +213,8 @@ class FrontControllerTest extends AbstractTestCase
         $this->assertEquals($expected, $response);
     }
 
-    // Here it's easier to just do a full, *functional* test.
-    public function testHandleCallsPostsactionIfAPostHasNotBeenRequested(): void
+    // Here it's easier to just do a full, functional test.
+    public function testHandleWillRespondWithAListOfArticlesIfAPostIsNotRequested(): void
     {
         $frontController = $this->createFrontController($this->createFixturePathname(__FUNCTION__));
 
@@ -223,21 +244,21 @@ class FrontControllerTest extends AbstractTestCase
     }
 
     /** @dataProvider providesErrors */
-    public function testHandleReturnsA500IfAnErrorOccursInPostsaction(Throwable $throwable): void
+    public function testHandleWillRespondWithA500IfAnErrorOccursInPostsaction(Throwable $throwable): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
 
         /** @var MockObject */
         $frontControllerMock = $this
             ->getMockBuilder(FrontController::class)
-            ->onlyMethods(['postsAction'])
             ->setConstructorArgs([
                 [
                     'projectDir' => $projectDir,
                     'engineDir' => $projectDir,
                 ],
-                new MarkdownParser(),
+                $this->createStub(ArticleManager::class),
             ])
+            ->onlyMethods(['postsAction'])
             ->getMock()
         ;
 

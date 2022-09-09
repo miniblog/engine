@@ -18,13 +18,13 @@ class ArticleRepositoryTest extends AbstractTestCase
 {
     public function testIsInstantiable(): void
     {
-        $dataDir = $this->createFixturePathname(__FUNCTION__);
         $markdownParser = new MarkdownParser();
+        $dataDir = $this->createFixturePathname(__FUNCTION__);
 
-        $articleRepo = new ArticleRepository($dataDir, $markdownParser);
+        $articleRepo = new ArticleRepository($markdownParser, $dataDir);
 
-        $this->assertSame($dataDir, $articleRepo->getDataDir());
         $this->assertSame($markdownParser, $articleRepo->getMarkdownParser());
+        $this->assertSame($dataDir, $articleRepo->getDataDir());
     }
 
     public function testConstructorThrowsAnExceptionIfTheDataDirectoryDoesNotExist(): void
@@ -34,7 +34,7 @@ class ArticleRepositoryTest extends AbstractTestCase
         $this->expectException(RangeException::class);
         $this->expectExceptionMessage("The directory `{$dataDir}` does not exist.");
 
-        new ArticleRepository($dataDir, new MarkdownParser());
+        new ArticleRepository(new MarkdownParser(), $dataDir);
     }
 
     /** @return array<int, array<int, mixed>> */
@@ -89,8 +89,8 @@ class ArticleRepositoryTest extends AbstractTestCase
     public function testFindLoadsASingleArticleById($expectedArticle, $articleId): void
     {
         $articleRepo = new ArticleRepository(
-            $this->createFixturePathname(__FUNCTION__),
-            new MarkdownParser()
+            new MarkdownParser(),
+            $this->createFixturePathname(__FUNCTION__)
         );
 
         $this->assertEquals($expectedArticle, $articleRepo->find($articleId));
@@ -99,8 +99,8 @@ class ArticleRepositoryTest extends AbstractTestCase
     public function testFindReturnsNullIfTheArticleDoesNotExist(): void
     {
         $articleRepo = new ArticleRepository(
-            $this->createFixturePathname(__FUNCTION__),
-            new MarkdownParser()
+            new MarkdownParser(),
+            $this->createFixturePathname(__FUNCTION__)
         );
 
         $this->assertNull($articleRepo->find('non_existent'));
@@ -116,7 +116,7 @@ class ArticleRepositoryTest extends AbstractTestCase
         // The file *does* exist...
         $this->assertFileExists($articleFilePathname);
 
-        $articleRepo = new ArticleRepository($dataDir, new MarkdownParser());
+        $articleRepo = new ArticleRepository(new MarkdownParser(), $dataDir);
 
         // ...But it won't be returned because its ID is invalid.
         $this->assertNull($articleRepo->find($invalidId));
@@ -125,7 +125,7 @@ class ArticleRepositoryTest extends AbstractTestCase
     public function testFindallReturnsAnArrayOfArticlesSortedByRecency(): void
     {
         $dataDir = $this->createFixturePathname(__FUNCTION__);
-        $articleRepo = new ArticleRepository($dataDir, new MarkdownParser());
+        $articleRepo = new ArticleRepository(new MarkdownParser(), $dataDir);
 
         $this->assertEquals([
             // Newest:

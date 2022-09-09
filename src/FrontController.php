@@ -17,20 +17,18 @@ class FrontController
     /** @var array<string, mixed> */
     private array $config;
 
-    private MarkdownParser $markdownParser;
-
-    private ArticleRepository $postRepo;
+    private ArticleManager $articleManager;
 
     /**
      * @param array<string, mixed> $config
      */
     public function __construct(
         array $config,
-        MarkdownParser $markdownParser
+        ArticleManager $articleManager
     ) {
         $this
             ->setConfig($config)
-            ->setMarkdownParser($markdownParser)
+            ->setArticleManager($articleManager)
         ;
     }
 
@@ -88,11 +86,6 @@ class FrontController
         return new HttpResponse($content, HttpResponse::HTTP_NOT_FOUND);
     }
 
-    private function createOkResponse(string $content): HttpResponse
-    {
-        return new HttpResponse($content);
-    }
-
     /**
      * @param array<string, string> $server
      * @param array<string, string> $query
@@ -112,7 +105,7 @@ class FrontController
             'article' => $article,
         ]);
 
-        return $this->createOkResponse($content);
+        return new HttpResponse($content);
     }
 
     /**
@@ -126,7 +119,7 @@ class FrontController
             'articles' => $this->getPostRepo()->findAll(),
         ]);
 
-        return $this->createOkResponse($content);
+        return new HttpResponse($content);
     }
 
     /**
@@ -146,28 +139,19 @@ class FrontController
         return $this->config;
     }
 
-    private function setMarkdownParser(MarkdownParser $parser): self
+    private function setArticleManager(ArticleManager $manager): self
     {
-        $this->markdownParser = $parser;
+        $this->articleManager = $manager;
         return $this;
     }
 
-    public function getMarkdownParser(): MarkdownParser
+    public function getArticleManager(): ArticleManager
     {
-        return $this->markdownParser;
+        return $this->articleManager;
     }
 
     private function getPostRepo(): ArticleRepository
     {
-        if (!isset($this->postRepo)) {
-            $contentDir = $this->getConfig()['projectDir'] . '/content';
-
-            $this->postRepo = new ArticleRepository(
-                "{$contentDir}/posts",
-                $this->getMarkdownParser()
-            );
-        }
-
-        return $this->postRepo;
+        return $this->getArticleManager()->getRepository('post');
     }
 }
