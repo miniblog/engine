@@ -29,8 +29,8 @@ class MarkdownParserTest extends AbstractTestCase
             ],
             [
                 [
-                    'title' => 'Title in Markdown',
                     'body' => <<<END
+                    <h1>Title in Markdown</h1>
                     <p>Lorem <strong>ipsum</strong> dolor sit amet.</p>
                     <p>Cras imperdiet ante non tortor iaculis.</p>
                     END,

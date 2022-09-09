@@ -6,15 +6,11 @@ namespace Miniblog\Engine;
 
 use Parsedown;
 
-use function array_key_exists;
 use function array_replace;
 use function array_slice;
 use function explode;
 use function implode;
 use function json_decode;
-use function ltrim;
-use function preg_match;
-use function preg_quote;
 use function preg_replace;
 use function strlen;
 use function substr;
@@ -110,28 +106,6 @@ class MarkdownParser
             (new Parsedown())->text($markdown),
             $textContainsFrontMatter
         ), $frontMatter);
-
-        // If there's no title in the front-matter then try to get one from the body.
-        if (
-            null !== $result['body']
-            && !array_key_exists('title', $result)
-        ) {
-            /** @var string */
-            $body = $result['body'];
-
-            $matches = null;
-            // [DSB] The title of an article file must be in the first line of the file and formatted as a heading.
-            // Instead, just grab the first heading.
-            $matched = (bool) preg_match('~<(h\d)>(.*?)</\1>~', $body, $matches);
-
-            if ($matched) {
-                $result['title'] = $matches[2];
-                $regExp = '~' . preg_quote($matches[0]) . '~';
-                /** @var string */
-                $bodyMinusTitle = preg_replace($regExp, '', $body, 1);
-                $result['body'] = ltrim($bodyMinusTitle);
-            }
-        }
 
         return $result;
     }
