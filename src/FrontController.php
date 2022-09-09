@@ -36,11 +36,20 @@ class FrontController
 
     private function createInternalServerErrorResponse(): HttpResponse
     {
-        $content = $this->render('http_500.html.php', [
+        $content = $this->renderView('http_500.html.php', [
             'metaTitle' => 'Internal Server Error',
         ]);
 
         return new HttpResponse($content, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    private function createNotFoundResponse(): HttpResponse
+    {
+        $content = $this->renderView('http_404.html.php', [
+            'metaTitle' => 'Page Not Found',
+        ]);
+
+        return new HttpResponse($content, HttpResponse::HTTP_NOT_FOUND);
     }
 
     /**
@@ -64,7 +73,7 @@ class FrontController
      * @param string $contentTemplateBasename
      * @param array<string, mixed> $variables
      */
-    private function render(
+    private function renderView(
         string $contentTemplateBasename,
         array $variables = []
     ): string {
@@ -79,13 +88,17 @@ class FrontController
         return $templateEngine->render('layout.html.php', $variables);
     }
 
-    private function createNotFoundResponse(): HttpResponse
-    {
-        $content = $this->render('http_404.html.php', [
-            'metaTitle' => 'Page Not Found',
-        ]);
+    /**
+     * @param string $contentTemplateBasename
+     * @param array<string, mixed> $variables
+     */
+    private function render(
+        string $contentTemplateBasename,
+        array $variables = []
+    ): HttpResponse {
+        $content = $this->renderView($contentTemplateBasename, $variables);
 
-        return new HttpResponse($content, HttpResponse::HTTP_NOT_FOUND);
+        return new HttpResponse($content);
     }
 
     /**
@@ -101,13 +114,11 @@ class FrontController
             return $this->createNotFoundResponse();
         }
 
-        $content = $this->render('post_action.html.php', [
+        return $this->render('post_action.html.php', [
             'metaTitle' => $article->getTitle(),
             'metaDescription' => ($article->getDescription() ?: ''),
             'article' => $article,
         ]);
-
-        return new HttpResponse($content);
     }
 
     /**
@@ -116,12 +127,10 @@ class FrontController
      */
     protected function postsAction(array $server, array $query): HttpResponse
     {
-        $content = $this->render('posts_action.html.php', [
+        return $this->render('posts_action.html.php', [
             'metaTitle' => 'All Posts',
             'articles' => $this->getPostRepo()->findAll(),
         ]);
-
-        return new HttpResponse($content);
     }
 
     /**
