@@ -2,30 +2,39 @@
 
 ## Writing Articles
 
-:information_source: Miniblog supports articles written for [Dead Simple Blog (DSB)](https://github.com/paintedsky/dead-simple-blog) but you are encouraged to use the Miniblog format because the result will be richer, more search-engine-friendly HTML.
+:information_source: Miniblog supports articles written for [Dead Simple Blog (DSB)](https://github.com/paintedsky/dead-simple-blog) but you are encouraged to use the Miniblog format&mdash;described below&mdash;because the result will be richer, more search-engine-friendly HTML.
 
-A Miniblog article is written in a text file and comprises two parts:
-- The first part *must* be front matter (information about the article) encoded in a single JSON object.
-- The remainder of the file *must* be the body of the article; the body can be formatted using Markdown.
-
-In terms of data, an article:
-- *must* have a title, body, and published date
-- *may* have a description
+A Miniblog article is written in a text file and comprises two parts: front matter (information about the article); and the body of the article.
 
 Here's what a complete article looks like:
 
 ```markdown
 {
-    "title": "Writing Articles for Miniblog",
-    "description": "Information on how to structure article files, format content, for your Miniblog blog.",
+    "title": "Lorem Ipsum Dolor",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
     "publishedAt": "2022-09-03"
 }
 
-This part of the file contains the body of the article.  It *must* be separated from the front matter by at least one blank line.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis molestie lorem. Nullam non quam leo. Mauris eu nibh at quam pellentesque posuere. Aliquam consequat ipsum eu fringilla venenatis. Nam ante massa, sagittis volutpat ipsum vel, vulputate consectetur odio. Proin in tortor sed mi tincidunt tristique.
 
-Front matter is encoded in a single JSON object.  The front matter *must* start with a left curly brace ("{") on a line by itself and *must* end with a right curly brace ("}") on a line by itself.
-
-There is no need to add a heading: Miniblog will automatically create one using the title in the front matter.
-
-The title, and the description, if present, will be used in the meta tags.
+Cras pharetra eu nulla eget convallis. Nam mollis ligula sem, in dictum nunc fringilla suscipit. Nam vel nulla et lacus laoreet condimentum non non arcu. Aliquam lacus quam, imperdiet non convallis nec, tincidunt non massa. Nulla sit amet pulvinar purus, quis ultricies nibh.
 ```
+
+:warning: At present, Miniblog will simply ignore invalid articles: invalid articles will not be listed, nor will it be possible to request them directly.
+
+### Front Matter
+
+The first part of an article *must* be front matter, encoded in a single JSON object.  The front matter *must* start with a left curly brace ("{") on a line by itself and *must* end with a right curly brace ("}") on a line by itself.
+
+- The front matter *must* include a title and the published date.
+- The front matter *may* contain a description.
+
+:information_source: Miniblog will use the title in the front matter to automatically create a heading for the article.
+
+:information_source: The title, and the description, if present in the front matter, will be used in the meta tags.
+
+### The Body
+
+The remainder of the file *must* be the body of the article and *must* be separated from the front matter by at least one blank line.  The body can be formatted using [(GitHub flavoured) Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+
+:information_source: Remember: there is no need to add a heading to the body: Miniblog will automatically create one using the title in the front matter.
