@@ -83,9 +83,8 @@ class FrontController
 
         $variables['config'] = $this->getConfig();
         $variables['helper'] = new OutputHelper();
-        $variables['contentForLayout'] = $templateEngine->render($contentTemplateBasename, $variables);
 
-        return $templateEngine->render('layout.html.php', $variables);
+        return $templateEngine->render($contentTemplateBasename, $variables);
     }
 
     /**

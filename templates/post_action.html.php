@@ -8,6 +8,8 @@ use Miniblog\Engine\OutputHelper;
  * @var OutputHelper $helper
  * @var Miniblog\Engine\Article $article
  */
+
+$__layout = 'layout.html.php';
 ?>
 <article itemscope itemtype="https://schema.org/BlogPosting">
     <h1 itemprop="headline"><?= $article->getTitle() ?></h1>

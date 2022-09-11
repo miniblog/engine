@@ -8,6 +8,8 @@ use Miniblog\Engine\OutputHelper;
  * @var OutputHelper $helper
  * @var Miniblog\Engine\Article[] $articles
  */
+
+$__layout = 'layout.html.php';
 ?>
 <?php foreach ($articles as $article) : ?>
     <h1 class="list-title">

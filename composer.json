@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": "^7.4|^8.1.3",
-        "danbettles/marigold": "dev-main#f05576a6479dd87fb46a6c3dddd77e4d2a02d494",
+        "danbettles/marigold": "dev-main#0953036fe6a8c9604d647287d96fbd55b839424c",
         "erusev/parsedown": "^1.7"
     },
     "require-dev": {

@@ -8,6 +8,8 @@ use Miniblog\Engine\OutputHelper;
  * @var OutputHelper $helper
  * @var string $metaTitle Optional
  */
+
+$__layout = 'layout.html.php';
 ?>
 <h1><?= $metaTitle ?></h1>
 

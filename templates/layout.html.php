@@ -6,7 +6,7 @@ use Miniblog\Engine\OutputHelper;
  * Template variables:
  * @var array<string, string> $config
  * @var OutputHelper $helper
- * @var string $contentForLayout
+ * @var string $__contentForLayout
  * @var string $metaTitle Optional
  * @var string $metaDescription Optional
  */
@@ -37,7 +37,7 @@ use Miniblog\Engine\OutputHelper;
         </header>
 
         <main>
-            <?= $contentForLayout ?>
+            <?= $__contentForLayout ?>
         </main>
     </body>
 </html>

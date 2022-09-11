@@ -2,11 +2,11 @@
 
 /**
  * Template variables:
- * @var string $contentForLayout
+ * @var string $__contentForLayout
  */
 
-echo implode("\n", [
-    'Before content',
-    $contentForLayout,
-    'After content',
-]);
+echo <<<END
+Before content
+{$__contentForLayout}
+After content
+END;

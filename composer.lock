@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93aa997644a6c0642eb92486a16876e4",
+    "content-hash": "89cf48f13604f8577e46513c5f4967f6",
     "packages": [
         {
             "name": "danbettles/marigold",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/danbettles/marigold.git",
-                "reference": "f05576a6479dd87fb46a6c3dddd77e4d2a02d494"
+                "reference": "0953036fe6a8c9604d647287d96fbd55b839424c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danbettles/marigold/zipball/f05576a6479dd87fb46a6c3dddd77e4d2a02d494",
-                "reference": "f05576a6479dd87fb46a6c3dddd77e4d2a02d494",
+                "url": "https://api.github.com/repos/danbettles/marigold/zipball/0953036fe6a8c9604d647287d96fbd55b839424c",
+                "reference": "0953036fe6a8c9604d647287d96fbd55b839424c",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                 "issues": "https://github.com/danbettles/marigold/issues",
                 "source": "https://github.com/danbettles/marigold/tree/main"
             },
-            "time": "2022-09-05T18:24:01+00:00"
+            "time": "2022-09-09T21:22:45+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -449,16 +449,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.4",
+            "version": "1.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "eed4c9da531f6ebb4787235b6fb486e2c20f34e5"
+                "reference": "f6598a5ff12ca4499a836815e08b4d77a2ddeb20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/eed4c9da531f6ebb4787235b6fb486e2c20f34e5",
-                "reference": "eed4c9da531f6ebb4787235b6fb486e2c20f34e5",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f6598a5ff12ca4499a836815e08b4d77a2ddeb20",
+                "reference": "f6598a5ff12ca4499a836815e08b4d77a2ddeb20",
                 "shasum": ""
             },
             "require": {
@@ -488,7 +488,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.4"
+                "source": "https://github.com/phpstan/phpstan/tree/1.8.5"
             },
             "funding": [
                 {
@@ -504,7 +504,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-03T13:08:04+00:00"
+            "time": "2022-09-07T16:05:32+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
