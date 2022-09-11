@@ -3,6 +3,6 @@
 ## Requirements
 
 - Linux
-- Apache / LiteSpeed / OpenLiteSpeed
+- Apache / LiteSpeed / OpenLiteSpeed with `mod_rewrite`
 - PHP 7.4+
 - Composer

@@ -36,6 +36,7 @@ class FrontControllerTest extends AbstractTestCase
         $this->assertSame($articleManager, $controller->getArticleManager());
     }
 
+    // @todo Remove this?  Or require that they're public?
     public function testHasProtectedActionMethods(): void
     {
         $this->assertTrue((new ReflectionMethod(FrontController::class, 'postAction'))->isProtected());
@@ -106,8 +107,7 @@ class FrontControllerTest extends AbstractTestCase
 
         $response = $frontController->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-        ], [
-            'post' => $postId,
+            'REQUEST_URI' => "/posts/{$postId}?foo=bar",
         ]);
 
         $expected = new HttpResponse(<<<END
@@ -128,8 +128,7 @@ class FrontControllerTest extends AbstractTestCase
 
         $response = $frontController->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-        ], [
-            'post' => 'Invalid_Id',
+            'REQUEST_URI' => "/posts/Invalid_Id?foo=bar",
         ]);
 
         $expected = new HttpResponse(<<<END
@@ -147,8 +146,7 @@ class FrontControllerTest extends AbstractTestCase
 
         $response = $frontController->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-        ], [
-            'post' => 'non-existent',
+            'REQUEST_URI' => "/posts/non-existent?foo=bar",
         ]);
 
         $expected = new HttpResponse(<<<END
@@ -160,7 +158,7 @@ class FrontControllerTest extends AbstractTestCase
         $this->assertEquals($expected, $response);
     }
 
-    /** @return array<int, array{0: Throwable}> */
+    /** @return array<int, array<int, mixed>> */
     public function providesErrors(): array
     {
         return [
@@ -200,8 +198,7 @@ class FrontControllerTest extends AbstractTestCase
         /** @var FrontController $frontControllerMock */
         $response = $frontControllerMock->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-        ], [
-            'post' => '2022-09-03',
+            'REQUEST_URI' => "/posts/2022-09-03?foo=bar",
         ]);
 
         $expected = new HttpResponse(<<<END
@@ -213,14 +210,37 @@ class FrontControllerTest extends AbstractTestCase
         $this->assertEquals($expected, $response);
     }
 
-    // Here it's easier to just do a full, functional test.
-    public function testHandleWillRespondWithAListOfArticlesIfAPostIsNotRequested(): void
+    /** @return array<int, array<int, mixed>> */
+    public function providesRequestsForPostListingPage(): array
     {
-        $frontController = $this->createFrontController($this->createFixturePathname(__FUNCTION__));
+        return [
+            [
+                [
+                    'SERVER_PROTOCOL' => 'HTTP/1.1',
+                    'REQUEST_URI' => '/?foo=bar',
+                ],
+            ],
+            [
+                [
+                    'SERVER_PROTOCOL' => 'HTTP/1.1',
+                    'REQUEST_URI' => '/posts?foo=bar',
+                ],
+            ],
+        ];
+    }
 
-        $response = $frontController->handle([
-            'SERVER_PROTOCOL' => 'HTTP/1.1',
-        ], []);
+    /**
+     * Here it's easier to just do a full, functional test.
+     *
+     * @param array<string, string> $serverVars
+     * @dataProvider providesRequestsForPostListingPage
+     */
+    public function testHandleWillRespondWithAListOfArticlesIfAPostIsNotRequested(array $serverVars): void
+    {
+        $response = $this
+            ->createFrontController($this->createFixturePathname(__FUNCTION__))
+            ->handle($serverVars)
+        ;
 
         $expected = new HttpResponse(<<<END
         Before content
@@ -270,13 +290,31 @@ class FrontControllerTest extends AbstractTestCase
         /** @var FrontController $frontControllerMock */
         $response = $frontControllerMock->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-        ], []);
+        ]);
 
         $expected = new HttpResponse(<<<END
         Before content
         Internal Server Error
         After content
         END, 500);
+
+        $this->assertEquals($expected, $response);
+    }
+
+    public function testHandleWillRespondWithA404IfTheRouteIsNotMatched(): void
+    {
+        $frontController = $this->createFrontController($this->createFixturePathname(__FUNCTION__));
+
+        $response = $frontController->handle([
+            'SERVER_PROTOCOL' => 'HTTP/1.1',
+            'REQUEST_URI' => "/non-existent-resource",
+        ]);
+
+        $expected = new HttpResponse(<<<END
+        Before content
+        Not Found
+        After content
+        END, 404);
 
         $this->assertEquals($expected, $response);
     }

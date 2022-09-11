@@ -42,7 +42,6 @@ class ArticleManagerTest extends AbstractTestCase
             $dataDir
         );
 
-        /** @var ArticleRepository */
         $postRepository = $manager->getRepository('post');
 
         $this->assertInstanceOf(ArticleRepository::class, $postRepository);

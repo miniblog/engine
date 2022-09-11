@@ -72,6 +72,7 @@ class ArticleRepository
 
             $articleId = $fileInfo->getBasenameMinusExtension();
 
+            // @todo Extract this?
             if (!(bool) preg_match('~^[a-z0-9-]+$~', $articleId)) {
                 continue;
             }

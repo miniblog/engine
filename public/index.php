@@ -24,5 +24,5 @@ $config = array_replace(require "{$projectDir}/config.php", [
 $articleManager = new ArticleManager(new MarkdownParser(), "{$projectDir}/content");
 
 $frontController = $frontControllerClass->newInstance($config, $articleManager);
-$response = $frontController->handle($_SERVER, $_GET);
+$response = $frontController->handle($_SERVER);
 $response->send($_SERVER);

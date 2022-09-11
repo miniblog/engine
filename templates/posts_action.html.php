@@ -13,7 +13,7 @@ $__layout = 'layout.html.php';
 ?>
 <?php foreach ($articles as $article) : ?>
     <h1 class="list-title">
-        <a href="<?= "/?post={$article->getId()}" ?>">
+        <a href="<?= "/posts/{$article->getId()}" ?>">
             <?php /** @var DateTime */ $publishedAt = $article->getPublishedAt() ?>
             <?= "{$helper->formatLongDate($publishedAt)} - {$article->getTitle()}" ?>
         </a>

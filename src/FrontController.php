@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Miniblog\Engine;
 
 use DanBettles\Marigold\HttpResponse;
+use DanBettles\Marigold\Router;
 use DanBettles\Marigold\TemplateEngine;
 use DanBettles\Marigold\TemplateFileLoader;
 use Throwable;
 
-use function array_key_exists;
+use function array_merge;
+use function call_user_func_array;
 
 use const null;
 
@@ -54,17 +56,37 @@ class FrontController
     }
 
     /**
-     * @param array<string, string> $server
-     * @param array<string, string> $query
+     * @param array<string, string> $serverVars
      */
-    public function handle(array $server, array $query): HttpResponse
+    public function handle(array $serverVars): HttpResponse
     {
         try {
-            if (array_key_exists('post', $query)) {
-                return $this->postAction($server, $query, $query['post']);
+            $matchedRoute = (new Router([
+                [
+                    'path' => '/',
+                    'action' => 'postsAction',
+                ],
+                [
+                    'path' => '/posts',
+                    'action' => 'postsAction',
+                ],
+                [
+                    'path' => '/posts/{postId}',
+                    'action' => 'postAction',
+                ],
+            ]))->match($serverVars);
+
+            if (null === $matchedRoute) {
+                return $this->createNotFoundResponse();
             }
 
-            return $this->postsAction($server, $query);
+            /** @var callable */
+            $action = [$this, $matchedRoute['action']];
+
+            /** @var HttpResponse */
+            return call_user_func_array($action, array_merge([
+                $serverVars,
+            ], $matchedRoute['parameters']));
         } catch (Throwable $t) {
             return $this->createInternalServerErrorResponse();
         }
@@ -105,12 +127,13 @@ class FrontController
     }
 
     /**
-     * @param array<string, string> $server
-     * @param array<string, string> $query
+     * @param array<string, string> $serverVars
      * @param string $postId
      */
-    protected function postAction(array $server, array $query, string $postId): HttpResponse
-    {
+    protected function postAction(
+        array $serverVars,
+        string $postId
+    ): HttpResponse {
         $article = $this->getPostRepo()->find($postId);
 
         if (null === $article) {
@@ -125,10 +148,9 @@ class FrontController
     }
 
     /**
-     * @param array<string, string> $server
-     * @param array<string, string> $query
+     * @param array<string, string> $serverVars
      */
-    protected function postsAction(array $server, array $query): HttpResponse
+    protected function postsAction(array $serverVars): HttpResponse
     {
         return $this->render('posts_action.html.php', [
             'metaTitle' => 'All Posts',
