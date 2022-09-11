@@ -6,6 +6,7 @@ namespace Miniblog\Engine;
 
 use DanBettles\Marigold\HttpResponse;
 use DanBettles\Marigold\TemplateEngine;
+use DanBettles\Marigold\TemplateFileLoader;
 use Throwable;
 
 use function array_key_exists;
@@ -77,9 +78,12 @@ class FrontController
         string $contentTemplateBasename,
         array $variables = []
     ): string {
-        /** @var string */
-        $templatesDir = $this->getConfig()['engineDir'] . '/templates';
-        $templateEngine = new TemplateEngine($templatesDir);
+        $templateFileLoader = new TemplateFileLoader([
+            'Overrides' => $this->getConfig()['projectDir'] . '/templates',
+            'Default templates' => $this->getConfig()['engineDir'] . '/templates',
+        ]);
+
+        $templateEngine = new TemplateEngine($templateFileLoader);
 
         $variables['config'] = $this->getConfig();
         $variables['helper'] = new OutputHelper();

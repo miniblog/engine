@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89cf48f13604f8577e46513c5f4967f6",
+    "content-hash": "aece23ef390ea97adbdfebbf24db0ea4",
     "packages": [
         {
             "name": "danbettles/marigold",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/danbettles/marigold.git",
-                "reference": "0953036fe6a8c9604d647287d96fbd55b839424c"
+                "reference": "b348ac3434098d4243d05278f4bc24608afe6d70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danbettles/marigold/zipball/0953036fe6a8c9604d647287d96fbd55b839424c",
-                "reference": "0953036fe6a8c9604d647287d96fbd55b839424c",
+                "url": "https://api.github.com/repos/danbettles/marigold/zipball/b348ac3434098d4243d05278f4bc24608afe6d70",
+                "reference": "b348ac3434098d4243d05278f4bc24608afe6d70",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                 "issues": "https://github.com/danbettles/marigold/issues",
                 "source": "https://github.com/danbettles/marigold/tree/main"
             },
-            "time": "2022-09-09T21:22:45+00:00"
+            "time": "2022-09-11T06:41:19+00:00"
         },
         {
             "name": "erusev/parsedown",
