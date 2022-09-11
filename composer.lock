@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aece23ef390ea97adbdfebbf24db0ea4",
+    "content-hash": "02f38e7cfe2bcf2aa078b4e16997abd1",
     "packages": [
         {
             "name": "danbettles/marigold",
-            "version": "dev-main",
+            "version": "v1.0.0-beta.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/danbettles/marigold.git",
-                "reference": "b348ac3434098d4243d05278f4bc24608afe6d70"
+                "reference": "7397f77cdf91b3a3358872a79b007f8f44074c61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danbettles/marigold/zipball/b348ac3434098d4243d05278f4bc24608afe6d70",
-                "reference": "b348ac3434098d4243d05278f4bc24608afe6d70",
+                "url": "https://api.github.com/repos/danbettles/marigold/zipball/7397f77cdf91b3a3358872a79b007f8f44074c61",
+                "reference": "7397f77cdf91b3a3358872a79b007f8f44074c61",
                 "shasum": ""
             },
             "require": {
@@ -29,7 +29,6 @@
                 "phpunit/phpunit": "^9.5",
                 "squizlabs/php_codesniffer": "^3.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -49,9 +48,9 @@
             "description": "Marigold is a small set of tools that aims to make building simple websites easier while remaining close to the metal and adding minimal overheads; it is not a framework.",
             "support": {
                 "issues": "https://github.com/danbettles/marigold/issues",
-                "source": "https://github.com/danbettles/marigold/tree/main"
+                "source": "https://github.com/danbettles/marigold/tree/v1.0.0-beta.1"
             },
-            "time": "2022-09-11T06:41:19+00:00"
+            "time": "2022-09-11T19:30:56+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -1996,7 +1995,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "danbettles/marigold": 20
+        "danbettles/marigold": 10
     },
     "prefer-stable": false,
     "prefer-lowest": false,
