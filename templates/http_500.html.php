@@ -13,4 +13,4 @@ $__layout = 'layout.html.php';
 ?>
 <h1><?= $metaTitle ?></h1>
 
-<p>Sorry, but an unexpected error occurred.  Please make your request again and if the problem re-occurs then <a href="<?= "mailto:{$config['contactEmail']}" ?>">please let us know</a>.</p>
+<p>Sorry, but an unexpected error occurred.  Please make your request again and if the problem re-occurs then <a href="<?= "mailto:{$config['author']['email']}" ?>">please let us know</a>.</p>

@@ -12,7 +12,7 @@ use Miniblog\Engine\OutputHelper;
  */
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?= $config['lang'] ?>">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">

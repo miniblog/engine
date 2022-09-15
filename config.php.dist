@@ -2,5 +2,9 @@
 
 return [
     'blogTitle' => 'Miniblog',
-    'contactEmail' => 'danbettles@yahoo.co.uk',
+    'author' => [
+        'name' => 'Daniel Bettles',
+        'email' => 'danbettles@yahoo.co.uk',
+    ],
+    'lang' => 'en',  // ISO 639-1 language code.
 ];
