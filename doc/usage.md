@@ -26,7 +26,7 @@ The first part of an article *must* be front matter, encoded in a single JSON ob
 
 - The front matter *must* include a title and the published date.
 - The front matter *may* contain a description.
-- The published date must be in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
+- The published date *must* be in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
 
 :information_source: Miniblog will use the title in the front matter to automatically create a heading for the article.
 
