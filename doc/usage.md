@@ -2,8 +2,6 @@
 
 ## Writing Articles
 
-:information_source: Miniblog supports articles written for [Dead Simple Blog (DSB)](https://github.com/paintedsky/dead-simple-blog) but you are encouraged to use the Miniblog format&mdash;described below&mdash;because the result will be richer, more search-engine-friendly HTML.
-
 A Miniblog article is written in a text file and comprises two parts: front matter (information about the article); and the body of the article.
 
 Here's what a complete article looks like:
@@ -28,6 +26,7 @@ The first part of an article *must* be front matter, encoded in a single JSON ob
 
 - The front matter *must* include a title and the published date.
 - The front matter *may* contain a description.
+- The published date must be in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
 
 :information_source: Miniblog will use the title in the front matter to automatically create a heading for the article.
 

@@ -23,7 +23,6 @@ class ArticleTest extends AbstractTestCase
         $this->assertNull($article->getDescription());
         $this->assertNull($article->getBody());
         $this->assertNull($article->getPublishedAt());
-        $this->assertFalse($article->isLegacyArticle());
     }
 
     public function testHasAccessorsForAllProperties(): void
@@ -53,10 +52,6 @@ class ArticleTest extends AbstractTestCase
         // From date/time string.
         $article->setPublishedAt('1987-10-15');
         $this->assertEquals(new DateTime('1987-10-15'), $article->getPublishedAt());
-
-        $corge = $article->setIsLegacyArticle(true);
-        $this->assertTrue($article->isLegacyArticle());
-        $this->assertSame($article, $corge);
     }
 
     /** @return array<int, array<int, mixed>> */
@@ -71,8 +66,7 @@ class ArticleTest extends AbstractTestCase
                     ->setTitle('Title')
                     ->setDescription(null)
                     ->setBody('Body')
-                    ->setPublishedAt(null)
-                    ->setIsLegacyArticle(false),
+                    ->setPublishedAt(null),
                 // Some:
                 [
                     'id' => '123',
@@ -86,8 +80,7 @@ class ArticleTest extends AbstractTestCase
                     ->setTitle('Title')
                     ->setDescription('Description')
                     ->setBody('Body')
-                    ->setPublishedAt($dateStr)
-                    ->setIsLegacyArticle(true),
+                    ->setPublishedAt($dateStr),
                 // All:
                 [
                     'id' => '123',
@@ -95,7 +88,6 @@ class ArticleTest extends AbstractTestCase
                     'description' => 'Description',
                     'body' => 'Body',
                     'publishedAt' => $dateStr,
-                    'isLegacyArticle' => true,
                 ],
             ],
             [
@@ -104,8 +96,7 @@ class ArticleTest extends AbstractTestCase
                     ->setTitle('Title')
                     ->setDescription('Description')
                     ->setBody('Body')
-                    ->setPublishedAt($dateStr)
-                    ->setIsLegacyArticle(false),
+                    ->setPublishedAt($dateStr),
                 // Junk is ignored:
                 [
                     'id' => '123',

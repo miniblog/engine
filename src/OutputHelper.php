@@ -25,9 +25,4 @@ class OutputHelper implements OutputHelperInterface
     {
         return $this->formatDate($dateTime, IntlDateFormatter::MEDIUM);
     }
-
-    public function formatLongDate(DateTimeInterface $dateTime): string
-    {
-        return $this->formatDate($dateTime, IntlDateFormatter::FULL);
-    }
 }

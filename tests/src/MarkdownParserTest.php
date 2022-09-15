@@ -10,9 +10,7 @@ use Miniblog\Engine\MarkdownParser;
 
 use function file_get_contents;
 
-use const false;
 use const null;
-use const true;
 
 class MarkdownParserTest extends AbstractTestCase
 {
@@ -23,7 +21,6 @@ class MarkdownParserTest extends AbstractTestCase
             [
                 [
                     'body' => null,
-                    'frontMatterIncluded' => false,
                 ],
                 $this->createFixturePathname('empty-article.md'),
             ],
@@ -34,7 +31,6 @@ class MarkdownParserTest extends AbstractTestCase
                     <p>Lorem <strong>ipsum</strong> dolor sit amet.</p>
                     <p>Cras imperdiet ante non tortor iaculis.</p>
                     END,
-                    'frontMatterIncluded' => false,
                 ],
                 $this->createFixturePathname('only-markdown.md'),
             ],
@@ -42,7 +38,6 @@ class MarkdownParserTest extends AbstractTestCase
                 [
                     'title' => 'Title in Front Matter',
                     'body' => '',
-                    'frontMatterIncluded' => true,
                 ],
                 $this->createFixturePathname('only-front-matter.md'),
             ],
@@ -55,7 +50,6 @@ class MarkdownParserTest extends AbstractTestCase
                     <p>Cras imperdiet ante non tortor iaculis.</p>
                     END,
                     'publishedAt' => '2022-08-26',  // From front matter.
-                    'frontMatterIncluded' => true,
                 ],
                 $this->createFixturePathname('front-matter-plus-markdown.md'),
             ],
@@ -67,7 +61,6 @@ class MarkdownParserTest extends AbstractTestCase
                     <p>Lorem ipsum dolor sit amet.</p>
                     <p>Cras imperdiet ante non tortor iaculis.</p>
                     END,
-                    'frontMatterIncluded' => false,
                 ],
                 $this->createFixturePathname('unterminated-front-matter-plus-markdown.md'),
             ],
@@ -80,7 +73,6 @@ class MarkdownParserTest extends AbstractTestCase
                     Lorem ipsum dolor sit amet.</p>
                     <p>Cras imperdiet ante non tortor iaculis.</p>
                     END,
-                    'frontMatterIncluded' => false,
                 ],
                 $this->createFixturePathname('incorrectly-formatted-front-matter-plus-markdown.md'),
             ],

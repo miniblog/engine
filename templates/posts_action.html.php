@@ -15,7 +15,7 @@ $__layout = 'layout.html.php';
     <h1 class="list-title">
         <a href="<?= "/posts/{$article->getId()}" ?>">
             <?php /** @var DateTime */ $publishedAt = $article->getPublishedAt() ?>
-            <?= "{$helper->formatLongDate($publishedAt)} - {$article->getTitle()}" ?>
+            <?= "{$helper->formatShortDate($publishedAt)} - {$article->getTitle()}" ?>
         </a>
     </h1>
 <?php endforeach ?>

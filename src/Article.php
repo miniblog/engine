@@ -12,7 +12,6 @@ use function array_intersect_key;
 use function is_string;
 use function ucfirst;
 
-use const false;
 use const null;
 
 class Article
@@ -32,8 +31,6 @@ class Article
 
     private ?DateTime $publishedAt;
 
-    private bool $isLegacyArticle;
-
     public function __construct()
     {
         $this
@@ -42,7 +39,6 @@ class Article
             ->setDescription(null)
             ->setBody(null)
             ->setPublishedAt(null)
-            ->setIsLegacyArticle(false)
         ;
     }
 
@@ -111,17 +107,6 @@ class Article
     public function getPublishedAt(): ?DateTime
     {
         return $this->publishedAt;
-    }
-
-    public function setIsLegacyArticle(bool $isLegacyArticle): self
-    {
-        $this->isLegacyArticle = $isLegacyArticle;
-        return $this;
-    }
-
-    public function isLegacyArticle(): bool
-    {
-        return $this->isLegacyArticle;
     }
 
     public function isValid(): bool

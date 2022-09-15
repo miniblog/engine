@@ -66,13 +66,10 @@ class MarkdownParser
     /**
      * @return array<string, mixed>
      */
-    private function createResult(
-        ?string $body = null,
-        bool $frontMatterIncluded = false
-    ): array {
+    private function createResult(?string $body = null): array
+    {
         return [
             'body' => $body,
-            'frontMatterIncluded' => $frontMatterIncluded,
         ];
     }
 
@@ -94,18 +91,15 @@ class MarkdownParser
             $markdown
         ) = $this->splitText($text);
 
-        $textContainsFrontMatter = null !== $frontMatterJson;
-
         /** @var array<string, ?string> */
-        $frontMatter = $textContainsFrontMatter
-            ? json_decode($frontMatterJson, true, 2, JSON_THROW_ON_ERROR)
-            : []
+        $frontMatter = null === $frontMatterJson
+            ? []
+            : json_decode($frontMatterJson, true, 2, JSON_THROW_ON_ERROR)
         ;
 
-        $result = array_replace($this->createResult(
-            (new Parsedown())->text($markdown),
-            $textContainsFrontMatter
-        ), $frontMatter);
+        $body = (new Parsedown())->text($markdown);
+
+        $result = array_replace($this->createResult($body), $frontMatter);
 
         return $result;
     }

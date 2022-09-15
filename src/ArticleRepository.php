@@ -13,14 +13,10 @@ use function array_key_exists;
 use function array_merge;
 use function array_replace;
 use function array_values;
-use function date_create;
 use function file_get_contents;
 use function is_dir;
 use function krsort;
-use function ltrim;
 use function preg_match;
-use function preg_quote;
-use function preg_replace;
 
 use const null;
 
@@ -96,40 +92,7 @@ class ArticleRepository
 
         $article = Article::fromArray(array_replace([
             'id' => $articleId,
-            'isLegacyArticle' => !$parsedMarkdown['frontMatterIncluded'],
         ], $parsedMarkdown));
-
-        // If the article has no title, try to get one from the body.
-        if (
-            null === $article->getTitle()
-            && null !== $article->getBody()
-        ) {
-            /** @var string */
-            $body = $article->getBody();
-
-            $matches = null;
-            // [DSB] The title of an article file must be in the first line of the file and formatted as a heading.
-            // Instead, just grab the first heading.
-            $matched = (bool) preg_match('~<(h\d)>(.*?)</\1>~', $body, $matches);
-
-            if ($matched) {
-                $article->setTitle($matches[2]);
-                $regExp = '~' . preg_quote($matches[0]) . '~';
-                /** @var string */
-                $bodyMinusTitle = preg_replace($regExp, '', $body, 1);
-                $article->setBody(ltrim($bodyMinusTitle));
-            }
-        }
-
-        if (!$article->getPublishedAt()) {
-            // [DSB] The basename of an article file must be the published date, in ISO 8601 format, of its content.
-            if (
-                (bool) preg_match('~^\d{4}-\d{2}-\d{2}$~', $articleId)
-                && date_create($articleId)
-            ) {
-                $article->setPublishedAt($articleId);
-            }
-        }
 
         return $article->isValid()
             ? $article

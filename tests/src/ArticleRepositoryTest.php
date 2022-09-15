@@ -10,9 +10,7 @@ use Miniblog\Engine\ArticleRepository;
 use Miniblog\Engine\MarkdownParser;
 use RangeException;
 
-use const false;
 use const null;
-use const true;
 
 class ArticleRepositoryTest extends AbstractTestCase
 {
@@ -43,37 +41,40 @@ class ArticleRepositoryTest extends AbstractTestCase
         return [
             [
                 (new Article())
-                    ->setId('2022-08-31')
-                    ->setTitle('Article Title')
+                    ->setId('minimum-article')
+                    ->setTitle('Minimum Article')
                     ->setDescription(null)
-                    ->setBody('<p>Article body</p>')
-                    ->setPublishedAt('2022-08-31')  // From article-file basename.
-                    ->setIsLegacyArticle(true),
-                '2022-08-31',
+                    ->setBody('<p>Lorem ipsum dolor.</p>')
+                    ->setPublishedAt('2022-09-03'),
+                'minimum-article',
             ],
             [
                 (new Article())
-                    ->setId('lorem-ipsum-dolor')
-                    ->setTitle('Lorem Ipsum Dolor')
-                    ->setDescription(null)
+                    ->setId('maximum-article')
+                    ->setTitle('Maximum Article')
+                    ->setDescription('Description')
                     ->setBody('<p>Lorem ipsum dolor.</p>')
-                    ->setPublishedAt('2022-09-03')
-                    ->setIsLegacyArticle(false),
-                'lorem-ipsum-dolor',
+                    ->setPublishedAt('2022-09-14'),
+                'maximum-article',
             ],
-            // Invalid because date missing.  The file contains no front matter.
+            // DSB-format articles are invalid.
             [
                 null,
-                '9999-99-99',
+                '2022-08-31',
+            ],
+            [
+                null,
+                'missing-title',
+            ],
+            [
+                null,
+                'missing-published-date',
             ],
             [
                 null,
                 'empty-article',
             ],
-            [
-                null,
-                'incomplete-article',
-            ],
+            // Valid except for the ID.
             [
                 null,
                 'Invalid_Id',
@@ -122,7 +123,7 @@ class ArticleRepositoryTest extends AbstractTestCase
         $this->assertNull($articleRepo->find($invalidId));
     }
 
-    public function testFindallReturnsAnArrayOfArticlesSortedByRecency(): void
+    public function testFindallReturnsAnArrayOfValidArticlesSortedByRecency(): void
     {
         $dataDir = $this->createFixturePathname(__FUNCTION__);
         $articleRepo = new ArticleRepository(new MarkdownParser(), $dataDir);
@@ -130,20 +131,18 @@ class ArticleRepositoryTest extends AbstractTestCase
         $this->assertEquals([
             // Newest:
             (new Article())
-                ->setId('lorem-ipsum-dolor')
-                ->setTitle('Lorem Ipsum Dolor')
-                ->setDescription(null)
+                ->setId('maximum-article')
+                ->setTitle('Maximum Article')
+                ->setDescription('Description')
                 ->setBody('<p>Lorem ipsum dolor.</p>')
-                ->setPublishedAt('2022-09-03')  // From front matter.
-                ->setIsLegacyArticle(false),
+                ->setPublishedAt('2022-09-14'),
             // Older:
             (new Article())
-                ->setId('2022-08-31')
-                ->setTitle('Article Title')
+                ->setId('minimum-article')
+                ->setTitle('Minimum Article')
                 ->setDescription(null)
-                ->setBody('<p>Article body</p>')
-                ->setPublishedAt('2022-08-31')  // From basename.
-                ->setIsLegacyArticle(true),
+                ->setBody('<p>Lorem ipsum dolor.</p>')
+                ->setPublishedAt('2022-09-03'),
         ], $articleRepo->findAll());
     }
 }

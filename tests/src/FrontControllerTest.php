@@ -17,8 +17,6 @@ use ReflectionMethod;
 use RuntimeException;
 use Throwable;
 
-use const false;
-
 class FrontControllerTest extends AbstractTestCase
 {
     public function testIsInstantiable(): void
@@ -64,7 +62,6 @@ class FrontControllerTest extends AbstractTestCase
             ->setDescription('Description')
             ->setBody('Body')
             ->setPublishedAt($publishedAtStr)
-            ->setIsLegacyArticle(false)
         ;
 
         /** @var MockObject */
@@ -244,18 +241,14 @@ class FrontControllerTest extends AbstractTestCase
 
         $expected = new HttpResponse(<<<END
         Before content
-        Article 3 Title
-        Article 3 description
-        <p>Article 3 body</p>
-        2022-09-02
-        Article 2 Title
-        Article 2 description
-        <p>Article 2 body</p>
-        2022-09-01
-        Article 1 Title
-        Article 1 description
-        <p>Article 1 body</p>
-        2022-08-31
+        Maximum Article
+        Maximum Article description
+        <p>Maximum Article body.</p>
+        2022-09-14
+        Minimum Article
+
+        <p>Minimum Article body.</p>
+        2022-09-03
 
         After content
         END, 200);

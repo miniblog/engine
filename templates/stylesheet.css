@@ -61,3 +61,7 @@ footer {
     font-style: italic;
     box-sizing: border-box;
 }
+
+pre > code {
+    white-space: break-spaces;
+}

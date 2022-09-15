@@ -14,18 +14,12 @@ $__layout = 'layout.html.php';
 <article itemscope itemtype="https://schema.org/BlogPosting">
     <h1 itemprop="headline"><?= $article->getTitle() ?></h1>
 
-    <?php if (!$article->isLegacyArticle()) : ?>
-        <?php /** @var DateTime */ $publishedAt = $article->getPublishedAt() ?>
-        <p><time datetime="<?= $publishedAt->format('c') ?>" itemprop="datePublished">
-            <?= $helper->formatLongDate($publishedAt) ?>
-        </time></p>
-    <?php endif ?>
+    <?php /** @var DateTime */ $publishedAt = $article->getPublishedAt() ?>
+    <p><time datetime="<?= $publishedAt->format('c') ?>" itemprop="datePublished">
+        <?= $helper->formatShortDate($publishedAt) ?>
+    </time></p>
 
     <div itemprop="articleBody">
         <?= $article->getBody() ?>
     </div>
-
-    <footer>
-        This blog does not offer comment functionality. If you'd like to discuss any of the topics written about here, you can <a href="<?= "mailto:{$config['contactEmail']}" ?>">email the author</a>.
-    </footer>
 </article>
