@@ -173,7 +173,7 @@ min-height:100%;
 main{
 padding-bottom:var(--footer-height);
 }
-footer{
+.container > footer{
 position:absolute;
 bottom:0;
 width:100%;
@@ -249,7 +249,9 @@ margin-bottom:0.83em;
 color:var(--main-colour);
 text-decoration:none;
 }
-footer{
+.container > footer{
+display:flex;
+justify-content:space-between;
 font-size:0.875rem;
 border-top:1px solid var(--border-colour);
 }

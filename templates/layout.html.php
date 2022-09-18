@@ -57,6 +57,7 @@ $owner = $config['owner'];
 
             <footer>
                 <?= $helper->createCopyrightNotice($site, $owner) ?>
+                <p>Powered by <a href="https://github.com/miniblog/engine">Miniblog</a></p>
             </footer>
         </div>
     </body>

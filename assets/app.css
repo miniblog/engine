@@ -30,7 +30,7 @@ main {
     padding-bottom: var(--footer-height);
 }
 
-footer {
+.container > footer {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -127,7 +127,9 @@ a:hover, a:active {
     text-decoration: none;
 }
 
-footer {
+.container > footer {
+    display: flex;
+    justify-content: space-between;
     font-size: 0.875rem;
     border-top: 1px solid var(--border-colour);
 }
