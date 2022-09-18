@@ -8,7 +8,7 @@ This is the first post on my new blog.  I'm using [Miniblog, a minimal blogging 
 
 With Miniblog, I have only to concentrate on writing content.  Miniblog was quick to install, requiring barely any configuration, and all I need do to publish a post is upload a file.
 
-A Miniblog post is written in plain text, in a single file with the suffix `.md`.  The basename of the file (the part before the extension) is used as the slug.  The title and published date&mdash;and, optionally, a description&mdash;are written in a single JSON object at the top of the file.  The remainder of the file is the body of the article and that can be formatted using [(GitHub flavoured) Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+A Miniblog post is written in plain text, in a single file with the suffix `.md`.  The basename of the file (the part before the extension) is used as the slug.  The title and published date/time&mdash;and, optionally, a description&mdash;are written in a single JSON object at the top of the file.  The remainder of the file is the body of the article and that can be formatted using [(GitHub flavoured) Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
 I can easily version-control my content, and I have the option to override the default templates.
 
@@ -25,7 +25,7 @@ This is the first post on my new blog.  I'm using [Miniblog, a minimal blogging 
 
 With Miniblog, I have only to concentrate on writing content.  Miniblog was quick to install, requiring barely any configuration, and all I need do to publish a post is upload a file.
 
-A Miniblog post is written in plain text, in a single file with the suffix `.md`.  The basename of the file (the part before the extension) is used as the slug.  The title and published date&mdash;and, optionally, a description&mdash;are written in a single JSON object at the top of the file.  The remainder of the file is the body of the article and that can be formatted using [(GitHub flavoured) Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+A Miniblog post is written in plain text, in a single file with the suffix `.md`.  The basename of the file (the part before the extension) is used as the slug.  The title and published date/time&mdash;and, optionally, a description&mdash;are written in a single JSON object at the top of the file.  The remainder of the file is the body of the article and that can be formatted using [(GitHub flavoured) Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
 I can easily version-control my content, and I have the option to override the default templates.
 ```

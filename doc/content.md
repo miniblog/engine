@@ -30,9 +30,9 @@ Cras pharetra eu nulla eget convallis. Nam mollis ligula sem, in dictum nunc fri
 
 The first part of an article *must* be front matter, encoded in a single JSON object.  The front matter *must* start with a left curly brace ("{") on a line by itself and *must* end with a right curly brace ("}") on a line by itself.
 
-- The front matter *must* include a title and the published date.
+- The front matter *must* include a title and the published date/time.
 - The front matter *may* contain a description.
-- The published date *must* be in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
+- The published date/time *must* be in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
 
 :information_source: Miniblog will use the title in the front matter to automatically create a heading for the article.
 
