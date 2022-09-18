@@ -10,7 +10,6 @@ use DirectoryIterator;
 use RangeException;
 
 use function array_key_exists;
-use function array_merge;
 use function array_replace;
 use function array_values;
 use function file_get_contents;
@@ -121,9 +120,7 @@ class ArticleRepository
             return [];
         }
 
-        $articlesWithDates = [];
-        // @todo Remove this!!
-        $articlesWithoutDates = [];
+        $articlesByDate = [];
 
         foreach ($articleFiles as $articleFile) {
             $article = $this->loadArticleFile($articleFile);
@@ -134,15 +131,12 @@ class ArticleRepository
 
             /** @var DateTime */
             $publishedAt = $article->getPublishedAt();
-            $articlesWithDates[$publishedAt->format('c')] = $article;
+            $articlesByDate[$publishedAt->format('c')] = $article;
         }
 
-        krsort($articlesWithDates);
+        krsort($articlesByDate);
 
-        return array_merge(
-            array_values($articlesWithDates),
-            $articlesWithoutDates
-        );
+        return array_values($articlesByDate);
     }
 
     /**
