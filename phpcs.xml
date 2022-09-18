@@ -4,6 +4,7 @@
 
     <exclude-pattern>*/tests/src/FrontControllerTest/*/templates/*$</exclude-pattern>
 
+    <file>bin/</file>
     <file>public/</file>
     <file>src/</file>
     <file>templates/</file>

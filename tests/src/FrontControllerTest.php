@@ -34,11 +34,10 @@ class FrontControllerTest extends AbstractTestCase
         $this->assertSame($articleManager, $controller->getArticleManager());
     }
 
-    // @todo Remove this?  Or require that they're public?
     public function testHasProtectedActionMethods(): void
     {
         $this->assertTrue((new ReflectionMethod(FrontController::class, 'postAction'))->isProtected());
-        $this->assertTrue((new ReflectionMethod(FrontController::class, 'postsAction'))->isProtected());
+        $this->assertTrue((new ReflectionMethod(FrontController::class, 'homepageAction'))->isProtected());
     }
 
     // Factory method.
@@ -47,6 +46,9 @@ class FrontControllerTest extends AbstractTestCase
         $articleManager = new ArticleManager(new MarkdownParser(), "{$projectDir}/content");
 
         return new FrontController([
+            'site' => [
+                'description' => '',
+            ],
             'projectDir' => $projectDir,
             'engineDir' => $projectDir,
         ], $articleManager);
@@ -217,12 +219,6 @@ class FrontControllerTest extends AbstractTestCase
                     'REQUEST_URI' => '/?foo=bar',
                 ],
             ],
-            [
-                [
-                    'SERVER_PROTOCOL' => 'HTTP/1.1',
-                    'REQUEST_URI' => '/posts?foo=bar',
-                ],
-            ],
         ];
     }
 
@@ -257,7 +253,7 @@ class FrontControllerTest extends AbstractTestCase
     }
 
     /** @dataProvider providesErrors */
-    public function testHandleWillRespondWithA500IfAnErrorOccursInPostsaction(Throwable $throwable): void
+    public function testHandleWillRespondWithA500IfAnErrorOccursInHomepageaction(Throwable $throwable): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
 
@@ -271,12 +267,12 @@ class FrontControllerTest extends AbstractTestCase
                 ],
                 $this->createStub(ArticleManager::class),
             ])
-            ->onlyMethods(['postsAction'])
+            ->onlyMethods(['homepageAction'])
             ->getMock()
         ;
 
         $frontControllerMock
-            ->method('postsAction')
+            ->method('homepageAction')
             ->willThrowException($throwable)
         ;
 

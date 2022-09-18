@@ -1,12 +1,25 @@
 {
     "name": "miniblog/engine",
-    "description": "Miniblog is a minimal blogging system written in PHP.",
+    "description": "Miniblog is a minimal blogging system, written in object-oriented PHP, aimed primarily at developers.  It is an ongoing experiment in sustainable software design.  My aim is to create a blogging system that provides only the features that are really needed, only those that bring real value.",
     "type": "library",
     "license": "ISC",
     "authors": [
         {
             "name": "Daniel Bettles",
             "email": "danbettles@yahoo.co.uk"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "csstools/sanitize.css",
+                "version": "13.0.0",
+                "dist": {
+                    "url": "https://github.com/csstools/sanitize.css/archive/refs/tags/v13.0.0.zip",
+                    "type": "zip"
+                }
+            }
         }
     ],
     "require": {
@@ -18,7 +31,8 @@
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.5",
         "danbettles/codesniffer-standard": "^2.0",
-        "phpstan/phpstan": "^1.8"
+        "phpstan/phpstan": "^1.8",
+        "csstools/sanitize.css": "^13.0.0"
     },
     "autoload": {
         "psr-4": {"Miniblog\\Engine\\": "src/"}
@@ -34,12 +48,17 @@
             "@app:test",
             "@app:lint",
             "@app:analyse"
+        ],
+        "app:build": [
+            "@app:check-quality",
+            "bin/build"
         ]
     },
     "scripts-descriptions": {
         "app:test": "Runs all automated tests.",
         "app:lint": "Lints the PHP.",
         "app:analyse": "Performs static analysis on the PHP.",
-        "app:check-quality": "Runs all automated tests; lints all the code; performs static analysis on the PHP."
+        "app:check-quality": "Runs all automated tests; lints all the code; performs static analysis on the PHP.",
+        "app:build": "Checks quality and then builds the app, ready for committing."
     }
 }

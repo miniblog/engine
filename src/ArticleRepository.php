@@ -122,6 +122,7 @@ class ArticleRepository
         }
 
         $articlesWithDates = [];
+        // @todo Remove this!!
         $articlesWithoutDates = [];
 
         foreach ($articleFiles as $articleFile) {

@@ -3,7 +3,10 @@ parameters:
         - tests/src/FrontControllerTest/*/templates/*
     level: max
     paths:
+        - bin
         - public
         - src
         - templates
         - tests
+    ignoreErrors:
+        - '#Call to an undefined method Miniblog\\Engine\\OutputHelper::create[A-Z]#'

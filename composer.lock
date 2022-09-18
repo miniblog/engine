@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02f38e7cfe2bcf2aa078b4e16997abd1",
+    "content-hash": "1cc5f970a6fee416f5c74867193114cf",
     "packages": [
         {
             "name": "danbettles/marigold",
-            "version": "v1.0.0-beta.3",
+            "version": "v1.0.0-beta.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/danbettles/marigold.git",
-                "reference": "21ac291f7843091c68c2842fe38cf6a51bfd46f2"
+                "reference": "ca220dbe840544a527625fad610d837336f3225f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danbettles/marigold/zipball/21ac291f7843091c68c2842fe38cf6a51bfd46f2",
-                "reference": "21ac291f7843091c68c2842fe38cf6a51bfd46f2",
+                "url": "https://api.github.com/repos/danbettles/marigold/zipball/ca220dbe840544a527625fad610d837336f3225f",
+                "reference": "ca220dbe840544a527625fad610d837336f3225f",
                 "shasum": ""
             },
             "require": {
@@ -48,9 +48,9 @@
             "description": "Marigold is a small set of tools that aims to make building simple websites easier while remaining close to the metal and adding minimal overheads; it is not a framework.",
             "support": {
                 "issues": "https://github.com/danbettles/marigold/issues",
-                "source": "https://github.com/danbettles/marigold/tree/v1.0.0-beta.3"
+                "source": "https://github.com/danbettles/marigold/tree/v1.0.0-beta.4"
             },
-            "time": "2022-09-14T16:15:04+00:00"
+            "time": "2022-09-18T09:48:31+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -104,6 +104,15 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "csstools/sanitize.css",
+            "version": "13.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/csstools/sanitize.css/archive/refs/tags/v13.0.0.zip"
+            },
+            "type": "library"
+        },
         {
             "name": "danbettles/codesniffer-standard",
             "version": "v2.0.0",

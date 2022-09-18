@@ -64,11 +64,7 @@ class FrontController
             $matchedRoute = (new Router([
                 [
                     'path' => '/',
-                    'action' => 'postsAction',
-                ],
-                [
-                    'path' => '/posts',
-                    'action' => 'postsAction',
+                    'action' => 'homepageAction',
                 ],
                 [
                     'path' => '/posts/{postId}',
@@ -128,6 +124,21 @@ class FrontController
 
     /**
      * @param array<string, string> $serverVars
+     */
+    protected function homepageAction(array $serverVars): HttpResponse
+    {
+        /** @var array<string, string> */
+        $site = $this->getConfig()['site'];
+
+        return $this->render('homepage_action.html.php', [
+            'serverVars' => $serverVars,
+            'metaDescription' => $site['description'],
+            'articles' => $this->getPostRepo()->findAll(),
+        ]);
+    }
+
+    /**
+     * @param array<string, string> $serverVars
      * @param string $postId
      */
     protected function postAction(
@@ -141,20 +152,10 @@ class FrontController
         }
 
         return $this->render('post_action.html.php', [
+            'serverVars' => $serverVars,
             'metaTitle' => $article->getTitle(),
             'metaDescription' => ($article->getDescription() ?: ''),
             'article' => $article,
-        ]);
-    }
-
-    /**
-     * @param array<string, string> $serverVars
-     */
-    protected function postsAction(array $serverVars): HttpResponse
-    {
-        return $this->render('posts_action.html.php', [
-            'metaTitle' => 'All Posts',
-            'articles' => $this->getPostRepo()->findAll(),
         ]);
     }
 

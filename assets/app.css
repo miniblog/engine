@@ -1,0 +1,146 @@
+:root {
+    --base-font-size: 18px;
+    --border-colour: #ddd;
+    --footer-height: 4em;
+    --main-colour: #222;
+}
+
+html {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: var(--base-font-size);
+    color: var(--main-colour);
+    background-color: #fff;
+}
+
+/* ###> Push the footer down ### */
+/* See https://matthewjamestaylor.com/bottom-footer */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    position: relative;
+    min-height: 100%;
+}
+
+main {
+    padding-bottom: var(--footer-height);
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: var(--footer-height);
+}
+/* ###< Push the footer down ### */
+
+code, kbd, samp, pre {
+    font-family: monospace;
+    background-color: #f2f1f1;
+    border-radius: 0.25rem;
+}
+
+code, kbd, samp {
+    padding: 0.125rem 0.25rem;
+}
+
+pre {
+    padding: 1rem;
+}
+
+pre > code {
+    white-space: break-spaces;
+}
+
+/* All headings, ... */
+h1, h2, h3, h4, h5, h6,
+/* everything in the masthead, ... */
+.masthead,
+/* everything in the page footer, ... */
+.container > footer,
+/* and everything in article headers. */
+article > header {
+    /* See https://github.com/csstools/sanitize.css/blob/main/typography.css#L6 */
+    font-family:
+    system-ui,
+    /* macOS 10.11-10.12 */ -apple-system,
+    /* Windows 6+ */ "Segoe UI",
+    /* Android 4+ */ "Roboto",
+    /* Ubuntu 10.10+ */ "Ubuntu",
+    /* Gnome 3+ */ "Cantarell",
+    /* KDE Plasma 5+ */ "Noto Sans",
+    /* fallback */ sans-serif,
+    /* macOS emoji */ "Apple Color Emoji",
+    /* Windows emoji */ "Segoe UI Emoji",
+    /* Windows emoji */ "Segoe UI Symbol",
+    /* Linux emoji */ "Noto Color Emoji";
+    text-align: center;
+}
+
+a {
+    color: #2455c3;
+    text-decoration: none;
+}
+
+a:hover, a:focus, a:active {
+    color: var(--main-colour);
+    text-decoration: underline;
+}
+
+a:focus {
+    outline: thin dotted;
+}
+
+a:hover, a:active {
+    outline: 0;
+}
+
+.container {
+    margin: 0 2rem;
+}
+
+@media screen and (min-width: 760px) {
+    .container {
+        max-width: 696px;
+        margin: 0 auto;
+    }
+}
+
+.masthead {
+    border-bottom: 1px solid var(--border-colour);
+}
+
+.masthead__title {
+    font-size: 1.5em;
+    font-weight: normal;
+    line-height: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+}
+
+.masthead__title a {
+    color: var(--main-colour);
+    text-decoration: none;
+}
+
+footer {
+    font-size: 0.875rem;
+    border-top: 1px solid var(--border-colour);
+}
+
+.posts {
+    text-align: center;
+}
+
+article > header h1,
+article > header h2 {
+    margin-bottom: calc(1em / 6);
+}
+
+.article__by-line > span {
+    font-weight: bold;
+}
