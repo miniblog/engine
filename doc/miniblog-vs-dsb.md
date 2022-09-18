@@ -8,7 +8,7 @@ These are the fundamental differences between Miniblog and DSB:
 
 - Templates can be overridden.
 
-- Unlike DSB, Miniblog requires [Composer](https://getcomposer.org/) to manage its dependencies.  However, in production, Miniblog uses *only one* more library than DSB&mdash;and a small one at that.  From my perspective, Composer is an essential development tool, and since Composer is also ubiquitous in hosting environments nowadays, it isn't hard to justify requiring it.
+- Unlike DSB, Miniblog requires Composer to manage its dependencies.  However, in production, Miniblog uses *only one* more library than DSB&mdash;and a small one at that.  From my perspective, Composer is an essential development tool, and since Composer is also ubiquitous in hosting environments nowadays, it isn't hard to justify requiring it.
 
 - I prefer user-friendly URLs, so Miniblog requires URL-rewriting in the web server.  Like PHP, URL-rewriting is ubiquitous in hosting environments, so no big deal there, either.
 
