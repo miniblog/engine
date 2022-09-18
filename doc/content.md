@@ -1,8 +1,14 @@
-# Usage
+# Content
+
+The base content-type in Miniblog is 'article'.  All user content is stored under `content/`, and *blog-post* articles, in particular, live in `content/post/`.
 
 ## Writing Articles
 
-A Miniblog article is written in a text file and comprises two parts: front matter (information about the article); and the body of the article.
+A Miniblog article is written in plain text, in a single file with the suffix `.md`.  The basename of the file (the part before the extension) is used as the slug and *must* comprise only lowercase characters, digits, and dashes.
+
+The content of an article file *must* comprise two parts:
+- front matter (information about the article);
+- and the body of the article.
 
 Here's what a complete article looks like:
 
@@ -18,7 +24,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis molestie lor
 Cras pharetra eu nulla eget convallis. Nam mollis ligula sem, in dictum nunc fringilla suscipit. Nam vel nulla et lacus laoreet condimentum non non arcu. Aliquam lacus quam, imperdiet non convallis nec, tincidunt non massa. Nulla sit amet pulvinar purus, quis ultricies nibh.
 ```
 
-:warning: At present, Miniblog will simply ignore invalid articles: invalid articles will not be listed, nor will it be possible to request them directly.
+:warning: At present, Miniblog will simply ignore invalid articles (i.e. articles that do not follow this spec): invalid articles will not be listed, nor will it be possible to request them directly.
 
 ### Front Matter
 
@@ -32,7 +38,7 @@ The first part of an article *must* be front matter, encoded in a single JSON ob
 
 :information_source: The title, and the description, if present in the front matter, will be used in the meta tags.
 
-### The Body
+### Article Body
 
 The remainder of the file *must* be the body of the article and *must* be separated from the front matter by at least one blank line.  The body can be formatted using [(GitHub flavoured) Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
