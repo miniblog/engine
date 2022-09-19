@@ -1,7 +1,7 @@
 :root {
     --base-font-size: 18px;
     --border-colour: #ddd;
-    --footer-height: 4em;
+    --footer-height: 3em;
     --main-colour: #222;
 }
 
@@ -27,14 +27,13 @@ body {
 }
 
 main {
-    padding-bottom: var(--footer-height);
+    padding-bottom: calc(var(--footer-height) + 1em);
 }
 
 .container > footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: var(--footer-height);
 }
 /* ###< Push the footer down ### */
 
@@ -97,6 +96,10 @@ a:focus {
 
 a:hover, a:active {
     outline: 0;
+}
+
+ul {
+    margin: 1em 0;
 }
 
 .container {
