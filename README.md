@@ -1,18 +1,36 @@
 # Miniblog
 
-Miniblog is a minimal blogging system, written in object-oriented PHP, aimed primarily at developers.  It is an ongoing experiment in sustainable software design.  My aim is to create a blogging system that provides only the features that are really needed, only those that bring real value.
+Miniblog is a minimal blogging system, written in object-oriented PHP, aimed primarily at developers.
 
-Several (obvious) needs must be balanced:
-- The software should help its owner maintain focus on the task in hand; in this case, the task is publishing articles.
-- The website should be helpful to the end user, which means it should be easy to use and be easily consumed by search engines.
-- The software should use only the resources it absolutely needs to&mdash;every computation costs electricity.
+As a developer, you mightn't mind getting a little oily; however, you do still want a certain level of convenience.  You don't want to faff with HTML every time you write an article, but you don't need a fancy admin UI.  You do want a website that looks half decent, but the focus should be the content.
 
-## Background
+Miniblog couldn't be simpler&mdash;if you think it could be then please do get involved :slightly_smiling_face:  Installation is quick, with very little configuration.  Articles are written in Markdown with a sprinkling of JSON; pop those files in the content directory in your project and you're done!
 
-The idea for an experiment really came together when I was looking for a PHP blogging system to use for my own blog.  I thought it'd be possible to find a really minimal blogging system, but I was faced with the usual problem: lots of features and, thus, a proportionately-steep learning curve.  I abandoned even the most promising-looking option because I hadn't been able to get it working satisfactorily within a couple hours.  All I wanted was to publish articles to a smart-looking website and be able to version-control my content!
+## Installation
 
-Later, I was really excited to stumble on [Dead Simple Blog (DSB)](https://github.com/paintedsky/dead-simple-blog) by [@paintedsky](https://github.com/paintedsky): I was intrigued by the author's rationale, and his project met almost all my requirements.  It was through developing a fork of DSB that I decided to create&mdash;initially, at least&mdash;a spin-off.  You can [read about the fundamental differences between Miniblog and DSB](doc/miniblog-vs-dsb.md).
+### Requirements
 
-## Now What?
+- Linux
+- Apache / LiteSpeed / OpenLiteSpeed with `mod_rewrite`
+- PHP 7.4+
+- [Composer](https://getcomposer.org/)
 
-If you're ready to get stuck in then [read the installation guide](doc/installation.md).  Otherwise, [the documentation starts here](doc/README.md).
+### Method
+
+Follow these instructions to create a Miniblog-powered blog that can be version-controlled and customised.
+
+1. Assuming Composer is installed globally, run:\
+`composer create-project miniblog/blog-project <target-directory>`\
+Replace `<target-directory>` with the name of the directory you want to create.
+1. Update the few values in `config.php`.
+1. Make `public/` the document root of your website.
+
+You should now see the Miniblog homepage when you navigate to the root of your website.  You can safely remove `installer/` if you wish.  Either way, the directory you just created can be version-controlled in its entirety.
+
+## Read More
+
+- [Content](doc/content.md)
+- @todo Customisation
+- [About](doc/about.md)
+- @todo Design Decisions
+- @todo Contributing
