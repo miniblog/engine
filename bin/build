@@ -6,8 +6,8 @@ declare(strict_types=1);
 use DanBettles\Marigold\CssMinifier;
 use Miniblog\Engine\Console as Console;
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/console.php';
+require __DIR__ . '/../vendor/danbettles/marigold/src/CssMinifier.php';
+require __DIR__ . '/console.inc.php';
 
 $projectDir = dirname(__DIR__);
 
