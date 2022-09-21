@@ -11,6 +11,9 @@ use ReflectionClass;
 
 use function array_replace;
 use function dirname;
+use function getenv;
+
+use const false;
 
 /**
  * Facade.  Helps keep code out of `index.php`, which won't be under our control in a blog project.
@@ -45,6 +48,11 @@ class Miniblog
         array $requestVars,
         array $serverVars
     ): void {
+        $env = false === getenv('MINIBLOG_ENV')
+            ? 'prod'
+            : getenv('MINIBLOG_ENV')
+        ;
+
         $frontControllerClass = new ReflectionClass(FrontController::class);
 
         /** @var string */
@@ -60,7 +68,7 @@ class Miniblog
         $articleManager = new ArticleManager(new MarkdownParser(), "{$this->projectDir}/content");
 
         $response = $frontControllerClass
-            ->newInstance($config, $articleManager)
+            ->newInstance($env, $config, $articleManager)
             ->handle($serverVars)
         ;
 

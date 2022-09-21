@@ -17,6 +17,8 @@ use ReflectionMethod;
 use RuntimeException;
 use Throwable;
 
+use function get_class;
+
 class FrontControllerTest extends AbstractTestCase
 {
     public function testIsInstantiable(): void
@@ -28,8 +30,9 @@ class FrontControllerTest extends AbstractTestCase
             $this->createFixturePathname(__FUNCTION__)
         );
 
-        $controller = new FrontController($config, $articleManager);
+        $controller = new FrontController('prod', $config, $articleManager);
 
+        $this->assertSame('prod', $controller->getEnv());
         $this->assertSame($config, $controller->getConfig());
         $this->assertSame($articleManager, $controller->getArticleManager());
     }
@@ -45,7 +48,7 @@ class FrontControllerTest extends AbstractTestCase
     {
         $articleManager = new ArticleManager(new MarkdownParser(), "{$projectDir}/content");
 
-        return new FrontController([
+        return new FrontController('prod', [
             'site' => [
                 'description' => '',
             ],
@@ -99,7 +102,7 @@ class FrontControllerTest extends AbstractTestCase
         $projectDir = $this->createFixturePathname(__FUNCTION__);
 
         /** @var ArticleManager $articleManagerMock */
-        $frontController = new FrontController([
+        $frontController = new FrontController('prod', [
             'projectDir' => $projectDir,
             'engineDir' => $projectDir,
         ], $articleManagerMock);
@@ -170,23 +173,29 @@ class FrontControllerTest extends AbstractTestCase
         ];
     }
 
-    /** @dataProvider providesErrors */
-    public function testHandleWillRespondWithA500IfAnErrorOccursInPostaction(Throwable $throwable): void
-    {
-        $projectDir = $this->createFixturePathname(__FUNCTION__);
-
+    private function createFrontControllerMockThatThrows(
+        string $env,
+        string $projectDir,
+        Throwable $throwable
+    ): MockObject {
         /** @var MockObject */
         $frontControllerMock = $this
             ->getMockBuilder(FrontController::class)
             ->setConstructorArgs([
+                $env,
                 [
                     'projectDir' => $projectDir,
                     'engineDir' => $projectDir,
                 ],
                 $this->createStub(ArticleManager::class),
             ])
-            ->onlyMethods(['postAction'])
+            ->onlyMethods(['homepageAction', 'postAction'])
             ->getMock()
+        ;
+
+        $frontControllerMock
+            ->method('homepageAction')
+            ->willThrowException($throwable)
         ;
 
         $frontControllerMock
@@ -194,10 +203,19 @@ class FrontControllerTest extends AbstractTestCase
             ->willThrowException($throwable)
         ;
 
-        /** @var FrontController $frontControllerMock */
-        $response = $frontControllerMock->handle([
+        return $frontControllerMock;
+    }
+
+    /** @dataProvider providesErrors */
+    public function testHandleWillRespondWithA500IfAnErrorOccursInPostaction(Throwable $throwable): void
+    {
+        $projectDir = $this->createFixturePathname(__FUNCTION__);
+        /** @var FrontController */
+        $frontController = $this->createFrontControllerMockThatThrows('prod', $projectDir, $throwable);
+
+        $response = $frontController->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-            'REQUEST_URI' => "/blog/2022-09-03?foo=bar",
+            'REQUEST_URI' => "/blog/ignored",
         ]);
 
         $expected = new HttpResponse(<<<END
@@ -256,28 +274,10 @@ class FrontControllerTest extends AbstractTestCase
     public function testHandleWillRespondWithA500IfAnErrorOccursInHomepageaction(Throwable $throwable): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
+        /** @var FrontController */
+        $frontController = $this->createFrontControllerMockThatThrows('prod', $projectDir, $throwable);
 
-        /** @var MockObject */
-        $frontControllerMock = $this
-            ->getMockBuilder(FrontController::class)
-            ->setConstructorArgs([
-                [
-                    'projectDir' => $projectDir,
-                    'engineDir' => $projectDir,
-                ],
-                $this->createStub(ArticleManager::class),
-            ])
-            ->onlyMethods(['homepageAction'])
-            ->getMock()
-        ;
-
-        $frontControllerMock
-            ->method('homepageAction')
-            ->willThrowException($throwable)
-        ;
-
-        /** @var FrontController $frontControllerMock */
-        $response = $frontControllerMock->handle([
+        $response = $frontController->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
         ]);
 
@@ -306,5 +306,43 @@ class FrontControllerTest extends AbstractTestCase
         END, 404);
 
         $this->assertEquals($expected, $response);
+    }
+
+    // @todo Rethink this and the tested code.
+    public function testErrorsAreNotInterceptedInADevEnvironment(): void
+    {
+        $this->expectError();
+
+        /** @var FrontController */
+        $frontController = $this->createFrontControllerMockThatThrows(
+            'dev',
+            $this->createFixturePathname(__FUNCTION__),
+            new Error('Foo bar.')
+        );
+
+        $frontController->handle([
+            'SERVER_PROTOCOL' => 'HTTP/1.1',
+            'REQUEST_URI' => '/',
+        ]);
+    }
+
+    // @todo Rethink this and the tested code.
+    public function testExceptionsAreNotInterceptedInADevEnvironment(): void
+    {
+        $exception = new RuntimeException('Baz qux.');
+
+        $this->expectException(get_class($exception));
+
+        /** @var FrontController */
+        $frontController = $this->createFrontControllerMockThatThrows(
+            'dev',
+            $this->createFixturePathname(__FUNCTION__),
+            $exception
+        );
+
+        $frontController->handle([
+            'SERVER_PROTOCOL' => 'HTTP/1.1',
+            'REQUEST_URI' => '/',
+        ]);
     }
 }

@@ -17,6 +17,8 @@ use const null;
 
 class FrontController
 {
+    private string $env;
+
     /**
      * @var array<string, mixed>
      */
@@ -28,10 +30,12 @@ class FrontController
      * @param array<string, mixed> $config
      */
     public function __construct(
+        string $env,
         array $config,
         ArticleManager $articleManager
     ) {
         $this
+            ->setEnv($env)
             ->setConfig($config)
             ->setArticleManager($articleManager)
         ;
@@ -39,7 +43,7 @@ class FrontController
 
     private function createInternalServerErrorResponse(): HttpResponse
     {
-        $content = $this->renderView('http_500.html.php', [
+        $content = $this->renderView('_errors/error.html.php', [
             'metaTitle' => 'Internal Server Error',
         ]);
 
@@ -48,7 +52,7 @@ class FrontController
 
     private function createNotFoundResponse(): HttpResponse
     {
-        $content = $this->renderView('http_404.html.php', [
+        $content = $this->renderView('_errors/error_404.html.php', [
             'metaTitle' => 'Page Not Found',
         ]);
 
@@ -84,6 +88,10 @@ class FrontController
                 $serverVars,
             ], $matchedRoute['parameters']));
         } catch (Throwable $t) {
+            if ('dev' === $this->getEnv()) {
+                throw $t;
+            }
+
             return $this->createInternalServerErrorResponse();
         }
     }
@@ -154,6 +162,17 @@ class FrontController
             'metaDescription' => ($article->getDescription() ?: ''),
             'article' => $article,
         ]);
+    }
+
+    private function setEnv(string $env): self
+    {
+        $this->env = $env;
+        return $this;
+    }
+
+    public function getEnv(): string
+    {
+        return $this->env;
     }
 
     /**
