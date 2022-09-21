@@ -1,7 +1,7 @@
 :root {
     --base-font-size: 18px;
     --border-colour: #ddd;
-    --footer-height: 3em;
+    --footer-height: 4em;
     --main-colour: #222;
 }
 
@@ -34,6 +34,13 @@ main {
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: var(--footer-height);
+}
+
+.container > footer * {
+    line-height: var(--footer-height);
+    margin: 0;
+    padding: 0;
 }
 /* ###< Push the footer down ### */
 
@@ -113,8 +120,10 @@ ul {
     }
 }
 
+/* ###> Header ### */
 .masthead {
     border-bottom: 1px solid var(--border-colour);
+    overflow: auto;
 }
 
 .masthead__title {
@@ -129,6 +138,7 @@ ul {
     color: var(--main-colour);
     text-decoration: none;
 }
+/* ###< Header ### */
 
 .container > footer {
     display: flex;
