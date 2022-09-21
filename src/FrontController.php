@@ -67,7 +67,7 @@ class FrontController
                     'action' => 'homepageAction',
                 ],
                 [
-                    'path' => '/posts/{postId}',
+                    'path' => '/blog/{blogPostId}',
                     'action' => 'postAction',
                 ],
             ]))->match($serverVars);
@@ -89,7 +89,6 @@ class FrontController
     }
 
     /**
-     * @param string $contentTemplateBasename
      * @param array<string, mixed> $variables
      */
     private function renderView(
@@ -110,7 +109,6 @@ class FrontController
     }
 
     /**
-     * @param string $contentTemplateBasename
      * @param array<string, mixed> $variables
      */
     private function render(
@@ -133,19 +131,18 @@ class FrontController
         return $this->render('homepage_action.html.php', [
             'serverVars' => $serverVars,
             'metaDescription' => $site['description'],
-            'articles' => $this->getPostRepo()->findAll(),
+            'articles' => $this->getBlogPostRepo()->findAll(),
         ]);
     }
 
     /**
      * @param array<string, string> $serverVars
-     * @param string $postId
      */
     protected function postAction(
         array $serverVars,
-        string $postId
+        string $blogPostId
     ): HttpResponse {
-        $article = $this->getPostRepo()->find($postId);
+        $article = $this->getBlogPostRepo()->find($blogPostId);
 
         if (null === $article) {
             return $this->createNotFoundResponse();
@@ -187,8 +184,8 @@ class FrontController
         return $this->articleManager;
     }
 
-    private function getPostRepo(): ArticleRepository
+    private function getBlogPostRepo(): ArticleRepository
     {
-        return $this->getArticleManager()->getRepository('post');
+        return $this->getArticleManager()->getRepository('BlogPost');
     }
 }

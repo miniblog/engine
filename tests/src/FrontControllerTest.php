@@ -54,10 +54,10 @@ class FrontControllerTest extends AbstractTestCase
         ], $articleManager);
     }
 
-    public function testHandleWillRespondWithASingleArticleIfAPostIsRequested(): void
+    public function testHandleWillRespondWithASingleArticleIfASpecificBlogPostIsRequested(): void
     {
         $publishedAtStr = '2022-08-29';
-        $postId = $publishedAtStr;
+        $blogPostId = $publishedAtStr;
 
         $article = (new Article())
             ->setTitle('Title')
@@ -67,17 +67,17 @@ class FrontControllerTest extends AbstractTestCase
         ;
 
         /** @var MockObject */
-        $postRepoMock = $this
+        $blogPostRepoMock = $this
             ->getMockBuilder(ArticleRepository::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['find'])
             ->getMock()
         ;
 
-        $postRepoMock
+        $blogPostRepoMock
             ->expects($this->once())
             ->method('find')
-            ->with($postId)
+            ->with($blogPostId)
             ->willReturn($article)
         ;
 
@@ -92,8 +92,8 @@ class FrontControllerTest extends AbstractTestCase
         $articleManagerMock
             ->expects($this->once())
             ->method('getRepository')
-            ->with('post')
-            ->willReturn($postRepoMock)
+            ->with('BlogPost')
+            ->willReturn($blogPostRepoMock)
         ;
 
         $projectDir = $this->createFixturePathname(__FUNCTION__);
@@ -106,7 +106,7 @@ class FrontControllerTest extends AbstractTestCase
 
         $response = $frontController->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-            'REQUEST_URI' => "/posts/{$postId}?foo=bar",
+            'REQUEST_URI' => "/blog/{$blogPostId}?foo=bar",
         ]);
 
         $expected = new HttpResponse(<<<END
@@ -121,13 +121,13 @@ class FrontControllerTest extends AbstractTestCase
         $this->assertEquals($expected, $response);
     }
 
-    public function testHandleReturnsA404IfThePostIdIsInvalid(): void
+    public function testHandleReturnsA404IfTheBlogPostIdIsInvalid(): void
     {
         $frontController = $this->createFrontController($this->createFixturePathname(__FUNCTION__));
 
         $response = $frontController->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-            'REQUEST_URI' => "/posts/Invalid_Id?foo=bar",
+            'REQUEST_URI' => "/blog/Invalid_Id?foo=bar",
         ]);
 
         $expected = new HttpResponse(<<<END
@@ -139,13 +139,13 @@ class FrontControllerTest extends AbstractTestCase
         $this->assertEquals($expected, $response);
     }
 
-    public function testHandleReturnsA404IfThePostDoesNotExist(): void
+    public function testHandleReturnsA404IfTheBlogPostDoesNotExist(): void
     {
         $frontController = $this->createFrontController($this->createFixturePathname(__FUNCTION__));
 
         $response = $frontController->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-            'REQUEST_URI' => "/posts/non-existent?foo=bar",
+            'REQUEST_URI' => "/blog/non-existent?foo=bar",
         ]);
 
         $expected = new HttpResponse(<<<END
@@ -197,7 +197,7 @@ class FrontControllerTest extends AbstractTestCase
         /** @var FrontController $frontControllerMock */
         $response = $frontControllerMock->handle([
             'SERVER_PROTOCOL' => 'HTTP/1.1',
-            'REQUEST_URI' => "/posts/2022-09-03?foo=bar",
+            'REQUEST_URI' => "/blog/2022-09-03?foo=bar",
         ]);
 
         $expected = new HttpResponse(<<<END
@@ -210,7 +210,7 @@ class FrontControllerTest extends AbstractTestCase
     }
 
     /** @return array<int, array<int, mixed>> */
-    public function providesRequestsForPostListingPage(): array
+    public function providesRequestsForBlogPostListingPage(): array
     {
         return [
             [
@@ -226,9 +226,9 @@ class FrontControllerTest extends AbstractTestCase
      * Here it's easier to just do a full, functional test.
      *
      * @param array<string, string> $serverVars
-     * @dataProvider providesRequestsForPostListingPage
+     * @dataProvider providesRequestsForBlogPostListingPage
      */
-    public function testHandleWillRespondWithAListOfArticlesIfAPostIsNotRequested(array $serverVars): void
+    public function testHandleWillRespondWithAListOfArticlesIfASpecificBlogPostIsNotRequested(array $serverVars): void
     {
         $response = $this
             ->createFrontController($this->createFixturePathname(__FUNCTION__))

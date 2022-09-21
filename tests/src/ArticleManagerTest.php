@@ -42,10 +42,10 @@ class ArticleManagerTest extends AbstractTestCase
             $dataDir
         );
 
-        $postRepository = $manager->getRepository('post');
+        $blogPostRepo = $manager->getRepository('BlogPost');
 
-        $this->assertInstanceOf(ArticleRepository::class, $postRepository);
-        $this->assertSame("{$dataDir}/post", $postRepository->getDataDir());
+        $this->assertInstanceOf(ArticleRepository::class, $blogPostRepo);
+        $this->assertSame("{$dataDir}/BlogPost", $blogPostRepo->getDataDir());
     }
 
     public function testGetrepositoryAlwaysReturnsTheSameRepositoryForAGivenType(): void
@@ -55,8 +55,8 @@ class ArticleManagerTest extends AbstractTestCase
             $this->createFixturePathname(__FUNCTION__)
         );
 
-        $postRepository = $manager->getRepository('post');
+        $blogPostRepo = $manager->getRepository('BlogPost');
 
-        $this->assertSame($postRepository, $manager->getRepository('post'));
+        $this->assertSame($blogPostRepo, $manager->getRepository('BlogPost'));
     }
 }

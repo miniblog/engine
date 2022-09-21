@@ -14,12 +14,12 @@ $__layout = 'layout.html.php';
 /** @var array<string, string> */
 $author = $config['owner'];
 ?>
-<div class="posts">
+<div class="blog-posts">
     <?php foreach ($articles as $article) : ?>
         <article>
             <header>
                 <h2>
-                    <a href="<?= "/posts/{$article->getId()}" ?>"><?= $article->getTitle() ?></a>
+                    <a href="<?= "/blog/{$article->getId()}" ?>"><?= $article->getTitle() ?></a>
                 </h2>
 
                 <?= $helper->createArticleByLine($article, $author, false) ?>
