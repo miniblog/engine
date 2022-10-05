@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine;
 
-use DanBettles\Marigold\File\FileInfo;
+use DanBettles\Marigold\FileInfo;
 use DateTime;
 use DirectoryIterator;
 use RangeException;

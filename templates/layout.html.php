@@ -1,26 +1,27 @@
 <?php
 
-use Miniblog\Engine\OutputHelper;
-
 /**
- * Template variables:
- *
- * @var array<string, string|string[]> $config
- * @var OutputHelper $helper
- * @var string $__contentForLayout
- *
- * @var string $serverVars Optional
- * @var string $metaTitle Optional
- * @var string $metaDescription Optional
+ * @param string mainContent
+ * Optional:
+ * @param array<string, string> serverVars
+ * @param string metaTitle
+ * @param string metaDescription
  */
 
- /** @var bool $onHomepage */
-// @phpstan-ignore-next-line because `$serverVars` really isn't always set
-$onHomepage = isset($serverVars) && '/' === parse_url(($serverVars['REQUEST_URI'] ?? ''), PHP_URL_PATH);
+use Miniblog\Engine\OutputHelper;
+
+/** @var array<string, string|string[]> */
+$config = $globals->get('config');
+/** @var OutputHelper */
+$helper = $globals->get('helper');
 
 /** @var array<string, string> */
 $site = $config['site'];
 $siteTitle = $site['title'];
+
+/** @var array<string, string> */
+$serverVars = $input['serverVars'] ?? [];
+$onHomepage = '/' === parse_url($serverVars['REQUEST_URI'] ?? '', PHP_URL_PATH);
 
 /** @var array<string, string> */
 $owner = $config['owner'];
@@ -31,17 +32,15 @@ $owner = $config['owner'];
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <?php /* @phpstan-ignore-next-line because `$metaTitle` really isn't always set */ ?>
-        <title><?= (isset($metaTitle) && '' !== $metaTitle ? "{$metaTitle} | " : '') . $siteTitle ?></title>
+        <title><?= implode(' | ', array_filter([
+            $input['metaTitle'] ?? '',
+            $siteTitle,
+        ])) ?></title>
 
-        <?php /* @phpstan-ignore-next-line because `$metaDescription` really isn't always set */ ?>
-        <?php if (isset($metaDescription) && '' !== $metaDescription) : ?>
-            <meta name="description" content="<?= $metaDescription ?>">
-        <?php endif ?>
+        <meta name="description" content="<?= $input['metaDescription'] ?? '' ?>">
 
         <style>
-            <?php /* @todo 'Include' the CSS using the template loader. */ ?>
-            <?= file_get_contents(__DIR__ . '/stylesheet.css') ?>
+            <?= $output->include('stylesheet.css') ?>
         </style>
     </head>
 
@@ -52,7 +51,7 @@ $owner = $config['owner'];
             </header>
 
             <main>
-                <?= $__contentForLayout ?>
+                <?= $input['mainContent'] ?>
             </main>
 
             <footer>

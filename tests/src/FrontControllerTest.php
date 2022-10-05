@@ -23,12 +23,14 @@ class FrontControllerTest extends AbstractTestCase
 {
     public function testIsInstantiable(): void
     {
-        $config = [];
+        $projectDir = $this->createFixturePathname(__FUNCTION__);
 
-        $articleManager = new ArticleManager(
-            new MarkdownParser(),
-            $this->createFixturePathname(__FUNCTION__)
-        );
+        $config = [
+            'projectDir' => $projectDir,
+            'engineDir' => $projectDir,
+        ];
+
+        $articleManager = new ArticleManager(new MarkdownParser(), $projectDir);
 
         $controller = new FrontController('prod', $config, $articleManager);
 

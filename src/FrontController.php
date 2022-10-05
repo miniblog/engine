@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Miniblog\Engine;
 
 use DanBettles\Marigold\HttpResponse;
+use DanBettles\Marigold\Registry;
 use DanBettles\Marigold\Router;
-use DanBettles\Marigold\TemplateEngine;
-use DanBettles\Marigold\TemplateFileLoader;
+use DanBettles\Marigold\TemplateEngine\Engine;
+use DanBettles\Marigold\TemplateEngine\TemplateFileLoader;
 use Throwable;
 
 use function array_merge;
@@ -26,6 +27,10 @@ class FrontController
 
     private ArticleManager $articleManager;
 
+    private Router $router;
+
+    private Engine $templateEngine;
+
     /**
      * @param array<string, mixed> $config
      */
@@ -39,24 +44,58 @@ class FrontController
             ->setConfig($config)
             ->setArticleManager($articleManager)
         ;
+
+        $this->setRouter(new Router([
+            [
+                'path' => '/',
+                'action' => 'homepageAction',
+            ],
+            [
+                'path' => '/blog/{blogPostId}',
+                'action' => 'postAction',
+            ],
+        ]));
+
+        $this->setTemplateEngine($this->createTemplateEngine());
     }
 
-    private function createInternalServerErrorResponse(): HttpResponse
+    private function createTemplateEngine(): Engine
     {
-        $content = $this->renderView('_errors/error.html.php', [
-            'metaTitle' => 'Internal Server Error',
+        $templateFileLoader = new TemplateFileLoader([
+            'Overrides' => $this->getConfig()['projectDir'] . '/templates',
+            'Default templates' => $this->getConfig()['engineDir'] . '/templates',
         ]);
 
-        return new HttpResponse($content, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+        $globals = (new Registry())
+            ->add('config', $this->getConfig())
+            ->add('router', $this->getRouter())
+            ->addFactory('helper', function () {
+                return new OutputHelper();
+            })
+        ;
+
+        return Engine::create($templateFileLoader, $globals);
+    }
+
+    /**
+     * @param array<string, mixed> $variables
+     */
+    private function render(
+        string $contentTemplateBasename,
+        array $variables = [],
+        int $statusCode = HttpResponse::HTTP_OK
+    ): HttpResponse {
+        $content = $this
+            ->getTemplateEngine()
+            ->render($contentTemplateBasename, $variables)
+        ;
+
+        return new HttpResponse($content, $statusCode);
     }
 
     private function createNotFoundResponse(): HttpResponse
     {
-        $content = $this->renderView('_errors/error_404.html.php', [
-            'metaTitle' => 'Page Not Found',
-        ]);
-
-        return new HttpResponse($content, HttpResponse::HTTP_NOT_FOUND);
+        return $this->render('_errors/error_404.html.php', [], HttpResponse::HTTP_NOT_FOUND);
     }
 
     /**
@@ -65,16 +104,7 @@ class FrontController
     public function handle(array $serverVars): HttpResponse
     {
         try {
-            $matchedRoute = (new Router([
-                [
-                    'path' => '/',
-                    'action' => 'homepageAction',
-                ],
-                [
-                    'path' => '/blog/{blogPostId}',
-                    'action' => 'postAction',
-                ],
-            ]))->match($serverVars);
+            $matchedRoute = $this->getRouter()->match($serverVars);
 
             if (null === $matchedRoute) {
                 return $this->createNotFoundResponse();
@@ -92,40 +122,8 @@ class FrontController
                 throw $t;
             }
 
-            return $this->createInternalServerErrorResponse();
+            return $this->render('_errors/error.html.php', [], HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    /**
-     * @param array<string, mixed> $variables
-     */
-    private function renderView(
-        string $contentTemplateBasename,
-        array $variables = []
-    ): string {
-        $templateFileLoader = new TemplateFileLoader([
-            'Overrides' => $this->getConfig()['projectDir'] . '/templates',
-            'Default templates' => $this->getConfig()['engineDir'] . '/templates',
-        ]);
-
-        $templateEngine = new TemplateEngine($templateFileLoader);
-
-        $variables['config'] = $this->getConfig();
-        $variables['helper'] = new OutputHelper();
-
-        return $templateEngine->render($contentTemplateBasename, $variables);
-    }
-
-    /**
-     * @param array<string, mixed> $variables
-     */
-    private function render(
-        string $contentTemplateBasename,
-        array $variables = []
-    ): HttpResponse {
-        $content = $this->renderView($contentTemplateBasename, $variables);
-
-        return new HttpResponse($content);
     }
 
     /**
@@ -133,12 +131,8 @@ class FrontController
      */
     protected function homepageAction(array $serverVars): HttpResponse
     {
-        /** @var array<string, string> */
-        $site = $this->getConfig()['site'];
-
         return $this->render('homepage_action.html.php', [
-            'serverVars' => $serverVars,
-            'metaDescription' => $site['description'],
+            'serverVars' => $serverVars,  // @todo Add to globals.
             'articles' => $this->getBlogPostRepo()->findAll(),
         ]);
     }
@@ -157,9 +151,7 @@ class FrontController
         }
 
         return $this->render('post_action.html.php', [
-            'serverVars' => $serverVars,
-            'metaTitle' => $article->getTitle(),
-            'metaDescription' => ($article->getDescription() ?: ''),
+            'serverVars' => $serverVars,  // @todo Add to globals.
             'article' => $article,
         ]);
     }
@@ -206,5 +198,27 @@ class FrontController
     private function getBlogPostRepo(): ArticleRepository
     {
         return $this->getArticleManager()->getRepository('BlogPost');
+    }
+
+    private function setRouter(Router $router): self
+    {
+        $this->router = $router;
+        return $this;
+    }
+
+    private function getRouter(): Router
+    {
+        return $this->router;
+    }
+
+    private function setTemplateEngine(Engine $templateEngine): self
+    {
+        $this->templateEngine = $templateEngine;
+        return $this;
+    }
+
+    private function getTemplateEngine(): Engine
+    {
+        return $this->templateEngine;
     }
 }

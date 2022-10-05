@@ -1,6 +1,4 @@
 parameters:
-    excludePaths:
-        - tests/src/FrontControllerTest/*/templates/*
     level: max
     paths:
         - bin
@@ -9,4 +7,12 @@ parameters:
         - templates
         - tests
     ignoreErrors:
-        - '#Call to an undefined method Miniblog\\Engine\\OutputHelper::create[A-Z]#'
+        -
+            message: '#Call to an undefined method Miniblog\\Engine\\OutputHelper::create[A-Z]#'
+            path: src/OutputHelper.php
+        -
+            message: '#^Variable \$\w+ might not be defined.$#'
+            path: templates/*
+        -
+            message: '#^Variable \$\w+ might not be defined.$#'
+            path: tests/src/FrontControllerTest/*

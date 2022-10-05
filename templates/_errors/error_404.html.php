@@ -1,25 +1,22 @@
 <?php
 
-use Miniblog\Engine\OutputHelper;
+$title = 'Page Not Found';
 
-/**
- * Template variables:
- * @var array<string, string|string[]> $config
- * @var OutputHelper $helper
- * @var string $metaTitle Optional
- */
+$output->insertInto('layout.html.php', 'mainContent', [
+    'metaTitle' => $title,
+]);
 
-$__layout = 'layout.html.php';
+/** @var array<string, string|string[]> */
+$config = $globals->get('config');
 
 /** @var array<string, string> */
 $owner = $config['owner'];
-$ownerEmail = $owner['email'];
 ?>
-<h1><?= $metaTitle ?></h1>
+<h1><?= $title ?></h1>
 
 <p>Sorry, but we couldn't find the page you requested.  Please double-check the URL and then try again.</p>
 
 <ul>
-    <li>If you think this is an error on our part then <a href="<?= "mailto:{$ownerEmail}" ?>">please let us know</a>.</li>
+    <li>If you think this is an error on our part then <a href="<?= "mailto:{$owner['email']}" ?>">please let us know</a>.</li>
     <li>Alternatively, <a href="/">return to the homepage</a> and start over.</li>
 </ul>

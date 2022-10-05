@@ -1,12 +1,8 @@
 <?php
 
-/**
- * Template variables:
- * @var string $__contentForLayout
- */
-
+// phpcs:ignore
 echo <<<END
 Before content
-{$__contentForLayout}
+{$input['contentForLayout']}
 After content
 END;

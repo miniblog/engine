@@ -1,2 +1,5 @@
-<?php $__layout = 'layout.html.php' ?>
+<?php
+
+$output->insertInto('layout.html.php', 'contentForLayout');
+?>
 Not Found

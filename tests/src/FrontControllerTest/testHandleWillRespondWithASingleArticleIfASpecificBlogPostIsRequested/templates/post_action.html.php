@@ -1,15 +1,16 @@
 <?php
 
-/**
- * Template variables:
- * @var Miniblog\Engine\Article $article
- */
+use Miniblog\Engine\Article;
 
-$__layout = 'layout.html.php';
+$output->insertInto('layout.html.php', 'contentForLayout');
 
-/** @var DateTime $publishedAt */
+/** @var Article */
+$article = $input['article'];
+
+/** @var DateTime */
 $publishedAt = $article->getPublishedAt();
 
+// phpcs:ignore
 echo <<<END
 {$article->getTitle()}
 {$article->getDescription()}

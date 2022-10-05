@@ -1,18 +1,29 @@
 <?php
 
-use Miniblog\Engine\OutputHelper;
-
 /**
- * Template variables:
- * @var array<string, string|mixed[]> $config
- * @var OutputHelper $helper
- * @var Miniblog\Engine\Article[] $articles
+ * @param array<string, string> serverVars
+ * @param Miniblog\Engine\Article[] articles
  */
 
-$__layout = 'layout.html.php';
+use Miniblog\Engine\OutputHelper;
+
+/** @var array<string, string|mixed[]> */
+$config = $globals->get('config');
+/** @var OutputHelper */
+$helper = $globals->get('helper');
+/** @var array{description: string} */
+$site = $config['site'];
+
+$output->insertInto('layout.html.php', 'mainContent', [
+    'serverVars' => $input['serverVars'],
+    'metaDescription' => $site['description'],
+]);
+
+/** @var Miniblog\Engine\Article[] */
+$articles = $input['articles'];
 
 /** @var array<string, string> */
-$author = $config['owner'];
+$owner = $config['owner'];
 ?>
 <div class="blog-posts">
     <?php foreach ($articles as $article) : ?>
@@ -22,7 +33,7 @@ $author = $config['owner'];
                     <a href="<?= "/blog/{$article->getId()}" ?>"><?= $article->getTitle() ?></a>
                 </h2>
 
-                <?= $helper->createArticleByLine($article, $author, false) ?>
+                <?= $helper->createArticleByLine($article, $owner, false) ?>
             </header>
 
             <?php if ($article->getDescription()) : ?>

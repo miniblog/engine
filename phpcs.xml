@@ -2,8 +2,6 @@
 <ruleset name="Miniblog Engine Coding Standard">
     <config name="ignore_warnings_on_exit" value="1"/>
 
-    <exclude-pattern>*/tests/src/FrontControllerTest/*/templates/*$</exclude-pattern>
-
     <file>bin/</file>
     <file>public/</file>
     <file>src/</file>

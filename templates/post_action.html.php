@@ -1,15 +1,25 @@
 <?php
 
-use Miniblog\Engine\OutputHelper;
-
 /**
- * Template variables:
- * @var array<string, string|string[]> $config
- * @var OutputHelper $helper
- * @var Miniblog\Engine\Article $article
+ * @param array<string, string> serverVars
+ * @param Miniblog\Engine\Article article
  */
 
-$__layout = 'layout.html.php';
+use Miniblog\Engine\Article;
+use Miniblog\Engine\OutputHelper;
+
+/** @var Article */
+$article = $input['article'];
+
+$output->insertInto('layout.html.php', 'mainContent', [
+    'metaTitle' => $article->getTitle(),
+    'metaDescription' => ($article->getDescription() ?: ''),
+]);
+
+/** @var array<string, string|string[]> */
+$config = $globals->get('config');
+/** @var OutputHelper */
+$helper = $globals->get('helper');
 
 /** @var array<string, string> */
 $author = $config['owner'];
