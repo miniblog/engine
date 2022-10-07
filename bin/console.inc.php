@@ -53,9 +53,9 @@ function passthru(
 
         if ($throwOnError) {
             throw new RuntimeException($message);
-        } else {
-            writeLn("Warning: {$message}");
         }
+
+        writeLn("Warning: {$message}");
     }
 
     return $resultCode;
