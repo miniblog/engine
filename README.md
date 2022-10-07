@@ -4,7 +4,7 @@ Miniblog is a minimal blogging system, written in object-oriented PHP, aimed pri
 
 As a developer, you mightn't mind getting a little oily; however, you do still want a certain level of convenience.  You don't want to faff with HTML every time you write an article, but you don't need a fancy admin UI.  You do want a website that looks half decent, but the focus should be the content.
 
-Miniblog couldn't be simpler&mdash;if you think it could be then please do get involved :slightly_smiling_face:  Installation is quick, with very little configuration.  Articles are written in Markdown with a sprinkling of JSON; pop those files in the content directory in your project and you're done!
+Miniblog couldn't be simpler&mdash;if you think it could be then please do get involved :slightly_smiling_face:  Installation is quick, with very little configuration.  Articles are written in Markdown with a sprinkling of JSON; pop those files in the content directory in your project and you're done.
 
 ## Installation
 

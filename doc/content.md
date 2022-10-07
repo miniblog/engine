@@ -1,6 +1,6 @@
 # Content
 
-The base content-type in Miniblog is 'article'.  All user content is stored under `content/`, and *blog-post* articles, in particular, live in `content/post/`.
+The base content-type in Miniblog is 'article'.  All user content is stored under `content/`, and *blog-post* articles, in particular, live in `content/BlogPost/`.
 
 ## Writing Articles
 
@@ -24,22 +24,23 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis molestie lor
 Cras pharetra eu nulla eget convallis. Nam mollis ligula sem, in dictum nunc fringilla suscipit. Nam vel nulla et lacus laoreet condimentum non non arcu. Aliquam lacus quam, imperdiet non convallis nec, tincidunt non massa. Nulla sit amet pulvinar purus, quis ultricies nibh.
 ```
 
-:warning: At present, Miniblog will simply ignore invalid articles (i.e. articles that do not follow this spec): invalid articles will not be listed, nor will it be possible to request them directly.
+> :warning: At present, Miniblog will simply ignore invalid articles (i.e. articles that do not follow this spec): invalid articles will not be listed, nor will it be possible to request them directly.
 
 ### Front Matter
 
-The first part of an article *must* be front matter, encoded in a single JSON object.  The front matter *must* start with a left curly brace ("{") on a line by itself and *must* end with a right curly brace ("}") on a line by itself.
+The first part of an article *must* be front matter, encoded in a single JSON object.
 
-- The front matter *must* include a title and the published date/time.
-- The front matter *may* contain a description.
+- The front matter *must* start with a left curly brace ("{") on a line by itself and *must* end with a right curly brace ("}") on a line by itself.
+- The data *must* comprise a title and the published date/time.
 - The published date/time *must* be in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
+- The data *may* contain a description.
 
-:information_source: Miniblog will use the title in the front matter to automatically create a heading for the article.
+> :information_source: Miniblog will use the title in the front matter to automatically create a heading for the article.
 
-:information_source: The title, and the description, if present in the front matter, will be used in the meta tags.
+> :information_source: The title, and the description, if present in the front matter, will be used in the meta tags.
 
 ### Article Body
 
 The remainder of the file *must* be the body of the article and *must* be separated from the front matter by at least one blank line.  The body can be formatted using [(GitHub flavoured) Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
-:information_source: Remember: there is no need to add a heading to the body: Miniblog will automatically create one using the title in the front matter.
+> :information_source: Remember: there is no need to add a heading to the body: Miniblog will automatically create one using the title in the front matter.
