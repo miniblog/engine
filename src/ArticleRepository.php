@@ -43,7 +43,7 @@ class ArticleRepository
     /**
      * Returns a list of all valid-looking article files in the directory.
      *
-     * @return array<string, FileInfo>
+     * @return array<string,FileInfo>
      */
     private function listArticleFiles(): array
     {
@@ -88,7 +88,7 @@ class ArticleRepository
         $text = file_get_contents($articleFile->getPathname());
         $parsedMarkdown = $this->getMarkdownParser()->parse($text);
 
-        $article = Article::fromArray(array_replace([
+        $article = Article::createFromArray(array_replace([
             'id' => $articleId,
         ], $parsedMarkdown));
 

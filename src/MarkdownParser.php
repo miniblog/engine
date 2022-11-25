@@ -64,7 +64,7 @@ class MarkdownParser
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string,mixed>
      */
     private function createResult(?string $body = null): array
     {
@@ -74,7 +74,7 @@ class MarkdownParser
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string,mixed>
      */
     public function parse(string $text): array
     {
@@ -91,7 +91,7 @@ class MarkdownParser
             $markdown
         ) = $this->splitText($text);
 
-        /** @var array<string, ?string> */
+        /** @var array<string,?string> */
         $frontMatter = null === $frontMatterJson
             ? []
             : json_decode($frontMatterJson, true, 2, JSON_THROW_ON_ERROR)

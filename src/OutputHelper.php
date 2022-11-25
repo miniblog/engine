@@ -5,9 +5,15 @@ declare(strict_types=1);
 namespace Miniblog\Engine;
 
 use DanBettles\Marigold\OutputHelper\Html5OutputHelper;
+use DanBettles\Marigold\Router;
 use DateTime;
 use DateTimeInterface;
 use IntlDateFormatter;
+
+use function array_filter;
+use function implode;
+use function is_string;
+use function strpos;
 
 use const false;
 use const null;
@@ -15,6 +21,40 @@ use const true;
 
 class OutputHelper extends Html5OutputHelper
 {
+    private Router $router;
+
+    public function __construct(Router $router)
+    {
+        $this->setRouter($router);
+    }
+
+    /**
+     * @param array<string,string|int>|string $parametersOrContent
+     */
+    public function linkTo(
+        string $routeIdOrUrl,
+        $parametersOrContent,
+        ?string $contentOrNothing = null
+    ): string {
+        $parameters = $parametersOrContent;
+        $content = $contentOrNothing;
+
+        if (is_string($parametersOrContent)) {
+            $parameters = [];
+            $content = $parametersOrContent;
+        }
+
+        /** @var array $parameters */
+        /** @var string $content */
+
+        $url = false === strpos($routeIdOrUrl, ':')
+            ? $this->router->generatePath($routeIdOrUrl, $parameters)
+            : $routeIdOrUrl
+        ;
+
+        return $this->createA(['href' => $url], $content);
+    }
+
     private function formatDate(DateTimeInterface $dateTime, int $dateType): string
     {
         $dateFormatter = new IntlDateFormatter(null, $dateType, IntlDateFormatter::NONE);
@@ -25,7 +65,7 @@ class OutputHelper extends Html5OutputHelper
     }
 
     /**
-     * @param array<string, string> $author
+     * @param array<string,string> $author
      */
     public function createArticleByLine(
         Article $article,
@@ -56,8 +96,8 @@ class OutputHelper extends Html5OutputHelper
     }
 
     /**
-     * @param array<string, string> $site
-     * @param array<string, string> $owner
+     * @param array<string,string> $site
+     * @param array<string,string> $owner
      */
     public function createCopyrightNotice(
         array $site,
@@ -74,11 +114,19 @@ class OutputHelper extends Html5OutputHelper
         return $this->createP("Copyright &copy; {$range} {$owner['name']}");
     }
 
-    public function createSiteHeading(string $title, bool $onHomepage): string
+    public function createMetaTitle(string ...$parts): string
     {
-        return $this->createEl(($onHomepage ? 'h1' : 'p'), [
-            'itemprop' => 'name',
-            'class' => 'masthead__title',
-        ], $this->createA(['href' => '/'], $title));
+        return implode(' | ', array_filter($parts));
+    }
+
+    private function setRouter(Router $router): self
+    {
+        $this->router = $router;
+        return $this;
+    }
+
+    public function getRouter(): Router
+    {
+        return $this->router;
     }
 }

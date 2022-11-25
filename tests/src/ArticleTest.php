@@ -54,7 +54,7 @@ class ArticleTest extends AbstractTestCase
         $this->assertEquals(new DateTime('1987-10-15'), $article->getPublishedAt());
     }
 
-    /** @return array<int, array<int, mixed>> */
+    /** @return array<int,array<int,mixed>> */
     public function providesArticlesCreatedFromArrays(): array
     {
         $dateStr = '2022-08-27';
@@ -113,16 +113,16 @@ class ArticleTest extends AbstractTestCase
 
     /**
      * @dataProvider providesArticlesCreatedFromArrays
-     * @param array<string, mixed> $array
+     * @param array<string,mixed> $array
      */
     public function testFromarrayCreatesANewInstance(Article $expectedArticle, array $array): void
     {
-        $article = Article::fromArray($array);
+        $article = Article::createFromArray($array);
 
         $this->assertEquals($expectedArticle, $article);
     }
 
-    /** @return array<int, array<int, mixed>> */
+    /** @return array<int,array<int,mixed>> */
     public function providesValidArticles(): array
     {
         return [

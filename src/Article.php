@@ -17,7 +17,7 @@ use const null;
 class Article
 {
     /**
-     * @var array<string, string>
+     * @var array<string,string>
      */
     private static array $propertySetterNames;
 
@@ -120,9 +120,9 @@ class Article
     }
 
     /**
-     * @param array<string, mixed> $array
+     * @param array<string,mixed> $array
      */
-    public static function fromArray(array $array): self
+    public static function createFromArray(array $array): self
     {
         if (!isset(self::$propertySetterNames)) {
             $class = new ReflectionClass(__CLASS__);

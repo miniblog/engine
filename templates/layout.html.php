@@ -2,29 +2,27 @@
 
 /**
  * @param string mainContent
- * Optional:
- * @param array<string, string> serverVars
- * @param string metaTitle
- * @param string metaDescription
+ * @param string [metaTitle]
+ * @param string [metaDescription]
  */
 
+use DanBettles\Marigold\HttpRequest;
 use Miniblog\Engine\OutputHelper;
 
-/** @var array<string, string|string[]> */
+/** @var array<string,string|string[]> */
 $config = $globals->get('config');
+/** @var HttpRequest */
+$request = $globals->get('request');
 /** @var OutputHelper */
-$helper = $globals->get('helper');
+$helper = $globals->get('outputHelper');
 
-/** @var array<string, string> */
+/** @var array<string,string> */
 $site = $config['site'];
 $siteTitle = $site['title'];
 
-/** @var array<string, string> */
-$serverVars = $input['serverVars'] ?? [];
-$onHomepage = '/' === parse_url($serverVars['REQUEST_URI'] ?? '', PHP_URL_PATH);
-
-/** @var array<string, string> */
-$owner = $config['owner'];
+/** @var array{id: string} */
+$matchedRoute = $request->attributes['route'] ?? ['id' => ''];
+$onHomepage = 'homepage' === $matchedRoute['id'];
 ?>
 <!DOCTYPE html>
 <html lang="<?= $site['lang'] ?>">
@@ -32,11 +30,7 @@ $owner = $config['owner'];
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title><?= implode(' | ', array_filter([
-            $input['metaTitle'] ?? '',
-            $siteTitle,
-        ])) ?></title>
-
+        <title><?= $helper->createMetaTitle(($input['metaTitle'] ?? ''), $siteTitle) ?></title>
         <meta name="description" content="<?= $input['metaDescription'] ?? '' ?>">
 
         <style>
@@ -47,7 +41,12 @@ $owner = $config['owner'];
     <body>
         <div class="container">
             <header itemscope itemtype="https://schema.org/WebSite" class="masthead">
-                <?= $helper->createSiteHeading($siteTitle, $onHomepage) ?>
+                <?php $homepageLink = $helper->linkTo('homepage', $siteTitle) ?>
+
+                <?= $helper->createEl(($onHomepage ? 'h1' : 'p'), [
+                    'itemprop' => 'name',
+                    'class' => 'masthead__title',
+                ], $homepageLink) ?>
             </header>
 
             <main>
@@ -55,8 +54,9 @@ $owner = $config['owner'];
             </main>
 
             <footer>
+                <?php /** @var array<string,string> */ $owner = $config['owner'] ?>
                 <?= $helper->createCopyrightNotice($site, $owner) ?>
-                <p>Powered by <a href="https://github.com/miniblog/engine">Miniblog</a></p>
+                <p>Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>
             </footer>
         </div>
     </body>

@@ -15,7 +15,7 @@ class ArticleManager
     private string $dataDir;
 
     /**
-     * @var array<string, ArticleRepository>
+     * @var array<string,ArticleRepository>
      */
     private array $repositories;
 

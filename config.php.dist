@@ -11,4 +11,5 @@ return [
         'name' => 'Daniel Bettles',
         'email' => 'danbettles@yahoo.co.uk',
     ],
+    'env' => 'prod',  // Or `"dev"`.
 ];

@@ -1,36 +1,35 @@
 <?php
 
 /**
- * @param array<string, string> serverVars
- * @param Miniblog\Engine\Article[] articles
+ * @param Article[] articles
  */
 
+use Miniblog\Engine\Article;
 use Miniblog\Engine\OutputHelper;
 
-/** @var array<string, string|mixed[]> */
+/** @var array<string,string|mixed[]> */
 $config = $globals->get('config');
 /** @var OutputHelper */
-$helper = $globals->get('helper');
+$helper = $globals->get('outputHelper');
+
 /** @var array{description: string} */
 $site = $config['site'];
 
 $output->insertInto('layout.html.php', 'mainContent', [
-    'serverVars' => $input['serverVars'],
     'metaDescription' => $site['description'],
 ]);
 
-/** @var Miniblog\Engine\Article[] */
-$articles = $input['articles'];
-
-/** @var array<string, string> */
+/** @var array<string,string> */
 $owner = $config['owner'];
 ?>
 <div class="blog-posts">
-    <?php foreach ($articles as $article) : ?>
+    <?php /** @var Article $article */ foreach ($input['articles'] as $article) : ?>
+        <?php /** @var string */ $articleId = $article->getId() ?>
+
         <article>
             <header>
                 <h2>
-                    <a href="<?= "/blog/{$article->getId()}" ?>"><?= $article->getTitle() ?></a>
+                    <?= $helper->linkTo('showBlogPost', ['postId' => $articleId], $article->getTitle()) ?>
                 </h2>
 
                 <?= $helper->createArticleByLine($article, $owner, false) ?>

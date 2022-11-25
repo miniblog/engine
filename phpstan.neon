@@ -13,6 +13,3 @@ parameters:
         -
             message: '#^Variable \$\w+ might not be defined.$#'
             path: templates/*
-        -
-            message: '#^Variable \$\w+ might not be defined.$#'
-            path: tests/src/FrontControllerTest/*

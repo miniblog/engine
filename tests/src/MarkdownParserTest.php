@@ -14,7 +14,7 @@ use const null;
 
 class MarkdownParserTest extends AbstractTestCase
 {
-    /** @return array<int, array<int, mixed>> */
+    /** @return array<int,array<int,mixed>> */
     public function providesParsedMarkdownFiles(): array
     {
         return [
@@ -81,7 +81,7 @@ class MarkdownParserTest extends AbstractTestCase
 
     /**
      * @dataProvider providesParsedMarkdownFiles
-     * @param array<string, mixed> $expected
+     * @param array<string,mixed> $expected
      */
     public function testParseReturnsAnArray(array $expected, string $filePathname): void
     {
