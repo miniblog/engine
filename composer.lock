@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "danbettles/marigold",
-            "version": "v2.1.0",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/danbettles/marigold.git",
-                "reference": "50c6fae1b78f96c48791b0cea8849e58669738ff"
+                "reference": "84b3f4b9c324b3501b5a03375690628da7b3fb07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danbettles/marigold/zipball/50c6fae1b78f96c48791b0cea8849e58669738ff",
-                "reference": "50c6fae1b78f96c48791b0cea8849e58669738ff",
+                "url": "https://api.github.com/repos/danbettles/marigold/zipball/84b3f4b9c324b3501b5a03375690628da7b3fb07",
+                "reference": "84b3f4b9c324b3501b5a03375690628da7b3fb07",
                 "shasum": ""
             },
             "require": {
@@ -48,9 +48,9 @@
             "description": "Marigold is a small set of tools that aims to make building simple websites easier while remaining close to the metal and adding minimal overheads; it is not a framework.",
             "support": {
                 "issues": "https://github.com/danbettles/marigold/issues",
-                "source": "https://github.com/danbettles/marigold/tree/v2.1.0"
+                "source": "https://github.com/danbettles/marigold/tree/v2.2.0"
             },
-            "time": "2022-11-24T20:18:48+00:00"
+            "time": "2022-11-26T14:11:49+00:00"
         },
         {
             "name": "erusev/parsedown",
