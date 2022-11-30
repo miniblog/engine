@@ -1,16 +1,21 @@
 <?php
 
 /**
- * @param Throwable throwable
+ * ASCII art created using https://www.kammerl.de/ascii/AsciiSignature.php
+ *
+ * @param string metaTitle
+ * @param string detail
  */
 
 use Miniblog\Engine\OutputHelper;
 
-$title = 'Unexpected Error';
+$metaTitle = $input['metaTitle']
+    ?? 'Unexpected Error'
+;
 
-$output->insertInto('layout.html.php', 'mainContent', [
-    'metaTitle' => $title,
-]);
+$detail = $input['detail']
+    ?? 'All of a sudden, a terrifying shriek and then...  Darkness.  Alas, your quest is over.  For now.'
+;
 
 /** @var array<string,string|string[]> */
 $config = $globals->get('config');
@@ -18,8 +23,103 @@ $config = $globals->get('config');
 $helper = $globals->get('outputHelper');
 
 /** @var array<string,string> */
-$owner = $config['owner'];
+$site = $config['site'];
+$siteTitle = $site['title'];
 ?>
-<h1><?= $title ?></h1>
+<!DOCTYPE html>
+<html lang="<?= $site['lang'] ?>">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<p>Sorry, but an unexpected error occurred.  Please make your request again and if the problem re-occurs then <?= $helper->linkTo("mailto:{$owner['email']}", 'please let us know') ?>.</p>
+        <title><?= $helper->createMetaTitle($metaTitle, $siteTitle) ?></title>
+        <meta name="description" content="">
+
+        <style>
+            :root {
+                --highlight-colour: #caca8b;
+                --background-colour: #1e1e1e;
+            }
+
+            body {
+                font-family: "Courier New", Courier, monospace;
+                color: #d7997c;
+                background-color: var(--background-colour);
+            }
+
+            a:link,
+            a:visited,
+            a:active {
+                font-weight: bold;
+                text-decoration: none;
+                color: var(--highlight-colour);
+            }
+
+            a:hover {
+                color: var(--background-colour);
+                background-color: var(--highlight-colour);
+            }
+
+            a::before {
+                content: "< ";
+            }
+
+            a::after {
+                content: " >";
+            }
+
+            main {
+                max-width: 80ch;
+            }
+
+            .game-over {
+                margin-bottom: 3em;
+            }
+
+            .game-over pre {
+                font-family: inherit;
+                font-size: smaller;
+                font-weight: bold;
+            }
+
+            .game-over__detail {
+                margin-top: 2em;
+            }
+
+            .confirm__choices > :first-child {
+                margin-right: 2ch;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+
+            <div class="game-over">
+                <pre>
+ @@@@@@@@   @@@@@@   @@@@@@@@@@   @@@@@@@@      @@@@@@   @@@  @@@  @@@@@@@@  @@@@@@@
+@@@@@@@@@  @@@@@@@@  @@@@@@@@@@@  @@@@@@@@     @@@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@@
+!@@        @@!  @@@  @@! @@! @@!  @@!          @@!  @@@  @@!  @@@  @@!       @@!  @@@
+!@!        !@!  @!@  !@! !@! !@!  !@!          !@!  @!@  !@!  @!@  !@!       !@!  @!@
+!@! @!@!@  @!@!@!@!  @!! !!@ @!@  @!!!:!       @!@  !@!  @!@  !@!  @!!!:!    @!@!!@!
+!!! !!@!!  !!!@!!!!  !@!   ! !@!  !!!!!:       !@!  !!!  !@!  !!!  !!!!!:    !!@!@!
+:!!   !!:  !!:  !!!  !!:     !!:  !!:          !!:  !!!  :!:  !!:  !!:       !!: :!!
+:!:   !::  :!:  !:!  :!:     :!:  :!:          :!:  !:!   ::!!:!   :!:       :!:  !:!
+ ::: ::::  ::   :::  :::     ::    :: ::::     ::::: ::    ::::     :: ::::  ::   :::
+ :: :: :    :   : :   :      :    : :: ::       : :  :      :      : :: ::    :   : :</pre>
+
+                <p class="game-over__detail"><?= $detail ?></p>
+            </div>
+
+            <div class="confirm">
+                <p>What would you like to do?</p>
+
+                <p class="confirm__choices">
+                    <a href="javascript:window.history.back()">Go back</a>
+                    <a href="/">Start over</a>
+                </p>
+            </div>
+
+        </main>
+    </body>
+</html>

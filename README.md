@@ -32,5 +32,5 @@ You should now see the Miniblog homepage when you navigate to the root of your w
 - [Content](doc/content.md)
 - @todo Customisation
 - [About](doc/about.md)
-- @todo Design Decisions
+- [Design Decisions](doc/design-decisions.md)
 - @todo Contributing

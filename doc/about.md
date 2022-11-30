@@ -1,6 +1,6 @@
 # About Miniblog
 
-Miniblog is a minimal blogging system, written in object-oriented PHP, aimed primarily at developers.  It is an ongoing experiment in sustainable software design.  My aim is to create a blogging system that provides only the features that are really needed, only those that bring real value.
+Miniblog is a minimal blogging system, written in object-oriented PHP, aimed primarily at developers.  It is an ongoing experiment in minimal software design: my aim is to create a blogging system that provides only the features that are really needed, only those that bring real value.
 
 Decisions about what is *needed* are subjective, of course, but there are several, more objective requirements that can be held in mind and balanced:
 

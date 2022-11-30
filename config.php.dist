@@ -3,7 +3,7 @@
 return [
     'site' => [
         'title' => 'Miniblog',
-        'description' => 'Miniblog is a minimal blogging system, written in object-oriented PHP, aimed primarily at developers.  It is an ongoing experiment in sustainable software design.  My aim is to create a blogging system that provides only the features that are really needed, only those that bring real value.',
+        'description' => 'Miniblog is a minimal blogging system, written in object-oriented PHP, aimed primarily at developers.  It is an ongoing experiment in minimal software design: my aim is to create a blogging system that provides only the features that are really needed, only those that bring real value.',
         'publishedOn' => '2022-09-18',
         'lang' => 'en',  // ISO 639-1 language code.
     ],

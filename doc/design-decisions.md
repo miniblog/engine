@@ -1,0 +1,3 @@
+# Design Decisions
+
+- The error pages are deliberately basic.  Yes, there are times when you could do plenty things to help the user, but how many will actually care?  Won't the majority just press the back-button, return to your homepage, or go elsewhere, as soon as they realise something's gone wrong?  In the absence of fancy functionality, there is no need to repeatedly render error pages.  Miniblog's error pages are generated offline by a command-line script.  They contain little markup, the CSS is inlined, and there are no images to download; in that sense, they are completely self contained and demand little.

@@ -17,6 +17,7 @@ use Throwable;
 
 use const null;
 
+// @todo Rename this to "Website".
 class Miniblog
 {
     private Registry $registry;
@@ -59,9 +60,7 @@ class Miniblog
             /** @var Engine */
             $templateEngine = $registry->get('templateEngine');
 
-            $content = $templateEngine->render(($templateFile ?: "_errors/error.html.php"), [
-                'throwable' => $throwable,
-            ]);
+            $content = $templateEngine->render(($templateFile ?: "_errors/error.html.php"));
         }
 
         /** @var HttpRequest */

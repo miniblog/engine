@@ -1,0 +1,74 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use DanBettles\Marigold\HttpRequest;
+use Miniblog\Engine\Command\AbstractCommand;
+use Miniblog\Engine\Command\AssembleDefaultCssCommand;
+use Miniblog\Engine\Command\CompileProjectErrorPagesCommand;
+use Miniblog\Engine\Factory;
+
+$projectDir = dirname(__DIR__);
+
+require "{$projectDir}/vendor/autoload.php";
+
+function writeLn(string $message): void
+{
+    // phpcs:ignore
+    echo $message . PHP_EOL;
+}
+
+/**
+ * @return never
+ */
+function failed(string $message): void
+{
+    writeLn("\033[97;41m[ERROR] {$message}\033[0m");
+    // phpcs:ignore
+    exit(1);
+}
+
+/** @phpstan-var array<class-string<AbstractCommand>> */
+$commandClassNames = [
+    CompileProjectErrorPagesCommand::class,
+    AssembleDefaultCssCommand::class,
+];
+
+$requestedCommandName = null;
+$exitCode = null;
+
+try {
+    if ($argc < 2) {
+        throw new RuntimeException('Insufficient arguments were passed.');
+    }
+
+    $requestedCommandName = $argv[1];
+
+    /** @phpstan-var class-string<AbstractCommand> */
+    $selectedCommandClassName = null;
+
+    foreach ($commandClassNames as $commandClassName) {
+        if ($requestedCommandName === $commandClassName::COMMAND_NAME) {
+            $selectedCommandClassName = $commandClassName;
+            break;
+        }
+    }
+
+    if (null === $selectedCommandClassName) {
+        throw new InvalidArgumentException("The command, `{$requestedCommandName}`, does not exist.");
+    }
+
+    $factory = new Factory($projectDir, new HttpRequest([], [], $_SERVER));
+    $exitCode = (new $selectedCommandClassName($factory->getRegistry()))();
+} catch (Throwable $t) {
+    failed($t->getMessage());
+}
+
+if (AbstractCommand::SUCCESS !== $exitCode) {
+    failed('');
+}
+
+writeLn("\033[30;42m[OK] {$requestedCommandName}\033[0m");
+// phpcs:ignore
+exit(0);
