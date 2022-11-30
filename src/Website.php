@@ -17,8 +17,7 @@ use Throwable;
 
 use const null;
 
-// @todo Rename this to "Website".
-class Miniblog
+class Website
 {
     private Registry $registry;
 
