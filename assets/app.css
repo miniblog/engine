@@ -1,100 +1,74 @@
 :root {
-    --base-font-size: 18px;
-    --border-colour: #ddd;
-    --footer-height: 5em;
-    --main-colour: #222;
+    --font-body: Georgia, 'Times New Roman', Times, serif;
+    /* See https://github.com/csstools/sanitize.css/blob/main/typography.css#L6 */
+    --font-heading:
+        system-ui,
+        /* macOS 10.11-10.12 */ -apple-system,
+        /* Windows 6+ */ "Segoe UI",
+        /* Android 4+ */ "Roboto",
+        /* Ubuntu 10.10+ */ "Ubuntu",
+        /* Gnome 3+ */ "Cantarell",
+        /* KDE Plasma 5+ */ "Noto Sans",
+        /* fallback */ sans-serif,
+        /* macOS emoji */ "Apple Color Emoji",
+        /* Windows emoji */ "Segoe UI Emoji",
+        /* Windows emoji */ "Segoe UI Symbol",
+        /* Linux emoji */ "Noto Color Emoji";
+    --gutter: 36px;
+    --main-content-width: 696px;
+    --colour-main: #222;
+    --colour-muted: #6c757d;
+    --colour-border: #ddd;
 }
 
 html {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: var(--base-font-size);
-    color: var(--main-colour);
+    font-family: var(--font-body);
+    font-size: 18px;
+    color: var(--colour-main);
     background-color: #fff;
 }
 
-/* ###> Push the footer down ### */
-/* See https://matthewjamestaylor.com/bottom-footer */
 html,
 body {
-    margin: 0;
-    padding: 0;
     height: 100%;
 }
 
-.container {
-    position: relative;
-    min-height: 100%;
-}
-
-main {
-    padding-bottom: calc(var(--footer-height) + 1em);
-}
-
-.container > footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: var(--footer-height);
-}
-
-.container > footer * {
-    line-height: var(--footer-height);
-    margin: 0;
-    padding: 0;
-}
-/* ###< Push the footer down ### */
-
+/* ###> Code ### */
 code, kbd, samp, pre {
     font-family: monospace;
     background-color: #f2f1f1;
-    border-radius: 0.25rem;
+    border-radius: 0.25rem;  /*rem for 'constant' radius.*/
 }
 
 code, kbd, samp {
-    padding: 0.125rem 0.25rem;
+    padding: 0.125em 0.25em;
 }
 
 pre {
-    padding: 1rem;
+    padding: 1em;
 }
 
 pre > code {
     white-space: break-spaces;
 }
+/* ###< Code ### */
 
-/* All headings, ... */
+/* Default 'headings' style. */
 h1, h2, h3, h4, h5, h6,
-/* everything in the masthead, ... */
-.masthead,
-/* everything in the page footer, ... */
-.container > footer,
-/* and everything in article headers. */
 article > header {
-    /* See https://github.com/csstools/sanitize.css/blob/main/typography.css#L6 */
-    font-family:
-    system-ui,
-    /* macOS 10.11-10.12 */ -apple-system,
-    /* Windows 6+ */ "Segoe UI",
-    /* Android 4+ */ "Roboto",
-    /* Ubuntu 10.10+ */ "Ubuntu",
-    /* Gnome 3+ */ "Cantarell",
-    /* KDE Plasma 5+ */ "Noto Sans",
-    /* fallback */ sans-serif,
-    /* macOS emoji */ "Apple Color Emoji",
-    /* Windows emoji */ "Segoe UI Emoji",
-    /* Windows emoji */ "Segoe UI Symbol",
-    /* Linux emoji */ "Noto Color Emoji";
+    font-family: var(--font-heading);
     text-align: center;
 }
 
+/* ###> Links ### */
 a {
-    color: #2455c3;
     text-decoration: none;
+    color: #2455c3;
 }
 
 a:hover, a:focus, a:active {
-    color: var(--main-colour);
     text-decoration: underline;
+    color: var(--colour-main);
 }
 
 a:focus {
@@ -104,48 +78,93 @@ a:focus {
 a:hover, a:active {
     outline: 0;
 }
+/* ###< Links ### */
 
-ul {
-    margin: 1em 0;
-}
-
+/* ###> Layout ### */
 .container {
-    margin: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    max-width: calc(var(--gutter) + var(--main-content-width) + var(--gutter));
+    min-height: 100%;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
 }
 
-@media screen and (min-width: 760px) {
-    .container {
-        max-width: 696px;
-        margin: 0 auto;
-    }
-}
-
-/* ###> Header ### */
 .masthead {
-    border-bottom: 1px solid var(--border-colour);
-    overflow: auto;
+    text-align: center;
+    border-bottom: 1px solid var(--colour-border);
 }
 
 .masthead__title {
-    font-size: 1.5em;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
     font-weight: normal;
     line-height: 1.5em;
-    margin-top: 0.83em;
-    margin-bottom: 0.83em;
+    text-align: inherit;
+    margin: 0.83em 0;
 }
 
 .masthead__title a {
-    color: var(--main-colour);
     text-decoration: none;
+    color: var(--colour-main);
 }
-/* ###< Header ### */
+
+.masthead__description {
+    font-family: var(--font-body);
+    font-size: smaller;
+    color: var(--colour-muted);
+}
+
+main,
+.container > footer {
+    max-width: var(--main-content-width);
+    margin: 0 0 1em 0;
+}
+
+main {
+    flex: 1 0 auto;
+}
 
 .container > footer {
     display: flex;
+    height: 3em;
+    flex-flow: row nowrap;
     justify-content: space-between;
-    font-size: 0.875rem;
-    border-top: 1px solid var(--border-colour);
+    align-items: center;
+    flex-shrink: 0;  /*Sticky footer.*/
+    font-family: var(--font-heading);
+    font-size: smaller;
+    color: var(--colour-muted);
+    border-top: 1px solid var(--colour-border);
 }
+
+.container > footer > * {
+    margin: 0;
+}
+
+@media screen and (min-width: 992px) {
+    :root {
+        --masthead-width: 220px;
+    }
+
+    .container {
+        max-width: calc(var(--gutter) + var(--masthead-width) + var(--gutter) + var(--main-content-width) + var(--gutter));
+    }
+
+    .masthead {
+        position: fixed;
+        top: 0;
+        width: var(--masthead-width);
+        text-align: left;
+        border-bottom: 0;
+    }
+
+    main,
+    .container > footer {
+        margin-left: calc(var(--masthead-width) + var(--gutter));
+    }
+}
+/* ###< Layout ### */
 
 .blog-posts {
     text-align: center;

@@ -19,6 +19,7 @@ $helper = $globals->get('outputHelper');
 /** @var array<string,string> */
 $site = $config['site'];
 $siteTitle = $site['title'];
+$siteDescription = $site['description'];
 
 /** @var array{id: string} */
 $matchedRoute = $request->attributes['route'] ?? ['id' => ''];
@@ -40,6 +41,7 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
 
     <body>
         <div class="container">
+
             <header itemscope itemtype="https://schema.org/WebSite" class="masthead">
                 <?php $homepageLink = $helper->linkTo('homepage', $siteTitle) ?>
 
@@ -47,6 +49,10 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
                     'itemprop' => 'name',
                     'class' => 'masthead__title',
                 ], $homepageLink) ?>
+
+                <?php if (strlen($siteDescription)) : ?>
+                    <p class="masthead__description"><?= $siteDescription ?></p>
+                <?php endif ?>
             </header>
 
             <main>
@@ -58,6 +64,7 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
                 <?= $helper->createCopyrightNotice($site, $owner) ?>
                 <p>Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>
             </footer>
+
         </div>
     </body>
 </html>
