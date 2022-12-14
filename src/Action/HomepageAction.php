@@ -15,7 +15,7 @@ class HomepageAction extends AbstractAction
         /** @var ArticleManager */
         $articleManager = $this->getServices()->get('articleManager');
 
-        return $this->render('homepage_action.html.php', [
+        return $this->render('homepage_action/default.html.php', [
             'articles' => $articleManager->getRepository('BlogPost')->findAll(),
         ]);
     }
