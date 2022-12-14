@@ -2,14 +2,24 @@
 
 return [
     'site' => [
-        'title' => 'Miniblog',
-        'description' => 'Miniblog is a minimal blogging system, written in object-oriented PHP, aimed primarily at developers.  It is an ongoing experiment in minimal software design: my aim is to create a blogging system that provides only the features that are really needed, only those that bring real value.',
+        /** @var string */
+        'title' => 'Title of the Website',
+        /** @var string */
+        'description' => "A concise description of the website's content",
+        /** @var string|null Optional */
+        'blurb' => 'This is the blurb.  Use it to welcome your visitors or tell them about the website',
+        /** @var string Published date of the website, in ISO 8601 format */
         'publishedOn' => '2022-09-18',
-        'lang' => 'en',  // ISO 639-1 language code.
+        /** @var string The ISO 639-1 code of the website's language */
+        'lang' => 'en',
     ],
-    'owner' => [  // Default owner/author/contact.
-        'name' => 'Daniel Bettles',
-        'email' => 'danbettles@yahoo.co.uk',
+    // Default owner/author/contact
+    'owner' => [
+        /** @var string */
+        'name' => 'Jane Doe',
+        /** @var string Email address */
+        'email' => 'janedoe@example.com',
     ],
-    'env' => 'prod',  // Or `"dev"`.
+    /** @var string The runtime environment.  prod|dev */
+    'env' => 'prod',
 ];

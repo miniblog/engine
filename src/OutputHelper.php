@@ -111,7 +111,9 @@ class OutputHelper extends Html5OutputHelper
             : "{$siteLaunchYear}-{$thisYear}"
         ;
 
-        return $this->createP("Copyright &copy; {$range} {$owner['name']}");
+        $ownerName = $this->linkTo("mailto:{$owner['email']}", $owner['name']);
+
+        return $this->createP("Copyright &copy; {$range} {$ownerName}");
     }
 
     public function createMetaTitle(string ...$parts): string

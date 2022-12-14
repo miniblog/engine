@@ -19,7 +19,7 @@ $helper = $globals->get('outputHelper');
 /** @var array<string,string> */
 $site = $config['site'];
 $siteTitle = $site['title'];
-$siteDescription = $site['description'];
+$siteBlurb = $site['blurb'];
 
 /** @var array{id: string} */
 $matchedRoute = $request->attributes['route'] ?? ['id' => ''];
@@ -50,8 +50,8 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
                     'class' => 'masthead__title',
                 ], $homepageLink) ?>
 
-                <?php if (strlen($siteDescription)) : ?>
-                    <p class="masthead__description"><?= $siteDescription ?></p>
+                <?php if (null !== $siteBlurb) : ?>
+                    <p class="masthead__blurb"><?= $siteBlurb ?></p>
                 <?php endif ?>
             </header>
 

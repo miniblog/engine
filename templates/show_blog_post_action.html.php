@@ -22,7 +22,6 @@ $helper = $globals->get('outputHelper');
 
 /** @var array<string,string> */
 $author = $config['owner'];
-$authorEmail = $author['email'];
 ?>
 <article itemscope itemtype="https://schema.org/BlogPosting">
     <header>

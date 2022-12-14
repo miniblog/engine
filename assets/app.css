@@ -109,7 +109,7 @@ a:hover, a:active {
     color: var(--colour-main);
 }
 
-.masthead__description {
+.masthead__blurb {
     font-family: var(--font-body);
     font-size: smaller;
     color: var(--colour-muted);
