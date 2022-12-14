@@ -14,8 +14,15 @@ $projectDir = dirname(__DIR__);
 
 require "{$projectDir}/vendor/autoload.php";
 
-function writeLn(string $message): void
+/**
+ * @param string|string[] $message
+ */
+function writeLn($message): void
 {
+    if (is_array($message)) {
+        $message = implode(PHP_EOL, $message);
+    }
+
     // phpcs:ignore
     echo $message . PHP_EOL;
 }
@@ -36,14 +43,29 @@ $commandClassNames = [
     AssembleDefaultCssCommand::class,
 ];
 
+if ($argc < 2) {
+    $heading = 'Available commands:';
+
+    $lines = [
+        $heading,
+        str_repeat('-', strlen($heading)),
+    ];
+
+    foreach ($commandClassNames as $commandClassName) {
+        $lines[] = $commandClassName::COMMAND_NAME;
+    }
+
+    $lines[] = '';
+
+    writeLn($lines);
+
+    exit(0);
+}
+
 $requestedCommandName = null;
 $exitCode = null;
 
 try {
-    if ($argc < 2) {
-        throw new RuntimeException('Insufficient arguments were passed.');
-    }
-
     $requestedCommandName = $argv[1];
 
     /** @var class-string<AbstractCommand> */
