@@ -12,6 +12,7 @@ use DanBettles\Marigold\TemplateEngine\Engine;
 use DanBettles\Marigold\TemplateEngine\TemplateFileLoader;
 use InvalidArgumentException;
 use Miniblog\Engine\ArticleManager;
+use Miniblog\Engine\ErrorsService;
 use Miniblog\Engine\Factory;
 use Miniblog\Engine\OutputHelper;
 
@@ -62,8 +63,11 @@ class FactoryTest extends AbstractTestCase
             'site' => [],
             'owner' => [],
             'env' => 'prod',
-            'projectDir' => $projectDir,
             'engineDir' => $engineDir,
+            'engineTemplatesDir' => "{$engineDir}/templates",
+            'projectDir' => $projectDir,
+            'projectTemplatesDir' => "{$projectDir}/templates",
+            'varDir' => "{$projectDir}/var",
         ], $config);
 
         $requestFromRegistry = $registry->get('request');
@@ -100,6 +104,12 @@ class FactoryTest extends AbstractTestCase
 
         $this->assertInstanceOf(ArticleManager::class, $articleManager);
         $this->assertSame("{$projectDir}/content", $articleManager->getDataDir());
+
+        /** @var ErrorsService */
+        $errorsService = $registry->get('errorsService');
+
+        $this->assertInstanceOf(ErrorsService::class, $errorsService);
+        $this->assertSame($config, $errorsService->getConfig());
     }
 
     public function testGetregistryAlwaysReturnsTheSameInstance(): void
@@ -109,14 +119,5 @@ class FactoryTest extends AbstractTestCase
         $registry = $factory->getRegistry();
 
         $this->assertSame($registry, $factory->getRegistry());
-    }
-
-    public function testGettemplatefileloaderReturnsTheSameInstanceAsTheRegistry(): void
-    {
-        $factory = $this->createFactory($this->createFixturePathname(__FUNCTION__));
-
-        $loader = $factory->getRegistry()->get('templateFileLoader');
-
-        $this->assertSame($loader, $factory->getTemplateFileLoader());
     }
 }

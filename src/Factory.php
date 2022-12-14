@@ -18,7 +18,7 @@ use function is_dir;
 use function dirname;
 
 /**
- * Principally, builds the registry, which wires-up the app's dependencies.
+ * Builds the registry, which wires-up the app's dependencies.
  */
 class Factory
 {
@@ -36,16 +36,6 @@ class Factory
             ->setProjectDir($projectDir)
             ->setRequest($request)
         ;
-    }
-
-    /**
-     * Shortcut.
-     */
-    public function getTemplateFileLoader(): TemplateFileLoader
-    {
-        /** @var TemplateFileLoader */
-        $loader = $this->getRegistry()->get('templateFileLoader');
-        return $loader;
     }
 
     private function setProjectDir(string $projectDir): self
@@ -79,14 +69,19 @@ class Factory
      * Strictly private.
      *
      * @return array<string,mixed>
+     * @todo Create an object!
      */
     private function createAugmentedConfig(): array
     {
+        $engineDir = dirname(__DIR__);
         $projectDir = $this->getProjectDir();
 
         return array_replace(require "{$projectDir}/config.php", [
+            'engineDir' => $engineDir,
+            'engineTemplatesDir' => "{$engineDir}/templates",
             'projectDir' => $projectDir,
-            'engineDir' => dirname(__DIR__),
+            'projectTemplatesDir' => "{$projectDir}/templates",
+            'varDir' => "{$projectDir}/var",
         ]);
     }
 
@@ -118,8 +113,8 @@ class Factory
         $config = $registry->get('config');
 
         return new TemplateFileLoader([
-            'Overrides' => "{$config['projectDir']}/templates",
-            'Default templates' => "{$config['engineDir']}/templates",
+            'Overrides' => "{$config['projectTemplatesDir']}",
+            'Default templates' => "{$config['engineTemplatesDir']}",
         ]);
     }
 
@@ -156,6 +151,17 @@ class Factory
         return new ArticleManager(new MarkdownParser(), "{$config['projectDir']}/content");
     }
 
+    /**
+     * Strictly private.
+     */
+    private function createErrorsService(Registry $registry): ErrorsService
+    {
+        /** @var array<string,string> */
+        $config = $registry->get('config');
+
+        return new ErrorsService($config);
+    }
+
     public function getRegistry(): Registry
     {
         if (!isset($this->registry)) {
@@ -177,6 +183,9 @@ class Factory
                 })
                 ->addFactory('articleManager', function (Registry $registry): ArticleManager {
                     return $this->createArticleManager($registry);
+                })
+                ->addFactory('errorsService', function (Registry $registry): ErrorsService {
+                    return $this->createErrorsService($registry);
                 })
             ;
         }

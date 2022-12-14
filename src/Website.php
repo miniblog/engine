@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine;
 
-use DanBettles\Marigold\Exception\HttpException;
 use DanBettles\Marigold\Exception\NotFoundHttpException;
 use DanBettles\Marigold\HttpRequest;
-use DanBettles\Marigold\HttpResponse;
 use DanBettles\Marigold\Registry;
 use DanBettles\Marigold\Router;
 use DanBettles\Marigold\TemplateEngine\Engine;
-use DanBettles\Marigold\TemplateEngine\TemplateFileLoader;
 use Miniblog\Engine\Action\AbstractAction;
+use Miniblog\Engine\Action\ShowErrorAction;
 use Throwable;
 
 use const null;
@@ -26,58 +24,27 @@ class Website
         $this->setRegistry($registry);
     }
 
-    // @todo Create some kind of error-handler class from this.
-    private function handleError(Throwable $throwable): void
+    /**
+     * @param class-string<AbstractAction> $className
+     */
+    private function createAction(string $className): AbstractAction
     {
-        $httpExceptionWasThrown = $throwable instanceof HttpException;
-
-        $statusCode = HttpResponse::HTTP_INTERNAL_SERVER_ERROR;
-
-        if ($httpExceptionWasThrown) {
-            /** @var HttpException $throwable */
-            $statusCode = $throwable->getStatusCode();
-        }
-
         $registry = $this->getRegistry();
+        /** @var Engine */
+        $templateEngine = $registry->get('templateEngine');
+        $action = new $className($templateEngine, $registry);
 
-        /** @var array<string,mixed> */
-        $config = $registry->get('config');
-
-        $content = '';
-
-        if ('dev' === $config['env']) {
-            $content = "<pre>{$throwable}</pre>";
-        } else {
-            /** @var TemplateFileLoader */
-            $templateFileLoader = $registry->get('templateFileLoader');
-
-            $templateFile = $httpExceptionWasThrown
-                ? $templateFileLoader->findTemplate("_errors/error_{$statusCode}.html.php")
-                : null
-            ;
-
-            /** @var Engine */
-            $templateEngine = $registry->get('templateEngine');
-
-            $content = $templateEngine->render(($templateFile ?: "_errors/error.html.php"));
-        }
-
-        /** @var HttpRequest */
-        $request = $registry->get('request');
-
-        (new HttpResponse($content, $statusCode))->send($request);
+        return $action;
     }
 
     public function handleRequest(): void
     {
         try {
-            $registry = $this->getRegistry();
-
-            /** @var HttpRequest */
-            $request = $registry->get('request');
+            $request = $this->getRequest();
 
             /** @var Router */
-            $router = $registry->get('router');
+            $router = $this->getRegistry()->get('router');
+            /** @var array{action:class-string<AbstractAction>}|null */
             $matchedRoute = $router->match($request);
 
             if (null === $matchedRoute) {
@@ -86,18 +53,17 @@ class Website
 
             $request->attributes['route'] = $matchedRoute;
 
-            /** @var Engine */
-            $templateEngine = $registry->get('templateEngine');
-
-            /** @phpstan-var class-string<AbstractAction> */
-            $actionClassName = $matchedRoute['action'];
-            /** @var AbstractAction */
-            $action = new $actionClassName($templateEngine, $registry);
+            $action = $this->createAction($matchedRoute['action']);
             $response = $action($request);
-
             $response->send($request);
         } catch (Throwable $t) {
-            $this->handleError($t);
+            $request = $this->getRequest();
+            // Same request: the error occurred *during* the request.
+            $request->attributes['error'] = $t;
+
+            $action = $this->createAction(ShowErrorAction::class);
+            $response = $action($request);
+            $response->send($request);
         }
     }
 
@@ -110,5 +76,11 @@ class Website
     private function getRegistry(): Registry
     {
         return $this->registry;
+    }
+
+    private function getRequest(): HttpRequest
+    {
+        /** @var HttpRequest */
+        return $this->getRegistry()->get('request');
     }
 }

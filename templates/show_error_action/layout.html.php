@@ -4,18 +4,10 @@
  * ASCII art created using https://www.kammerl.de/ascii/AsciiSignature.php
  *
  * @param string metaTitle
- * @param string detail
+ * @param string mainContent
  */
 
 use Miniblog\Engine\OutputHelper;
-
-$metaTitle = $input['metaTitle']
-    ?? 'Unexpected Error'
-;
-
-$detail = $input['detail']
-    ?? 'All of a sudden, a terrifying shriek and then...  Darkness.  Alas, your quest is over.  For now.'
-;
 
 /** @var array<string,string|string[]> */
 $config = $globals->get('config');
@@ -32,7 +24,7 @@ $siteTitle = $site['title'];
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title><?= $helper->createMetaTitle($metaTitle, $siteTitle) ?></title>
+        <title><?= $helper->createMetaTitle($input['metaTitle'], $siteTitle) ?></title>
         <meta name="description" content="">
 
         <style>
@@ -108,7 +100,7 @@ $siteTitle = $site['title'];
  ::: ::::  ::   :::  :::     ::    :: ::::     ::::: ::    ::::     :: ::::  ::   :::
  :: :: :    :   : :   :      :    : :: ::       : :  :      :      : :: ::    :   : :</pre>
 
-                <p class="game-over__detail"><?= $detail ?></p>
+                <p class="game-over__detail"><?= $input['mainContent'] ?></p>
             </div>
 
             <div class="confirm">

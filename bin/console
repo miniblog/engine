@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+// @todo Put most of this into a separate class.
 
 declare(strict_types=1);
 
@@ -29,7 +30,7 @@ function failed(string $message): void
     exit(1);
 }
 
-/** @phpstan-var array<class-string<AbstractCommand>> */
+/** @var array<class-string<AbstractCommand>> */
 $commandClassNames = [
     CompileProjectErrorPagesCommand::class,
     AssembleDefaultCssCommand::class,
@@ -45,7 +46,7 @@ try {
 
     $requestedCommandName = $argv[1];
 
-    /** @phpstan-var class-string<AbstractCommand> */
+    /** @var class-string<AbstractCommand> */
     $selectedCommandClassName = null;
 
     foreach ($commandClassNames as $commandClassName) {
