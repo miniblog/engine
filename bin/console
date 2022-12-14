@@ -1,97 +1,18 @@
 #!/usr/bin/env php
 <?php
-// @todo Put most of this into a separate class.
 
 declare(strict_types=1);
 
 use DanBettles\Marigold\HttpRequest;
-use Miniblog\Engine\Command\AbstractCommand;
-use Miniblog\Engine\Command\AssembleDefaultCssCommand;
-use Miniblog\Engine\Command\CompileProjectErrorPagesCommand;
+use Miniblog\Engine\Console;
 use Miniblog\Engine\Factory;
 
 $projectDir = dirname(__DIR__);
 
 require "{$projectDir}/vendor/autoload.php";
 
-/**
- * @param string|string[] $message
- */
-function writeLn($message): void
-{
-    if (is_array($message)) {
-        $message = implode(PHP_EOL, $message);
-    }
+$factory = new Factory($projectDir, new HttpRequest([], [], $_SERVER));
 
-    // phpcs:ignore
-    echo $message . PHP_EOL;
-}
-
-/**
- * @return never
- */
-function failed(string $message): void
-{
-    writeLn("\033[97;41m[ERROR] {$message}\033[0m");
-    // phpcs:ignore
-    exit(1);
-}
-
-/** @var array<class-string<AbstractCommand>> */
-$commandClassNames = [
-    CompileProjectErrorPagesCommand::class,
-    AssembleDefaultCssCommand::class,
-];
-
-if ($argc < 2) {
-    $heading = 'Available commands:';
-
-    $lines = [
-        $heading,
-        str_repeat('-', strlen($heading)),
-    ];
-
-    foreach ($commandClassNames as $commandClassName) {
-        $lines[] = $commandClassName::COMMAND_NAME;
-    }
-
-    $lines[] = '';
-
-    writeLn($lines);
-
-    exit(0);
-}
-
-$requestedCommandName = null;
-$exitCode = null;
-
-try {
-    $requestedCommandName = $argv[1];
-
-    /** @var class-string<AbstractCommand> */
-    $selectedCommandClassName = null;
-
-    foreach ($commandClassNames as $commandClassName) {
-        if ($requestedCommandName === $commandClassName::COMMAND_NAME) {
-            $selectedCommandClassName = $commandClassName;
-            break;
-        }
-    }
-
-    if (null === $selectedCommandClassName) {
-        throw new InvalidArgumentException("The command, `{$requestedCommandName}`, does not exist.");
-    }
-
-    $factory = new Factory($projectDir, new HttpRequest([], [], $_SERVER));
-    $exitCode = (new $selectedCommandClassName($factory->getRegistry()))();
-} catch (Throwable $t) {
-    failed($t->getMessage());
-}
-
-if (AbstractCommand::SUCCESS !== $exitCode) {
-    failed('');
-}
-
-writeLn("\033[30;42m[OK] {$requestedCommandName}\033[0m");
-// phpcs:ignore
-exit(0);
+(new Console($factory->getRegistry()))
+    ->handleRequest()
+;
