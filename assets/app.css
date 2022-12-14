@@ -127,7 +127,7 @@ main {
 
 .container > footer {
     display: flex;
-    height: 3em;
+    height: 4em;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
@@ -135,6 +135,7 @@ main {
     font-family: var(--font-heading);
     font-size: smaller;
     color: var(--colour-muted);
+    margin-top: 1em;
     border-top: 1px solid var(--colour-border);
 }
 
