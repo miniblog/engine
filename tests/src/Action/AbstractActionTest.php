@@ -11,6 +11,7 @@ use DanBettles\Marigold\HttpResponse;
 use DanBettles\Marigold\Registry;
 use DanBettles\Marigold\TemplateEngine\Engine;
 use Miniblog\Engine\Action\AbstractAction;
+use Miniblog\Engine\Tests\Action\AbstractActionTest\RendersDefaultTemplateAction;
 
 class AbstractActionTest extends AbstractTestCase
 {
@@ -38,5 +39,35 @@ class AbstractActionTest extends AbstractTestCase
         };
 
         $this->assertSame($servicesStub, $action->getServices());
+    }
+
+    public function testRenderdefaultRendersTheDefaultTemplateForTheAction(): void
+    {
+        $expectedTemplateDirBasename = 'renders_default_template_action_mock';
+        $expectedResponse = new HttpResponse('404 Not Found', HttpResponse::HTTP_NOT_FOUND);
+
+        require $this->createFixturePathname('RendersDefaultTemplateAction.php');
+
+        $actionMock = $this
+            ->getMockBuilder(RendersDefaultTemplateAction::class)
+            ->setMockClassName('RendersDefaultTemplateActionMock')
+            ->onlyMethods(['render'])
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $actionMock
+            ->expects($this->once())
+            ->method('render')
+            ->with("{$expectedTemplateDirBasename}/default.html.php", [
+                'message' => '404 Not Found',
+            ], HttpResponse::HTTP_NOT_FOUND)
+            ->willReturn($expectedResponse)
+        ;
+
+        /** @var AbstractAction $actionMock */
+        $actualResponse = $actionMock(HttpRequest::createFromGlobals());
+
+        $this->assertSame($expectedResponse, $actualResponse);
     }
 }

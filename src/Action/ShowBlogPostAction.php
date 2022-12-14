@@ -30,7 +30,7 @@ class ShowBlogPostAction extends AbstractAction
             throw new NotFoundHttpException("Blog post `{$postId}`");
         }
 
-        return $this->render('show_blog_post_action/default.html.php', [
+        return $this->renderDefault([
             'article' => $article,
         ]);
     }
