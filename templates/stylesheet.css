@@ -225,6 +225,10 @@ a:hover, a:active {
     padding: 0 var(--gutter);
 }
 .masthead {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
     text-align: center;
     border-bottom: 1px solid var(--colour-border);
 }
@@ -240,7 +244,24 @@ a:hover, a:active {
     text-decoration: none;
     color: var(--colour-main);
 }
+.masthead nav ul {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-size: smaller;
+}
+.masthead nav li {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.masthead nav a.active {
+    text-decoration: underline;
+    color: var(--colour-main);
+}
 .masthead__blurb {
+    display: none;
     font-family: var(--font-body);
     font-size: smaller;
     color: var(--colour-muted);
@@ -277,11 +298,22 @@ main {
         max-width: calc(var(--gutter) + var(--masthead-width) + var(--gutter) + var(--main-content-width) + var(--gutter));
     }
     .masthead {
+        display: block;  
         position: fixed;
         top: 0;
         width: var(--masthead-width);
         text-align: left;
         border-bottom: 0;
+    }
+    .masthead nav ul {
+        display: block;  
+    }
+    .masthead nav li {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .masthead__blurb {
+        display: block;  
     }
     main,
     .container > footer {

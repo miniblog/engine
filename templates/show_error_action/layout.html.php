@@ -107,8 +107,8 @@ $siteTitle = $site['title'];
                 <p>What would you like to do?</p>
 
                 <p class="confirm__choices">
-                    <a href="javascript:window.history.back()">Go back</a>
-                    <a href="/">Start over</a>
+                    <?= $helper->linkTo('javascript:window.history.back()', 'Go back') ?>
+                    <?= $helper->linkTo('homepage', 'Start over') ?>
                 </p>
             </div>
 

@@ -24,7 +24,7 @@ use const true;
 class MarkdownParser
 {
     /**
-     * @return array{0: ?string, 1: string}
+     * @return array{0:?string,1:string}
      */
     private function splitText(string $text): array
     {

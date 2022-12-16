@@ -11,7 +11,9 @@ use DateTimeInterface;
 use IntlDateFormatter;
 
 use function array_filter;
+use function array_replace;
 use function implode;
+use function is_array;
 use function is_string;
 use function strpos;
 
@@ -29,30 +31,42 @@ class OutputHelper extends Html5OutputHelper
     }
 
     /**
-     * @param array<string,string|int>|string $parametersOrContent
+     * @param string|array{0:string,1?:array<string,string>} $routeIdOrUrl
+     * @param array<string,string>|string|int|float|null $attributesOrContent
+     * @param string|int|float|null $contentOrNothing
      */
     public function linkTo(
-        string $routeIdOrUrl,
-        $parametersOrContent,
-        ?string $contentOrNothing = null
+        $routeIdOrUrl,
+        $attributesOrContent = [],
+        $contentOrNothing = null
     ): string {
-        $parameters = $parametersOrContent;
-        $content = $contentOrNothing;
+        $generatePathArgs = null;
 
-        if (is_string($parametersOrContent)) {
-            $parameters = [];
-            $content = $parametersOrContent;
+        if (is_string($routeIdOrUrl) && false === strpos($routeIdOrUrl, ':')) {
+            $generatePathArgs = [$routeIdOrUrl];
+        } elseif (is_array($routeIdOrUrl)) {
+            $generatePathArgs = $routeIdOrUrl;
         }
 
-        /** @var array $parameters */
-        /** @var string $content */
-
-        $url = false === strpos($routeIdOrUrl, ':')
-            ? $this->router->generatePath($routeIdOrUrl, $parameters)
-            : $routeIdOrUrl
+        $url = null === $generatePathArgs
+            ? $routeIdOrUrl
+            : $this->router->generatePath(...$generatePathArgs)
         ;
 
-        return $this->createA(['href' => $url], $content);
+        $attributes = $attributesOrContent;
+        $content = $contentOrNothing;
+
+        if (!is_array($attributesOrContent)) {
+            $attributes = [];
+            /** @var mixed */
+            $content = $attributesOrContent;
+        }
+
+        /** @var array<string,string> $attributes */
+
+        return $this->createA(array_replace($attributes, [
+            'href' => $url,
+        ]), $content);
     }
 
     private function formatDate(DateTimeInterface $dateTime, int $dateType): string

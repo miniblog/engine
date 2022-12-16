@@ -21,7 +21,7 @@ $site = $config['site'];
 $siteTitle = $site['title'];
 $siteBlurb = $site['blurb'];
 
-/** @var array{id: string} */
+/** @var array{id:string} */
 $matchedRoute = $request->attributes['route'] ?? ['id' => ''];
 $onHomepage = 'homepage' === $matchedRoute['id'];
 ?>
@@ -49,6 +49,20 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
                     'itemprop' => 'name',
                     'class' => 'masthead__title',
                 ], $homepageLink) ?>
+
+                <nav aria-label="Website">
+                    <ul>
+                        <?php foreach (['Home' => 'homepage'] as $label => $routeId) : ?>
+                            <li>
+                                <?php if ($matchedRoute['id'] === $routeId) : ?>
+                                    <?= $helper->linkTo($routeId, ['class' => 'active'], $label) ?>
+                                <?php else : ?>
+                                    <?= $helper->linkTo($routeId, $label) ?>
+                                <?php endif ?>
+                            </li>
+                        <?php endforeach ?>
+                    </ul>
+                </nav>
 
                 <?php if (null !== $siteBlurb) : ?>
                     <p class="masthead__blurb"><?= $siteBlurb ?></p>

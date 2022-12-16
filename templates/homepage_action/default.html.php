@@ -12,7 +12,7 @@ $config = $globals->get('config');
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
 
-/** @var array{description: string} */
+/** @var array{description:string} */
 $site = $config['site'];
 
 $output->insertInto('layout.html.php', 'mainContent', [
@@ -29,7 +29,10 @@ $owner = $config['owner'];
         <article>
             <header>
                 <h2>
-                    <?= $helper->linkTo('showBlogPost', ['postId' => $articleId], $article->getTitle()) ?>
+                    <?= $helper->linkTo(
+                        ['showBlogPost', ['postId' => $articleId]],
+                        $article->getTitle()
+                    ) ?>
                 </h2>
 
                 <?= $helper->createArticleByLine($article, $owner, false) ?>

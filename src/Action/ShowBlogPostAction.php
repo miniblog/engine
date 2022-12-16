@@ -18,7 +18,7 @@ class ShowBlogPostAction extends AbstractAction
      */
     public function __invoke(HttpRequest $request): HttpResponse
     {
-        /** @var array{parameters: array<string,string>} */
+        /** @var array{parameters:array<string,string>} */
         $matchedRoute = $request->attributes['route'];
         $postId = $matchedRoute['parameters']['postId'];
 

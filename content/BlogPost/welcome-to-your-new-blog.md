@@ -12,6 +12,6 @@ It's likely you've seen, and updated, the config (in `config.php`, at the root o
 
 &#x1F913; If you want to get the lay of the land first, take a look at [the documentation on Miniblog content](https://github.com/miniblog/engine/blob/main/doc/content.md).
 
-The most up-to-date documentation starts with [the Miniblog readme on GitHub](https://github.com/miniblog/engine/blob/main/README.md#read-more).  If you have any questions or feedback, [please get in touch](https://github.com/miniblog/engine/issues).
+The most up-to-date documentation starts with [the Miniblog readme on GitHub](https://github.com/miniblog/engine/blob/main/README.md).  If you have any questions or feedback, [please get in touch](https://github.com/miniblog/engine/issues).
 
 Have fun...
