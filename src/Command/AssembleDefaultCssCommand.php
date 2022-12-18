@@ -26,7 +26,7 @@ class AssembleDefaultCssCommand extends AbstractCommand
     /**
      * @var string
      */
-    public const COMMAND_NAME = 'assemble-default-css';
+    public const COMMAND_NAME = 'dev:assemble-default-css';
 
     /**
      * @var string[]
@@ -45,7 +45,7 @@ class AssembleDefaultCssCommand extends AbstractCommand
     public function __invoke(): int
     {
         /** @var array<string,mixed> */
-        $config = $this->getRegistry()->get('config');
+        $config = $this->get('config');
         /** @var string */
         $engineDir = $config['engineDir'];
 

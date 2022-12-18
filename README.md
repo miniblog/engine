@@ -22,8 +22,10 @@ Follow these instructions to create a Miniblog-powered blog that can be version-
 1. Assuming Composer is installed globally, run:\
 `composer create-project miniblog/blog-project <target-directory>`\
 Replace `<target-directory>` with the name of the directory you want to create.
-1. Update the few values in `config.php`.
+1. At the root of the project you just created, update the few values in `config.php` and then run `bin/console refresh-content`.
 1. Make `public/` the document root of your website.
+
+> :information_source: Always run `bin/console refresh-content` after updating `config.php`.
 
 You should now see the Miniblog homepage when you navigate to the root of your website.  You can safely remove `installer/` if you wish.  Either way, the directory you just created can be version-controlled in its entirety.
 

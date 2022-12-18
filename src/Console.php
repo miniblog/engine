@@ -6,26 +6,34 @@ namespace Miniblog\Engine;
 
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\Registry;
-use InvalidArgumentException;
 use Miniblog\Engine\Command\AbstractCommand;
 use Miniblog\Engine\Command\AssembleDefaultCssCommand;
 use Miniblog\Engine\Command\CompileProjectErrorPagesCommand;
+use Miniblog\Engine\Command\RefreshContentCommand;
+use OutOfBoundsException;
 use Throwable;
 
+use function array_keys;
+use function array_key_exists;
+use function explode;
 use function implode;
 use function is_array;
+use function ksort;
+use function strpos;
 
-use const PHP_EOL;
+use const false;
 use const null;
+use const PHP_EOL;
 
 class Console
 {
     /**
-     * @var array<class-string<AbstractCommand>>
+     * @var array<string,class-string<AbstractCommand>>
      */
     private const COMMAND_CLASSES = [
-        CompileProjectErrorPagesCommand::class,
-        AssembleDefaultCssCommand::class,
+        AssembleDefaultCssCommand::COMMAND_NAME => AssembleDefaultCssCommand::class,
+        CompileProjectErrorPagesCommand::COMMAND_NAME => CompileProjectErrorPagesCommand::class,
+        RefreshContentCommand::COMMAND_NAME => RefreshContentCommand::class,
     ];
 
     private Registry $registry;
@@ -38,7 +46,7 @@ class Console
     /**
      * @param string|string[] $message
      */
-    private function writeLn($message): void
+    public function writeLn($message): void
     {
         if (is_array($message)) {
             $message = implode(PHP_EOL, $message);
@@ -58,7 +66,7 @@ class Console
         }
 
         // phpcs:ignore
-        exit(0);
+        exit(AbstractCommand::SUCCESS);
     }
 
     /**
@@ -68,7 +76,7 @@ class Console
     {
         $this->writeLn("\033[97;41m[ERROR] {$message}\033[0m");
         // phpcs:ignore
-        exit(1);
+        exit(AbstractCommand::FAILURE);
     }
 
     /**
@@ -91,8 +99,29 @@ class Console
             'Available commands:',
         ];
 
-        foreach (self::COMMAND_CLASSES as $commandClassName) {
-            $lines[] = '  ' . $commandClassName::COMMAND_NAME;
+        $commandNamesGroupedByNamespace = [];
+
+        /** @var string $commandName */
+        foreach (array_keys(self::COMMAND_CLASSES) as $commandName) {
+            $namespace = '';
+
+            if (false !== strpos($commandName, ':')) {
+                list($namespace) = explode(':', $commandName);
+            }
+
+            $commandNamesGroupedByNamespace[$namespace][] = $commandName;
+        }
+
+        ksort($commandNamesGroupedByNamespace);
+
+        foreach ($commandNamesGroupedByNamespace as $namespace => $commandNames) {
+            if ('' !== $namespace) {
+                $lines[] = "  {$namespace}";
+            }
+
+            foreach ($commandNames as $commandName) {
+                $lines[] = "    {$commandName}";
+            }
         }
 
         $lines[] = '';
@@ -100,6 +129,45 @@ class Console
         $this->writeLn($lines);
 
         $this->succeeded();
+    }
+
+    /**
+     * @throws OutOfBoundsException If the command does not exist.
+     */
+    private function createCommandByCommandName(string $name): AbstractCommand
+    {
+        if (!array_key_exists($name, self::COMMAND_CLASSES)) {
+            throw new OutOfBoundsException("The command, `{$name}`, does not exist.");
+        }
+
+        /** @var class-string<AbstractCommand> */
+        $commandClassName = self::COMMAND_CLASSES[$name];
+
+        return new $commandClassName($this);
+    }
+
+    /**
+     * Exits immediately if the command was not successful.
+     *
+     * @return void|never
+     */
+    public function invokeCommand(string $commandName)
+    {
+        $exitCode = null;
+        $message = null;
+
+        try {
+            $command = $this->createCommandByCommandName($commandName);
+            $exitCode = $command();
+        } catch (Throwable $t) {
+            $exitCode = AbstractCommand::FAILURE;
+            $message = $t->getMessage();
+        }
+
+        if (AbstractCommand::SUCCESS !== $exitCode) {
+            $message = $message ?: "Command `{$commandName}` failed with exit code `{$exitCode}`.";
+            $this->failed($message);
+        }
     }
 
     /**
@@ -116,34 +184,9 @@ class Console
 
         /** @var string[] */
         $argv = $this->getRequest()->server['argv'];
-        $requestedCommandName = null;
-        $exitCode = null;
+        $requestedCommandName = $argv[1];
 
-        try {
-            $requestedCommandName = $argv[1];
-
-            /** @var class-string<AbstractCommand>|null */
-            $selectedCommandClassName = null;
-
-            foreach (self::COMMAND_CLASSES as $commandClassName) {
-                if ($requestedCommandName === $commandClassName::COMMAND_NAME) {
-                    $selectedCommandClassName = $commandClassName;
-                    break;
-                }
-            }
-
-            if (null === $selectedCommandClassName) {
-                throw new InvalidArgumentException("The command, `{$requestedCommandName}`, does not exist.");
-            }
-
-            $exitCode = (new $selectedCommandClassName($this->getRegistry()))();
-        } catch (Throwable $t) {
-            $this->failed($t->getMessage());
-        }
-
-        if (AbstractCommand::SUCCESS !== $exitCode) {
-            $this->failed('The command returned a non-zero exit code.');
-        }
+        $this->invokeCommand($requestedCommandName);
 
         $this->succeeded($requestedCommandName);
     }
@@ -154,7 +197,7 @@ class Console
         return $this;
     }
 
-    private function getRegistry(): Registry
+    public function getRegistry(): Registry
     {
         return $this->registry;
     }

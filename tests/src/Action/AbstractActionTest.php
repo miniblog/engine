@@ -13,6 +13,8 @@ use DanBettles\Marigold\TemplateEngine\Engine;
 use Miniblog\Engine\Action\AbstractAction;
 use Miniblog\Engine\Tests\Action\AbstractActionTest\RendersDefaultTemplateAction;
 
+use function is_subclass_of;
+
 class AbstractActionTest extends AbstractTestCase
 {
     public function testIsAMarigoldAction(): void
@@ -47,6 +49,7 @@ class AbstractActionTest extends AbstractTestCase
         $expectedResponse = new HttpResponse('404 Not Found', HttpResponse::HTTP_NOT_FOUND);
 
         require $this->createFixturePathname('RendersDefaultTemplateAction.php');
+        $this->assertTrue(is_subclass_of(RendersDefaultTemplateAction::class, AbstractAction::class));
 
         $actionMock = $this
             ->getMockBuilder(RendersDefaultTemplateAction::class)

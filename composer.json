@@ -51,7 +51,8 @@
         ],
         "app:build": [
             "@app:check-quality",
-            "bin/console assemble-default-css"
+            "bin/console dev:assemble-default-css",
+            "bin/console refresh-content"
         ]
     },
     "scripts-descriptions": {
@@ -59,6 +60,6 @@
         "app:lint": "Lints the PHP.",
         "app:analyse": "Performs static analysis on the PHP.",
         "app:check-quality": "Runs all automated tests; lints all the code; performs static analysis on the PHP.",
-        "app:build": "Checks quality and then builds the app, ready for committing."
+        "app:build": "Checks quality and then completely (re)builds the app."
     }
 }

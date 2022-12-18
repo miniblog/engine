@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Miniblog\Engine\Command;
 
 use DanBettles\Marigold\HttpRequest;
-use DanBettles\Marigold\Registry;
+use Miniblog\Engine\Console;
 
 use function array_slice;
 use function implode;
@@ -16,17 +16,13 @@ abstract class AbstractCommand
     public const SUCCESS = 0;
     /** @var int */
     public const FAILURE = 1;
-    /** @var int */
-    public const INVALID = 2;
 
-    private Registry $registry;
+    private Console $console;
 
-    public function __construct(Registry $registry)
+    public function __construct(Console $console)
     {
-        $this->setRegistry($registry);
+        $this->setConsole($console);
     }
-
-    abstract public function __invoke(): int;
 
     /**
      * Along the lines of `$0` in Bash scripts, the script-name is the command string (e.g.
@@ -35,7 +31,7 @@ abstract class AbstractCommand
     public function getScriptName(): string
     {
         /** @var HttpRequest */
-        $request = $this->getRegistry()->get('request');
+        $request = $this->get('request');
         /** @var string[] */
         $argv = $request->server['argv'];
         $scriptName = implode(' ', array_slice($argv, 0, 2));
@@ -43,14 +39,30 @@ abstract class AbstractCommand
         return $scriptName;
     }
 
-    private function setRegistry(Registry $registry): self
+    abstract public function __invoke(): int;
+
+    private function setConsole(Console $console): self
     {
-        $this->registry = $registry;
+        $this->console = $console;
         return $this;
     }
 
-    public function getRegistry(): Registry
+    public function getConsole(): Console
     {
-        return $this->registry;
+        return $this->console;
+    }
+
+    /**
+     * Returns the service with the specified ID.
+     *
+     * @return mixed
+     */
+    public function get(string $id)
+    {
+        return $this
+            ->getConsole()
+            ->getRegistry()
+            ->get($id)
+        ;
     }
 }

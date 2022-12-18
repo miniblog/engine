@@ -12,4 +12,4 @@ These are the fundamental differences between Miniblog and DSB:
 
 - I prefer user-friendly URLs, so Miniblog requires URL-rewriting in the web server.  Like PHP, URL-rewriting is ubiquitous in hosting environments, so no big deal there, either.
 
-- Miniblog is written in object-oriented PHP and is fully unit-tested.  It was designed to be basic, but robust and extensible.  As time goes by, I will continue to prune and simplify the code, to keep things as basic as possible.
+- Miniblog is written in object-oriented PHP and is unit-tested.  It was designed to be basic, but robust and extensible.  As time goes by, I will continue to prune and simplify the code, to keep things as basic as possible.
