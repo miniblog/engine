@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Miniblog\Engine\Command;
 
 use DanBettles\Marigold\CssMinifier;
+use Exception;
 use RuntimeException;
 
 use function array_map;
@@ -12,7 +13,6 @@ use function file_get_contents;
 use function file_put_contents;
 use function implode;
 use function is_file;
-use function passthru;
 use function preg_replace;
 use function trim;
 
@@ -77,8 +77,13 @@ class AssembleDefaultCssCommand extends AbstractCommand
             throw new RuntimeException("Failed to create `{$outputFilePathname}`");
         }
 
+        $this->getConsole()->writeLn("Created {$outputFilePathname}");
+
         // It's not the end of the world if this fails.
-        @passthru("git add -v {$outputFilePathname}");
+        try {
+            $this->getConsole()->passthru("git add -v {$outputFilePathname}");
+        } catch (Exception $ignore) {
+        }
 
         return self::SUCCESS;
     }

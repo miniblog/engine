@@ -39,27 +39,5 @@
     },
     "autoload-dev": {
         "psr-4": {"Miniblog\\Engine\\Tests\\": "tests/src/"}
-    },
-    "scripts": {
-        "app:test": "phpunit --bootstrap=tests/src/.bootstrap.php --colors=always tests",
-        "app:lint": "phpcs --standard=phpcs.xml",
-        "app:analyse": "phpstan analyse -c phpstan.neon",
-        "app:check-quality": [
-            "@app:test",
-            "@app:lint",
-            "@app:analyse"
-        ],
-        "app:build": [
-            "@app:check-quality",
-            "bin/console dev:assemble-default-css",
-            "bin/console refresh-content"
-        ]
-    },
-    "scripts-descriptions": {
-        "app:test": "Runs all automated tests.",
-        "app:lint": "Lints the PHP.",
-        "app:analyse": "Performs static analysis on the PHP.",
-        "app:check-quality": "Runs all automated tests; lints all the code; performs static analysis on the PHP.",
-        "app:build": "Checks quality and then completely (re)builds the app."
     }
 }

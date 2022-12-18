@@ -8,9 +8,13 @@ use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\Registry;
 use Miniblog\Engine\Command\AbstractCommand;
 use Miniblog\Engine\Command\AssembleDefaultCssCommand;
+use Miniblog\Engine\Command\BuildCommand;
+use Miniblog\Engine\Command\CheckQualityCommand;
 use Miniblog\Engine\Command\CompileProjectErrorPagesCommand;
 use Miniblog\Engine\Command\RefreshContentCommand;
+use Miniblog\Engine\Command\TestCommand;
 use OutOfBoundsException;
+use RuntimeException;
 use Throwable;
 
 use function array_keys;
@@ -19,11 +23,13 @@ use function explode;
 use function implode;
 use function is_array;
 use function ksort;
+use function passthru;
 use function strpos;
 
 use const false;
 use const null;
 use const PHP_EOL;
+use const true;
 
 class Console
 {
@@ -32,6 +38,9 @@ class Console
      */
     private const COMMAND_CLASSES = [
         AssembleDefaultCssCommand::COMMAND_NAME => AssembleDefaultCssCommand::class,
+        BuildCommand::COMMAND_NAME => BuildCommand::class,
+        CheckQualityCommand::COMMAND_NAME => CheckQualityCommand::class,
+        TestCommand::COMMAND_NAME => TestCommand::class,
         CompileProjectErrorPagesCommand::COMMAND_NAME => CompileProjectErrorPagesCommand::class,
         RefreshContentCommand::COMMAND_NAME => RefreshContentCommand::class,
     ];
@@ -72,11 +81,13 @@ class Console
     /**
      * @return never
      */
-    private function failed(string $message): void
-    {
+    private function failed(
+        string $message,
+        int $exitCode = AbstractCommand::FAILURE
+    ): void {
         $this->writeLn("\033[97;41m[ERROR] {$message}\033[0m");
         // phpcs:ignore
-        exit(AbstractCommand::FAILURE);
+        exit($exitCode);
     }
 
     /**
@@ -149,9 +160,9 @@ class Console
     /**
      * Exits immediately if the command was not successful.
      *
-     * @return void|never
+     * @return self|never
      */
-    public function invokeCommand(string $commandName)
+    public function invokeCommand(string $commandName): self
     {
         $exitCode = null;
         $message = null;
@@ -159,15 +170,69 @@ class Console
         try {
             $command = $this->createCommandByCommandName($commandName);
             $exitCode = $command();
+        } catch (CommandFailedException $ex) {
+            $exitCode = $ex->getExitCode();
+            $message = $ex->getMessage();
         } catch (Throwable $t) {
             $exitCode = AbstractCommand::FAILURE;
             $message = $t->getMessage();
         }
 
         if (AbstractCommand::SUCCESS !== $exitCode) {
-            $message = $message ?: "Command `{$commandName}` failed with exit code `{$exitCode}`.";
-            $this->failed($message);
+            if ($message) {
+                $message = "{$commandName}: {$message}";
+            } else {
+                $message = "Command `{$commandName}` failed with exit code `{$exitCode}`.";
+            }
+
+            $this->failed($message, $exitCode);
         }
+
+        return $this;
+    }
+
+    /**
+     * @throws RuntimeException If it failed to execute the command.
+     * @todo Extract this.
+     */
+    public function passthru(string $command): self
+    {
+        // By default, execute the command at the root of the project.
+        /** @var array<string,string> */
+        $config = $this->getRegistry()->get('config');
+        $command = "cd {$config['projectDir']} && {$command}";
+
+        $this->writeLn("> {$command}");
+
+        $resultCode = null;
+        $successful = false;
+        $message = null;
+
+        // @todo Test this.  Is the return value of `passthru()` connected with the result code of the command?
+        try {
+            // PHPStan is wrong about this.  According to the PHP manual, `passthru()` "Returns null on success or false
+            // on failure".
+            /** @phpstan-ignore-next-line */
+            $successful = null === passthru($command, $resultCode)
+                ? true
+                : false
+            ;
+
+            /** @phpstan-var bool $successful */
+
+            if (null !== $resultCode && AbstractCommand::SUCCESS !== $resultCode) {
+                $successful = false;
+            }
+        } catch (Throwable $t) {
+            $successful = false;
+            $message = $t->getMessage();
+        }
+
+        if (!$successful) {
+            throw new CommandFailedException($message, $resultCode);
+        }
+
+        return $this;
     }
 
     /**
