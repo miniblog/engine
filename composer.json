@@ -31,7 +31,7 @@
     ],
     "require": {
         "php": "^7.4|^8.1.3",
-        "danbettles/marigold": "^v2.0.0",
+        "danbettles/marigold": "^v2.3.2",
         "erusev/parsedown": "^1.7"
     },
     "require-dev": {

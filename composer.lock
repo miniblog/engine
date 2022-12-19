@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6df74b5fd1a1cf40a02df3dd53775089",
+    "content-hash": "26751db5aec4875286fd786a9f534c00",
     "packages": [
         {
             "name": "danbettles/marigold",
-            "version": "v2.3.1",
+            "version": "v2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/danbettles/marigold.git",
-                "reference": "d9ddcbff9fcc83c1f2c5490ccceb411ba03ce084"
+                "reference": "351c39fa97d4e2e35f7b7b4c7ebd24cfc295b46e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danbettles/marigold/zipball/d9ddcbff9fcc83c1f2c5490ccceb411ba03ce084",
-                "reference": "d9ddcbff9fcc83c1f2c5490ccceb411ba03ce084",
+                "url": "https://api.github.com/repos/danbettles/marigold/zipball/351c39fa97d4e2e35f7b7b4c7ebd24cfc295b46e",
+                "reference": "351c39fa97d4e2e35f7b7b4c7ebd24cfc295b46e",
                 "shasum": ""
             },
             "require": {
@@ -48,9 +48,9 @@
             "description": "Marigold is a small set of tools that aims to make building simple websites easier while remaining close to the metal and adding minimal overheads; it is not a framework.",
             "support": {
                 "issues": "https://github.com/danbettles/marigold/issues",
-                "source": "https://github.com/danbettles/marigold/tree/v2.3.1"
+                "source": "https://github.com/danbettles/marigold/tree/v2.3.2"
             },
-            "time": "2022-12-03T14:20:15+00:00"
+            "time": "2022-12-19T19:53:24+00:00"
         },
         {
             "name": "erusev/parsedown",
