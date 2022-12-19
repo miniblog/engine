@@ -1,5 +1,7 @@
 # Miniblog
 
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
+
 Miniblog is a minimal blogging system, written in object-oriented PHP, aimed primarily at developers.
 
 As a developer, you mightn't mind getting a little oily; however, you do still want a certain level of convenience.  You don't want to faff with HTML every time you write an article, but you don't need a fancy admin UI.  You do want a website that looks half decent, but the focus should be the content.
