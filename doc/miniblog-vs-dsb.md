@@ -1,6 +1,6 @@
-# Miniblog vs DSB
+# Miniblog vs Dead Simple Blog
 
-These are the fundamental differences between Miniblog and DSB:
+These are the fundamental differences between Miniblog and Dead Simple Blog (DSB):
 
 - Miniblog is arranged to allow you to easily version-control just your content.
 
