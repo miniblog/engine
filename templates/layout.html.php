@@ -34,6 +34,10 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
         <title><?= $helper->createMetaTitle(($input['metaTitle'] ?? ''), $siteTitle) ?></title>
         <meta name="description" content="<?= $input['metaDescription'] ?? '' ?>">
 
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
         <style>
             <?= $output->include('stylesheet.css') ?>
         </style>
