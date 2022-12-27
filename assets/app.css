@@ -17,8 +17,8 @@
     --gutter: 36px;
     --main-content-width: 696px;
     --colour-main: #222;
-    --colour-muted: #6c757d;
     --colour-border: #ddd;
+    --opacity-muted: 0.6;
 }
 
 html {
@@ -37,7 +37,7 @@ body {
 code, kbd, samp, pre {
     font-family: monospace;
     background-color: #f2f1f1;
-    border-radius: 0.25rem;  /*rem for 'constant' radius.*/
+    border-radius: 0.25rem;  /* `rem` for 'constant' radius. */
 }
 
 code, kbd, samp {
@@ -136,11 +136,11 @@ a:hover, a:active {
     display: none;
     font-family: var(--font-body);
     font-size: smaller;
-    color: var(--colour-muted);
+    opacity: var(--opacity-muted);
 }
 
 main,
-.container > footer {
+.footer {
     max-width: var(--main-content-width);
     margin: 0 0 1em 0;
 }
@@ -149,22 +149,40 @@ main {
     flex: 1 0 auto;
 }
 
-.container > footer {
-    display: flex;
-    height: 4em;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;  /*Sticky footer.*/
+.footer {
     font-family: var(--font-heading);
     font-size: smaller;
-    color: var(--colour-muted);
+    text-align: center;
     margin-top: 1em;
+    padding: 1em 0;
     border-top: 1px solid var(--colour-border);
 }
 
-.container > footer > * {
-    margin: 0;
+.footer:not(.footer--with-wcb) > div {
+    flex-shrink: 0;  /* Sticky footer. */
+}
+
+.footer__platform {
+    opacity: var(--opacity-muted);
+}
+
+@media screen and (min-width: 576px) {
+    .footer {
+        text-align: left;
+    }
+
+    .footer--with-wcb,
+    .footer:not(.footer--with-wcb) > div {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .footer--with-wcb > div,
+    .footer:not(.footer--with-wcb) {
+        display: block;  /* Disable flex. */
+    }
 }
 
 @media screen and (min-width: 992px) {
@@ -177,7 +195,7 @@ main {
     }
 
     .masthead {
-        display: block;  /*Disable flex.*/
+        display: block;  /* Disable flex. */
         position: fixed;
         top: 0;
         width: var(--masthead-width);
@@ -186,7 +204,7 @@ main {
     }
 
     .masthead nav ul {
-        display: block;  /*Disable flex.*/
+        display: block;  /* Disable flex. */
     }
 
     .masthead nav li {
@@ -195,11 +213,11 @@ main {
     }
 
     .masthead__blurb {
-        display: block;  /*Show.*/
+        display: block;  /* Show. */
     }
 
     main,
-    .container > footer {
+    .footer {
         margin-left: calc(var(--masthead-width) + var(--gutter));
     }
 }

@@ -77,10 +77,21 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
                 <?= $input['mainContent'] ?>
             </main>
 
-            <footer>
-                <?php /** @var array<string,string> */ $owner = $config['owner'] ?>
-                <?= $helper->createCopyrightNotice($site, $owner) ?>
-                <p>Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>
+            <?php $showWebsiteCarbonBadge = 'dev' !== $config['env'] && $config['show_website_carbon_badge'] ?>
+
+            <footer class="<?= 'footer ' . ($showWebsiteCarbonBadge ? 'footer--with-wcb' : '') ?>">
+                <div>
+                    <?php /** @var array<string,string> */ $owner = $config['owner'] ?>
+                    <?= $helper->createCopyrightNotice($site, $owner) ?>
+                    <p class="footer__platform">Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>
+                </div>
+
+                <?php if ($showWebsiteCarbonBadge) : ?>
+                    <div>
+                        <div id="wcb" class="carbonbadge"></div>
+                        <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
+                    </div>
+                <?php endif ?>
             </footer>
 
         </div>
