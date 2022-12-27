@@ -8,7 +8,7 @@ As a developer, you mightn't mind getting a little oily; however, you do still w
 
 Miniblog couldn't be simpler&mdash;if you think it could be then please do get involved :wink:  Installation is quick, with very little configuration.  Articles are written in Markdown with a sprinkling of JSON; pop those files in the content directory in your project and you're done.
 
-> :information_source: If you're coming from [Dead Simple Blog (DSB)](https://github.com/paintedsky/dead-simple-blog) then you may like to read about [the fundamental differences between Miniblog and DSB](miniblog-vs-dsb.md).
+> :information_source: If you're coming from [Dead Simple Blog (DSB)](https://github.com/paintedsky/dead-simple-blog) then you may like to read about [the fundamental differences between Miniblog and DSB](doc/miniblog-vs-dsb.md).
 
 ## Installation
 
