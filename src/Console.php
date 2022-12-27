@@ -193,7 +193,6 @@ class Console
 
     /**
      * @throws RuntimeException If it failed to execute the command.
-     * @todo Extract this.
      */
     public function passthru(string $command): self
     {
@@ -208,19 +207,15 @@ class Console
         $successful = false;
         $message = null;
 
-        // @todo Test this.  Is the return value of `passthru()` connected with the result code of the command?
         try {
             // PHPStan is wrong about this.  According to the PHP manual, `passthru()` "Returns null on success or false
             // on failure".
             /** @phpstan-ignore-next-line */
-            $successful = null === passthru($command, $resultCode)
-                ? true
-                : false
-            ;
+            $successful = null === passthru($command, $resultCode);
 
             /** @phpstan-var bool $successful */
 
-            if (null !== $resultCode && AbstractCommand::SUCCESS !== $resultCode) {
+            if ($successful && AbstractCommand::SUCCESS !== $resultCode) {
                 $successful = false;
             }
         } catch (Throwable $t) {
