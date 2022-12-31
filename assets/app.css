@@ -17,8 +17,8 @@
     --gutter: 36px;
     --main-content-width: 696px;
     --colour-main: #222;
+    --colour-muted: #6c757d;
     --colour-border: #ddd;
-    --opacity-muted: 0.6;
 }
 
 html {
@@ -136,7 +136,7 @@ a:hover, a:active {
     display: none;
     font-family: var(--font-body);
     font-size: smaller;
-    opacity: var(--opacity-muted);
+    color: var(--colour-muted);
 }
 
 main,
@@ -163,7 +163,7 @@ main {
 }
 
 .footer__platform {
-    opacity: var(--opacity-muted);
+    color: var(--colour-muted);
 }
 
 @media screen and (min-width: 576px) {
