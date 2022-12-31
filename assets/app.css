@@ -80,6 +80,11 @@ a:hover, a:active {
 }
 /* ###< Links ### */
 
+blockquote {
+    padding-left: 1em;
+    border-left: 5px solid #c0c0c0;
+}
+
 /* ###> Layout ### */
 .container {
     display: flex;

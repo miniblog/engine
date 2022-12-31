@@ -216,6 +216,10 @@ a:focus {
 a:hover, a:active {
     outline: 0;
 }
+blockquote {
+    padding-left: 1em;
+    border-left: 5px solid #c0c0c0;
+}
 .container {
     display: flex;
     flex-direction: column;
