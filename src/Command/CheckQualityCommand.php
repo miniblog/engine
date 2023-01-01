@@ -20,7 +20,7 @@ class CheckQualityCommand extends AbstractCommand
             ->getConsole()
             ->invokeCommand('dev:test')
             ->passthru('vendor/bin/phpcs --standard=phpcs.xml')
-            ->passthru('vendor/bin/phpstan analyse -c phpstan.neon')
+            ->passthru('vendor/bin/phpstan --ansi')
         ;
 
         return self::SUCCESS;
