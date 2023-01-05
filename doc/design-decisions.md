@@ -1,6 +1,6 @@
 # Design Decisions
 
-Here I will document some of the decisions I've made, and why.  I think this is helpful because it will enable me&mdash;and others&mdash;to more easily review the code and make changes, and having to explain yourself is helpful in determining whether a decision is sensible&mdash;as a guide, think "if you can't describe something succinctly then you likely need to decompose further".  This is the exercise: finding what really matters and abandoning the things that are wasteful/unhelpful.
+Here I will document some of the decisions I've made, and why.  I think this is helpful because it will enable me&mdash;and others&mdash;to more easily review the code and make changes, and having to explain yourself is helpful in determining whether a decision is sensible&mdash;as a guide, think "if you can't describe something succinctly then you likely need to decompose further".  This is the Miniblog exercise: finding what really matters and abandoning the things that are wasteful/unhelpful.
 
 ## Error Handling
 

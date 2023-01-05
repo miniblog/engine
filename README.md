@@ -36,7 +36,8 @@ You should now see the Miniblog homepage when you navigate to the root of your w
 ## Read More
 
 - [Content](doc/content.md)
-- @todo Customisation
-- [About](doc/about.md)
+- Background
+    - [Miniblog: An Ongoing Exercise in Responsible Software Development](https://justathought.dev/blog/miniblog-an-ongoing-exercise-in-responsible-software-development)
+    - [The Future Is Minimal](https://justathought.dev/blog/the-future-is-minimal)
+    - [Miniblog Guiding Principles](https://justathought.dev/blog/miniblog-guiding-principles)
 - [Design Decisions](doc/design-decisions.md)
-- @todo Contributing
