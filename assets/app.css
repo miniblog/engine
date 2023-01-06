@@ -190,6 +190,7 @@ main {
 }
 
 .footer__platform {
+    font-size: small;
     color: var(--colour-fg-muted);
 }
 

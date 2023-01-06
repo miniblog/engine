@@ -305,6 +305,7 @@ main {
     flex-shrink: 0;  
 }
 .footer__platform {
+    font-size: small;
     color: var(--colour-fg-muted);
 }
 @media screen and (min-width: 576px) {
