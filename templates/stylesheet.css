@@ -151,7 +151,7 @@
   max-width: 100%;
 }
 /* ###> `assets/app.css` ### */
-:root {
+html {
     --font-body: Georgia, 'Times New Roman', Times, serif;
     
     --font-heading:
@@ -169,15 +169,28 @@
          "Noto Color Emoji";
     --gutter: 36px;
     --main-content-width: 696px;
-    --colour-main: #222;
-    --colour-muted: #6c757d;
+    --colour-bg-default: #fff;
+    --colour-bg-code: rgba(175,184,193,0.2);
+    --colour-bg-canvas: #f6f8fa;
+    --colour-fg-default: #222;
+    --colour-fg-muted: #6c757d;
     --colour-border: #ddd;
+    --colour-link: #2455c3;
+}
+html[data-colourmode="dark"] {
+    --colour-bg-default: #0d1117;
+    --colour-bg-code: rgba(110,118,129,0.4);
+    --colour-bg-canvas: #161b22;
+    --colour-fg-default: #c9d1d9;
+    --colour-fg-muted: #8b949e;
+    --colour-border: #30363d;
+    --colour-link: #58a6ff;
 }
 html {
     font-family: var(--font-body);
     font-size: 18px;
-    color: var(--colour-main);
-    background-color: #fff;
+    color: var(--colour-fg-default);
+    background-color: var(--colour-bg-default);
 }
 html,
 body {
@@ -185,17 +198,19 @@ body {
 }
 code, kbd, samp, pre {
     font-family: monospace;
-    background-color: #f2f1f1;
     border-radius: 0.25rem;  
 }
 code, kbd, samp {
+    background-color: var(--colour-bg-code);
     padding: 0.125em 0.25em;
 }
 pre {
+    background-color: var(--colour-bg-canvas);
     padding: 1em;
 }
 pre > code {
     white-space: break-spaces;
+    background-color: transparent;
 }
 h1, h2, h3, h4, h5, h6,
 article > header {
@@ -204,11 +219,11 @@ article > header {
 }
 a {
     text-decoration: none;
-    color: #2455c3;
+    color: var(--colour-link);
 }
 a:hover, a:focus, a:active {
     text-decoration: underline;
-    color: var(--colour-main);
+    color: var(--colour-fg-default);
 }
 a:focus {
     outline: thin dotted;
@@ -218,7 +233,7 @@ a:hover, a:active {
 }
 blockquote {
     padding-left: 1em;
-    border-left: 5px solid #c0c0c0;
+    border-left: 5px solid var(--colour-border);
 }
 .container {
     display: flex;
@@ -246,7 +261,7 @@ blockquote {
 }
 .masthead__title a {
     text-decoration: none;
-    color: var(--colour-main);
+    color: var(--colour-fg-default);
 }
 .masthead nav ul {
     display: flex;
@@ -262,13 +277,13 @@ blockquote {
 }
 .masthead nav a.active {
     text-decoration: underline;
-    color: var(--colour-main);
+    color: var(--colour-fg-default);
 }
 .masthead__blurb {
     display: none;
     font-family: var(--font-body);
     font-size: smaller;
-    color: var(--colour-muted);
+    color: var(--colour-fg-muted);
 }
 main,
 .footer {
@@ -290,7 +305,7 @@ main {
     flex-shrink: 0;  
 }
 .footer__platform {
-    color: var(--colour-muted);
+    color: var(--colour-fg-muted);
 }
 @media screen and (min-width: 576px) {
     .footer {

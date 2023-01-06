@@ -38,6 +38,39 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
+        <script>
+            if (window.matchMedia) {
+                (function () {
+                    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+                    const applyPreferredColourScheme = function () {
+                        document.documentElement.dataset.colourmode = (
+                            mql.matches ? 'dark' : 'light');
+                    };
+
+                    const applyPreferredColourSchemeToWcb = function () {
+                        const darkModeClassName = 'wcb-d';
+                        const wcbElem = document.getElementById('wcb');
+
+                        if (mql.matches) {
+                            wcbElem.classList.add(darkModeClassName);
+                        } else {
+                            wcbElem.classList.remove(darkModeClassName);
+                        }
+                    };
+
+                    applyPreferredColourScheme();
+
+                    mql.addEventListener('change', function () {
+                        applyPreferredColourScheme();
+                        applyPreferredColourSchemeToWcb();
+                    });
+
+                    document.addEventListener('DOMContentLoaded', applyPreferredColourSchemeToWcb);
+                })();
+            }
+        </script>
+
         <style>
             <?= $output->include('stylesheet.css') ?>
         </style>
