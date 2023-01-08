@@ -24,6 +24,7 @@ $siteBlurb = $site['blurb'];
 /** @var array{id:string} */
 $matchedRoute = $request->attributes['route'] ?? ['id' => ''];
 $onHomepage = 'homepage' === $matchedRoute['id'];
+$showWebsiteCarbonBadge = 'dev' !== $config['env'] && $config['show_website_carbon_badge'];
 ?>
 <!DOCTYPE html>
 <html lang="<?= $site['lang'] ?>">
@@ -48,25 +49,8 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
                             mql.matches ? 'dark' : 'light');
                     };
 
-                    const applyPreferredColourSchemeToWcb = function () {
-                        const darkModeClassName = 'wcb-d';
-                        const wcbElem = document.getElementById('wcb');
-
-                        if (mql.matches) {
-                            wcbElem.classList.add(darkModeClassName);
-                        } else {
-                            wcbElem.classList.remove(darkModeClassName);
-                        }
-                    };
-
                     applyPreferredColourScheme();
-
-                    mql.addEventListener('change', function () {
-                        applyPreferredColourScheme();
-                        applyPreferredColourSchemeToWcb();
-                    });
-
-                    document.addEventListener('DOMContentLoaded', applyPreferredColourSchemeToWcb);
+                    mql.addEventListener('change', applyPreferredColourScheme);
                 })();
             }
         </script>
@@ -110,23 +94,78 @@ $onHomepage = 'homepage' === $matchedRoute['id'];
                 <?= $input['mainContent'] ?>
             </main>
 
-            <?php $showWebsiteCarbonBadge = 'dev' !== $config['env'] && $config['show_website_carbon_badge'] ?>
+            <footer class="footer">
+                <?php /** @var array<string,string> */ $owner = $config['owner'] ?>
+                <?= $helper->createCopyrightNotice($site, $owner) ?>
 
-            <footer class="<?= 'footer ' . ($showWebsiteCarbonBadge ? 'footer--with-wcb' : '') ?>">
-                <div>
-                    <?php /** @var array<string,string> */ $owner = $config['owner'] ?>
-                    <?= $helper->createCopyrightNotice($site, $owner) ?>
-                    <p class="footer__platform">Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>
+                <div class="footer__spec">
+                    <p>Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>
+
+                    <?php if ($showWebsiteCarbonBadge) : ?>
+                        <div id="wcb"></div>
+                    <?php endif ?>
                 </div>
-
-                <?php if ($showWebsiteCarbonBadge) : ?>
-                    <div>
-                        <div id="wcb" class="carbonbadge"></div>
-                        <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
-                    </div>
-                <?php endif ?>
             </footer>
 
         </div>
+
+        <?php if ($showWebsiteCarbonBadge) : ?>
+            <script>
+                if (window.fetch) {
+                    (function() {
+                        const wcID = (id) => document.getElementById(id);
+                        const wcU = encodeURIComponent(window.location.href);
+                        const cacheId = `wcb_${wcU}`;
+
+                        const renderResult = function(result) {
+                            wcID('wcb_g').innerHTML = result.c + 'g of CO<sub>2</sub>/view';
+                            wcID('wcb_2').insertAdjacentHTML('beforeEnd', '; Cleaner than ' + result.p + '% of pages tested');
+                        };
+
+                        const makeRequest = function(render = true) {
+                            fetch('https://api.websitecarbon.com/b?url=' + wcU)
+                                .then(function(response) {
+                                    if (!response.ok) {
+                                        throw new Error(response);
+                                    }
+
+                                    return response.json();
+                                })
+                                .then(function(result) {
+                                    if (render) {
+                                        renderResult(result);
+                                    }
+
+                                    result.t = Date.now();
+                                    localStorage.setItem(cacheId, JSON.stringify(result));
+                                })
+                                .catch(function(error) {
+                                    wcID('wcb_g').innerHTML = 'No Result';
+                                    console.log(error);
+                                    localStorage.removeItem(cacheId);
+                                });
+                        };
+
+                        wcID('wcb').insertAdjacentHTML('beforeEnd', `
+                        <a href="https://websitecarbon.com">Website Carbon:</a>
+                        <span id="wcb_g">Measuring CO<sub>2</sub>&hellip;</span><span id="wcb_2"></span>
+                        `);
+
+                        const cachedResponseJson = localStorage.getItem(cacheId);
+
+                        if (cachedResponseJson) {
+                            const cachedResponse = JSON.parse(cachedResponseJson);
+                            renderResult(cachedResponse);
+
+                            if (Date.now() - cachedResponse.t > 864e5) {
+                                makeRequest(false);
+                            }
+                        } else {
+                            makeRequest();
+                        }
+                    })();
+                }
+            </script>
+        <?php endif ?>
     </body>
 </html>
