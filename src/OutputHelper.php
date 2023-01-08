@@ -139,9 +139,9 @@ class OutputHelper extends Html5OutputHelper
         return $this->createP("Copyright &copy; {$range} {$ownerName}");
     }
 
-    public function createMetaTitle(string ...$parts): string
+    public function createTitle(string ...$parts): string
     {
-        return implode(' | ', array_filter($parts));
+        return $this->createEl('title', implode(' | ', array_filter($parts)));
     }
 
     private function setRouter(Router $router): self
