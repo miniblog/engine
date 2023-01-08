@@ -1,7 +1,7 @@
 {
     "title": "Aliquam Sem Fringilla",
     "description": "Aliquam sem fringilla ut morbi tincidunt augue interdum",
-    "publishedAt": "2022-12-14 14:01:00"
+    "publishedAt": "2022-12-14T14:01:00+00:00"
 }
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis. Elit eget gravida cum sociis natoque penatibus et magnis dis. Ornare aenean euismod elementum nisi quis eleifend quam adipiscing. Erat velit scelerisque in dictum non consectetur. Commodo ullamcorper a lacus vestibulum. Consectetur libero id faucibus nisl tincidunt eget. Vitae justo eget magna fermentum iaculis eu non. Ornare massa eget egestas purus. Est velit egestas dui id ornare arcu odio. Tincidunt vitae semper quis lectus nulla at volutpat diam. Amet dictum sit amet justo donec enim diam.

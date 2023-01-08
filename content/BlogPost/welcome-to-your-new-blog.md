@@ -1,7 +1,7 @@
 {
     "title": "&#x1F44B; Welcome to Your New Blog!",
     "description": "Instructions on getting started with Miniblog",
-    "publishedAt": "2022-12-15 14:04:00"
+    "publishedAt": "2022-12-15T14:04:00+00:00"
 }
 
 Thank you for installing Miniblog.  Please [let us know if you had any difficulties](https://github.com/miniblog/engine/issues)&mdash;or, indeed, if it was a pleasant experience.

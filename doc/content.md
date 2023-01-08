@@ -16,7 +16,7 @@ Here's what a complete article looks like:
 {
     "title": "Lorem Ipsum Dolor",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    "publishedAt": "2022-09-03"
+    "publishedAt": "2022-09-03T00:00:00+00:00"
 }
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis molestie lorem. Nullam non quam leo. Mauris eu nibh at quam pellentesque posuere. Aliquam consequat ipsum eu fringilla venenatis. Nam ante massa, sagittis volutpat ipsum vel, vulputate consectetur odio. Proin in tortor sed mi tincidunt tristique.
@@ -32,7 +32,7 @@ The first part of an article *must* be front matter, encoded in a single JSON ob
 
 - The front matter *must* start with a left curly brace ("{") on a line by itself and *must* end with a right curly brace ("}") on a line by itself.
 - The data *must* comprise a title and the published date/time.
-- The published date/time *must* be in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
+- The published date/time *must* be in an [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
 - The data *may* contain a description.
 
 > :information_source: Miniblog will use the title in the front matter to automatically create a heading for the article.
