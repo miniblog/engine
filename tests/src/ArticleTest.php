@@ -23,6 +23,7 @@ class ArticleTest extends AbstractTestCase
         $this->assertNull($article->getDescription());
         $this->assertNull($article->getBody());
         $this->assertNull($article->getPublishedAt());
+        $this->assertNull($article->getUpdatedAt());
     }
 
     public function testHasAccessorsForAllProperties(): void
@@ -52,6 +53,14 @@ class ArticleTest extends AbstractTestCase
         // From date/time string.
         $article->setPublishedAt('1987-10-15');
         $this->assertEquals(new DateTime('1987-10-15'), $article->getPublishedAt());
+
+        // From `DateTime`.
+        $corge = $article->setUpdatedAt(new DateTime('1969-07-16'));
+        $this->assertEquals(new DateTime('1969-07-16'), $article->getUpdatedAt());
+        $this->assertSame($article, $corge);
+        // From date/time string.
+        $article->setUpdatedAt('1987-10-15');
+        $this->assertEquals(new DateTime('1987-10-15'), $article->getUpdatedAt());
     }
 
     /** @return array<int,array<int,mixed>> */
@@ -80,7 +89,8 @@ class ArticleTest extends AbstractTestCase
                     ->setTitle('Title')
                     ->setDescription('Description')
                     ->setBody('Body')
-                    ->setPublishedAt($dateStr),
+                    ->setPublishedAt($dateStr)
+                    ->setUpdatedAt($dateStr),
                 // All:
                 [
                     'id' => '123',
@@ -88,6 +98,7 @@ class ArticleTest extends AbstractTestCase
                     'description' => 'Description',
                     'body' => 'Body',
                     'publishedAt' => $dateStr,
+                    'updatedAt' => $dateStr,
                 ],
             ],
             [
@@ -155,6 +166,15 @@ class ArticleTest extends AbstractTestCase
                     ->setTitle('Title')
                     ->setBody('Body')
                     ->setPublishedAt('2022-09-03'),
+            ],
+            [
+                true,
+                (new Article())
+                    ->setId('foo')
+                    ->setTitle('Title')
+                    ->setBody('Body')
+                    ->setPublishedAt('2022-09-03')
+                    ->setUpdatedAt('2023-01-08T11:29:00+00:00'),
             ],
             [  // #5
                 false,

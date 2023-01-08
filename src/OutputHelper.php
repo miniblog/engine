@@ -7,7 +7,6 @@ namespace Miniblog\Engine;
 use DanBettles\Marigold\OutputHelper\Html5OutputHelper;
 use DanBettles\Marigold\Router;
 use DateTime;
-use DateTimeInterface;
 use IntlDateFormatter;
 
 use function array_filter;
@@ -25,9 +24,14 @@ class OutputHelper extends Html5OutputHelper
 {
     private Router $router;
 
+    private IntlDateFormatter $dateFormatter;
+
     public function __construct(Router $router)
     {
-        $this->setRouter($router);
+        $this
+            ->setRouter($router)
+            ->setDateFormatter(new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE))
+        ;
     }
 
     /**
@@ -69,15 +73,6 @@ class OutputHelper extends Html5OutputHelper
         ]), $content);
     }
 
-    private function formatDate(DateTimeInterface $dateTime, int $dateType): string
-    {
-        $dateFormatter = new IntlDateFormatter(null, $dateType, IntlDateFormatter::NONE);
-        /** @var string */
-        $formatted = $dateFormatter->format($dateTime);
-
-        return $formatted;
-    }
-
     /**
      * @param array<string,string> $author
      */
@@ -102,11 +97,25 @@ class OutputHelper extends Html5OutputHelper
         $articleDatePublishedEl = $this->createTime([
             'datetime' => $publishedAt->format('c'),
             'itemprop' => ($inArticleScope ? 'datePublished' : false),
-        ], $this->formatDate($publishedAt, IntlDateFormatter::MEDIUM));
+        ], $this->getDateFormatter()->format($publishedAt));
+
+        $bylineContent = "by {$articleAuthorEl} on {$articleDatePublishedEl}";
+
+        if ($article->getUpdatedAt()) {
+            /** @var DateTime */
+            $updatedAt = $article->getUpdatedAt();
+
+            $articleDateUpdatedEl = $this->createTime([
+                'datetime' => $updatedAt->format('c'),
+                'itemprop' => ($inArticleScope ? 'dateModified' : false),
+            ], $this->getDateFormatter()->format($updatedAt));
+
+            $bylineContent .= ", updated on {$articleDateUpdatedEl}";
+        }
 
         return $this->createDiv([
             'class' => 'article__by-line',
-        ], "by {$articleAuthorEl} on {$articleDatePublishedEl}");
+        ], $bylineContent);
     }
 
     /**
@@ -144,5 +153,16 @@ class OutputHelper extends Html5OutputHelper
     public function getRouter(): Router
     {
         return $this->router;
+    }
+
+    private function setDateFormatter(IntlDateFormatter $formatter): self
+    {
+        $this->dateFormatter = $formatter;
+        return $this;
+    }
+
+    public function getDateFormatter(): IntlDateFormatter
+    {
+        return $this->dateFormatter;
     }
 }

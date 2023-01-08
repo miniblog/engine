@@ -31,6 +31,8 @@ class Article
 
     private ?DateTime $publishedAt;
 
+    private ?DateTime $updatedAt;
+
     public function __construct()
     {
         $this
@@ -39,6 +41,7 @@ class Article
             ->setDescription(null)
             ->setBody(null)
             ->setPublishedAt(null)
+            ->setUpdatedAt(null)
         ;
     }
 
@@ -87,26 +90,47 @@ class Article
     }
 
     /**
+     * @param DateTime|string|null $value
+     */
+    private function setDateTimeProperty(string $name, $value): self
+    {
+        $dateTime = null;
+
+        if ($value instanceof DateTime) {
+            $dateTime = $value;
+        } elseif (is_string($value)) {
+            $dateTime = new DateTime($value);
+        }
+
+        $this->{$name} = $dateTime;
+
+        return $this;
+    }
+
+    /**
      * @param DateTime|string|null $something
      */
     public function setPublishedAt($something): self
     {
-        $publishedAt = null;
-
-        if ($something instanceof DateTime) {
-            $publishedAt = $something;
-        } elseif (is_string($something)) {
-            $publishedAt = new DateTime($something);
-        }
-
-        $this->publishedAt = $publishedAt;
-
-        return $this;
+        return $this->setDateTimeProperty('publishedAt', $something);
     }
 
     public function getPublishedAt(): ?DateTime
     {
         return $this->publishedAt;
+    }
+
+    /**
+     * @param DateTime|string|null $something
+     */
+    public function setUpdatedAt($something): self
+    {
+        return $this->setDateTimeProperty('updatedAt', $something);
+    }
+
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
     }
 
     public function isValid(): bool
