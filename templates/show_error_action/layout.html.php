@@ -25,7 +25,6 @@ $siteTitle = $site['title'];
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <?= $helper->createTitle($input['metaTitle'], $siteTitle) ?>
-        <meta name="description" content="">
 
         <style>
             :root {
