@@ -1,114 +1,300 @@
-/* ###> `vendor/csstools/sanitize.css/sanitize.css` ### */
+/* ###> vendor/csstools/sanitize.css/sanitize.css ### */
+
+/* Document
+ * ========================================================================== */
+
+/**
+ * 1. Add border box sizing in all browsers (opinionated).
+ * 2. Backgrounds do not repeat by default (opinionated).
+ */
+
 *,
 ::before,
 ::after {
-  box-sizing: border-box; 
-  background-repeat: no-repeat; 
+  box-sizing: border-box; /* 1 */
+  background-repeat: no-repeat; /* 2 */
 }
+
+/**
+ * 1. Add text decoration inheritance in all browsers (opinionated).
+ * 2. Add vertical alignment inheritance in all browsers (opinionated).
+ */
+
 ::before,
 ::after {
-  text-decoration: inherit; 
-  vertical-align: inherit; 
+  text-decoration: inherit; /* 1 */
+  vertical-align: inherit; /* 2 */
 }
+
+/**
+ * 1. Use the default cursor in all browsers (opinionated).
+ * 2. Change the line height in all browsers (opinionated).
+ * 3. Breaks words to prevent overflow in all browsers (opinionated).
+ * 4. Use a 4-space tab width in all browsers (opinionated).
+ * 5. Remove the grey highlight on links in iOS (opinionated).
+ * 6. Prevent adjustments of font size after orientation changes in iOS.
+ */
+
 :where(:root) {
-  cursor: default; 
-  line-height: 1.5; 
-  overflow-wrap: break-word; 
-  -moz-tab-size: 4; 
-  tab-size: 4; 
-  -webkit-tap-highlight-color: transparent; 
-  -webkit-text-size-adjust: 100%; 
+  cursor: default; /* 1 */
+  line-height: 1.5; /* 2 */
+  overflow-wrap: break-word; /* 3 */
+  -moz-tab-size: 4; /* 4 */
+  tab-size: 4; /* 4 */
+  -webkit-tap-highlight-color: transparent; /* 5 */
+  -webkit-text-size-adjust: 100%; /* 6 */
 }
+
+/* Sections
+ * ========================================================================== */
+
+/**
+ * Remove the margin in all browsers (opinionated).
+ */
+
 :where(body) {
   margin: 0;
 }
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Edge, Firefox, and Safari.
+ */
+
 :where(h1) {
   font-size: 2em;
   margin: 0.67em 0;
 }
+
+/* Grouping content
+ * ========================================================================== */
+
+/**
+ * Remove the margin on nested lists in Chrome, Edge, and Safari.
+ */
+
 :where(dl, ol, ul) :where(dl, ol, ul) {
   margin: 0;
 }
+
+/**
+ * 1. Correct the inheritance of border color in Firefox.
+ * 2. Add the correct box sizing in Firefox.
+ */
+
 :where(hr) {
-  color: inherit; 
-  height: 0; 
+  color: inherit; /* 1 */
+  height: 0; /* 2 */
 }
+
+/**
+ * Remove the list style on navigation lists in all browsers (opinionated).
+ */
+
 :where(nav) :where(ol, ul) {
   list-style-type: none;
   padding: 0;
 }
+
+/**
+ * Prevent VoiceOver from ignoring list semantics in Safari (opinionated).
+ */
+
 :where(nav li)::before {
   content: "\200B";
   float: left;
 }
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ * 3. Prevent overflow of the container in all browsers (opinionated).
+ */
+
 :where(pre) {
-  font-family: monospace, monospace; 
-  font-size: 1em; 
-  overflow: auto; 
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+  overflow: auto; /* 3 */
 }
+
+/* Text-level semantics
+ * ========================================================================== */
+
+/**
+ * Add the correct text decoration in Safari.
+ */
+
 :where(abbr[title]) {
   text-decoration: underline;
   text-decoration: underline dotted;
 }
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+
 :where(b, strong) {
   font-weight: bolder;
 }
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
 :where(code, kbd, samp) {
-  font-family: monospace, monospace; 
-  font-size: 1em; 
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
 }
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
 :where(small) {
   font-size: 80%;
 }
+
+/* Embedded content
+ * ========================================================================== */
+
+/*
+ * Change the alignment on media elements in all browsers (opinionated).
+ */
+
 :where(audio, canvas, iframe, img, svg, video) {
   vertical-align: middle;
 }
+
+/**
+ * Remove the border on iframes in all browsers (opinionated).
+ */
+
 :where(iframe) {
   border-style: none;
 }
+
+/**
+ * Change the fill color to match the text color in all browsers (opinionated).
+ */
+
 :where(svg:not([fill])) {
   fill: currentColor;
 }
+
+/* Tabular data
+ * ========================================================================== */
+
+/**
+ * 1. Collapse border spacing in all browsers (opinionated).
+ * 2. Correct table border color inheritance in all Chrome, Edge, and Safari.
+ * 3. Remove text indentation from table contents in Chrome, Edge, and Safari.
+ */
+
 :where(table) {
-  border-collapse: collapse; 
-  border-color: inherit; 
-  text-indent: 0; 
+  border-collapse: collapse; /* 1 */
+  border-color: inherit; /* 2 */
+  text-indent: 0; /* 3 */
 }
+
+/* Forms
+ * ========================================================================== */
+
+/**
+ * Remove the margin on controls in Safari.
+ */
+
 :where(button, input, select) {
   margin: 0;
 }
+
+/**
+ * Correct the inability to style buttons in iOS and Safari.
+ */
+
 :where(button, [type="button" i], [type="reset" i], [type="submit" i]) {
   -webkit-appearance: button;
 }
+
+/**
+ * Change the inconsistent appearance in all browsers (opinionated).
+ */
+
 :where(fieldset) {
   border: 1px solid #a0a0a0;
 }
+
+/**
+ * Add the correct vertical alignment in Chrome, Edge, and Firefox.
+ */
+
 :where(progress) {
   vertical-align: baseline;
 }
+
+/**
+ * 1. Remove the margin in Firefox and Safari.
+ * 3. Change the resize direction in all browsers (opinionated).
+ */
+
 :where(textarea) {
-  margin: 0; 
-  resize: vertical; 
+  margin: 0; /* 1 */
+  resize: vertical; /* 3 */
 }
+
+/**
+ * 1. Correct the odd appearance in Chrome, Edge, and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
 :where([type="search" i]) {
-  -webkit-appearance: textfield; 
-  outline-offset: -2px; 
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
 }
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Safari.
+ */
+
 ::-webkit-inner-spin-button,
 ::-webkit-outer-spin-button {
   height: auto;
 }
+
+/**
+ * Correct the text style of placeholders in Chrome, Edge, and Safari.
+ */
+
 ::-webkit-input-placeholder {
   color: inherit;
   opacity: 0.54;
 }
+
+/**
+ * Remove the inner padding in Chrome, Edge, and Safari on macOS.
+ */
+
 ::-webkit-search-decoration {
   -webkit-appearance: none;
 }
+
+/**
+ * 1. Correct the inability to style upload buttons in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
 ::-webkit-file-upload-button {
-  -webkit-appearance: button; 
-  font: inherit; 
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
 }
+
+/* Interactive
+ * ========================================================================== */
+
+/*
+ * Add the correct styles in Safari.
+ */
+
 :where(dialog) {
   background-color: white;
   border: solid;
@@ -123,52 +309,97 @@
   width: -moz-fit-content;
   width: fit-content;
 }
+
 :where(dialog:not([open])) {
   display: none;
 }
+
+/*
+ * Add the correct display in Safari.
+ */
+
 :where(details > summary:first-of-type) {
   display: list-item;
 }
+
+/* Accessibility
+ * ========================================================================== */
+
+/**
+ * Change the cursor on busy elements in all browsers (opinionated).
+ */
+
 :where([aria-busy="true" i]) {
   cursor: progress;
 }
+
+/*
+ * Change the cursor on control elements in all browsers (opinionated).
+ */
+
 :where([aria-controls]) {
   cursor: pointer;
 }
+
+/*
+ * Change the cursor on disabled, not-editable, or otherwise
+ * inoperable elements in all browsers (opinionated).
+ */
+
 :where([aria-disabled="true" i], [disabled]) {
   cursor: not-allowed;
 }
+
+/*
+ * Change the display on visually hidden accessible elements
+ * in all browsers (opinionated).
+ */
+
 :where([aria-hidden="false" i][hidden]) {
   display: initial;
 }
+
 :where([aria-hidden="false" i][hidden]:not(:focus)) {
   clip: rect(0, 0, 0, 0);
   position: absolute;
 }
-/* ###> `vendor/csstools/sanitize.css/assets.css` ### */
+
+/* ###> vendor/csstools/sanitize.css/assets.css ### */
+
+/**
+ * Restrict sizing to the page width in all browsers (opinionated).
+ */
+
 :where(iframe, img, input, video, select, textarea) {
   height: auto;
   max-width: 100%;
 }
-/* ###> `assets/app.css` ### */
+
+/* ###> assets/app.css ### */
+
+/* See https://m2.material.io/design/color/dark-theme.html#anatomy */
+/* See https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/ */
+
+/* ###> Default variables ### */
 html {
     --font-body: Georgia, 'Times New Roman', Times, serif;
-    
+    /* See https://github.com/csstools/sanitize.css/blob/main/typography.css#L6 */
     --font-heading:
         system-ui,
-         -apple-system,
-         "Segoe UI",
-         "Roboto",
-         "Ubuntu",
-         "Cantarell",
-         "Noto Sans",
-         sans-serif,
-         "Apple Color Emoji",
-         "Segoe UI Emoji",
-         "Segoe UI Symbol",
-         "Noto Color Emoji";
+        /* macOS 10.11-10.12 */ -apple-system,
+        /* Windows 6+ */ "Segoe UI",
+        /* Android 4+ */ "Roboto",
+        /* Ubuntu 10.10+ */ "Ubuntu",
+        /* Gnome 3+ */ "Cantarell",
+        /* KDE Plasma 5+ */ "Noto Sans",
+        /* fallback */ sans-serif,
+        /* macOS emoji */ "Apple Color Emoji",
+        /* Windows emoji */ "Segoe UI Emoji",
+        /* Windows emoji */ "Segoe UI Symbol",
+        /* Linux emoji */ "Noto Color Emoji";
     --gutter: 36px;
     --main-content-width: 696px;
+
     --colour-bg-default: #fff;
     --colour-bg-code: rgba(175,184,193,0.2);
     --colour-bg-canvas: #f6f8fa;
@@ -177,6 +408,7 @@ html {
     --colour-border: #ddd;
     --colour-link: #2455c3;
 }
+
 html[data-colourmode="dark"] {
     --colour-bg-default: #0d1117;
     --colour-bg-code: rgba(110,118,129,0.4);
@@ -186,55 +418,75 @@ html[data-colourmode="dark"] {
     --colour-border: #30363d;
     --colour-link: #58a6ff;
 }
+/* ###< Default variables ### */
+
 html {
     font-family: var(--font-body);
     font-size: 18px;
     color: var(--colour-fg-default);
     background-color: var(--colour-bg-default);
 }
+
 html,
 body {
     height: 100%;
 }
+
+/* ###> Code ### */
 code, kbd, samp, pre {
     font-family: monospace;
-    border-radius: 0.25rem;  
+    border-radius: 0.25rem;  /* `rem` for 'constant' radius. */
 }
+
 code, kbd, samp {
     background-color: var(--colour-bg-code);
     padding: 0.125em 0.25em;
 }
+
 pre {
     background-color: var(--colour-bg-canvas);
     padding: 1em;
 }
+
 pre > code {
     white-space: break-spaces;
     background-color: transparent;
 }
+/* ###< Code ### */
+
+/* Default 'headings' style. */
 h1, h2, h3, h4, h5, h6,
 article > header {
     font-family: var(--font-heading);
     text-align: center;
 }
+
+/* ###> Links ### */
 a {
     text-decoration: none;
     color: var(--colour-link);
 }
+
 a:hover, a:focus, a:active {
     text-decoration: underline;
     color: var(--colour-fg-default);
 }
+
 a:focus {
     outline: thin dotted;
 }
+
 a:hover, a:active {
     outline: 0;
 }
+/* ###< Links ### */
+
 blockquote {
     padding-left: 1em;
     border-left: 5px solid var(--colour-border);
 }
+
+/* ###> Layout ### */
 .container {
     display: flex;
     flex-direction: column;
@@ -243,6 +495,7 @@ blockquote {
     margin: 0 auto;
     padding: 0 var(--gutter);
 }
+
 .masthead {
     display: flex;
     flex-flow: row nowrap;
@@ -251,6 +504,7 @@ blockquote {
     text-align: center;
     border-bottom: 1px solid var(--colour-border);
 }
+
 .masthead__title {
     font-family: var(--font-heading);
     font-size: 1.5rem;
@@ -259,10 +513,12 @@ blockquote {
     text-align: inherit;
     margin: 0.83em 0;
 }
+
 .masthead__title a {
     text-decoration: none;
     color: var(--colour-fg-default);
 }
+
 .masthead nav ul {
     display: flex;
     flex-flow: row nowrap;
@@ -271,28 +527,34 @@ blockquote {
     font-family: var(--font-heading);
     font-size: smaller;
 }
+
 .masthead nav li {
     margin-left: 1em;
     margin-right: 1em;
 }
+
 .masthead nav a.active {
     text-decoration: underline;
     color: var(--colour-fg-default);
 }
+
 .masthead__blurb {
     display: none;
     font-family: var(--font-body);
     font-size: smaller;
     color: var(--colour-fg-muted);
 }
+
 main,
 .footer {
     max-width: var(--main-content-width);
     margin: 0 0 1em 0;
 }
+
 main {
     flex: 1 0 auto;
 }
+
 .footer {
     font-family: var(--font-heading);
     font-size: smaller;
@@ -301,42 +563,52 @@ main {
     padding: 1em 0;
     border-top: 1px solid var(--colour-border);
 }
+
 .footer__spec {
     font-size: small;
     color: var(--colour-fg-muted);
 }
+
 @media screen and (min-width: 992px) {
     :root {
         --masthead-width: 220px;
     }
+
     .container {
         max-width: calc(var(--gutter) + var(--masthead-width) + var(--gutter) + var(--main-content-width) + var(--gutter));
     }
+
     .masthead {
-        display: block;  
+        display: block;  /* Disable flex. */
         position: fixed;
         top: 0;
         width: var(--masthead-width);
         text-align: left;
         border-bottom: 0;
     }
+
     .masthead nav ul {
-        display: block;  
+        display: block;  /* Disable flex. */
     }
+
     .masthead nav li {
         margin-left: 0;
         margin-right: 0;
     }
+
     .masthead__blurb {
-        display: block;  
+        display: block;  /* Show. */
     }
+
     main,
     .footer {
         margin-left: calc(var(--masthead-width) + var(--gutter));
     }
+
     .footer {
         text-align: left;
     }
+
     .footer__spec {
         display: flex;
         flex-flow: row nowrap;
@@ -344,13 +616,17 @@ main {
         align-items: center;
     }
 }
+/* ###< Layout ### */
+
 .blog-posts {
     text-align: center;
 }
+
 article > header h1,
 article > header h2 {
     margin-bottom: calc(1em / 6);
 }
+
 .article__by-line > span {
     font-weight: bold;
 }
