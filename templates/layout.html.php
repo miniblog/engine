@@ -24,7 +24,7 @@ $siteBlurb = $site['blurb'];
 /** @var array{id:string} */
 $matchedRoute = $request->attributes['route'] ?? ['id' => ''];
 $onHomepage = 'homepage' === $matchedRoute['id'];
-$showWebsiteCarbonBadge = 'dev' !== $config['env'] && $config['show_website_carbon_badge'];
+$showWebsiteCarbonBadge = 'dev' !== $config['env'];
 ?>
 <!DOCTYPE html>
 <html lang="<?= $site['lang'] ?>">

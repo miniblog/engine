@@ -20,9 +20,6 @@ return [
         /** @var string Email address */
         'email' => 'janedoe@example.com',
     ],
-    // Show Wholegrain Digital's Website Carbon Badge in the footer?  The badge displays an estimate of the carbon
-    // emissions of the page.  The badge is *never* shown in the dev environment.
-    'show_website_carbon_badge' => true,
     /** @var string The runtime environment.  prod|dev */
     'env' => 'prod',
 ];
