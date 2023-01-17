@@ -12,11 +12,13 @@ use Miniblog\Engine\ErrorsService;
 use RuntimeException;
 
 use function file_put_contents;
+use function libxml_use_internal_errors;
 
 use const false;
 use const LIBXML_NOBLANKS;
 use const null;
 use const PHP_EOL;
+use const true;
 
 /**
  * Compiles the error pages for the project.  This command should be run every time the config is changed.
@@ -58,6 +60,8 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
 
     private function minifyWebPage(string $html): string
     {
+        $prevUseLibxmlInternalErrors = libxml_use_internal_errors(true);
+
         $domDocument = new DOMDocument('1.0', 'utf8');
         $domDocument->formatOutput = false;
         $domDocument->loadHTML($html, LIBXML_NOBLANKS);
@@ -74,6 +78,8 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
         }
 
         $html = $domDocument->saveHTML();
+
+        libxml_use_internal_errors($prevUseLibxmlInternalErrors);
 
         if (false === $html) {
             throw new RuntimeException('Failed to save the minified web page.');
