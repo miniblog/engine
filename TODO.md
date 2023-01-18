@@ -7,7 +7,7 @@
   - [ ] Display the three most recent articles on the homepage [that aren't pinned].
   - [ ] Create 'archive' page with pagination.  Update main menu.
 - [ ] Encode published date in the structure of the content filesystem.  Like `yyyy/mm/dd/post-name.md`.
-- [ ] Add feature-list to the documentation.
+- [X] Add feature-list to the documentation.
 - [ ] Tags.
 - [ ] Identify components that should be customisable.
 - [ ] Email sign-up form(?)

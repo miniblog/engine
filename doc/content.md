@@ -7,6 +7,7 @@ The base content-type in Miniblog is 'article'.  All user content is stored unde
 A Miniblog article is written in plain text, in a single file with the suffix `.md`.  The basename of the file (the part before the extension) is used as the slug and *must* comprise only lowercase characters, digits, and dashes.
 
 The content of an article file *must* comprise two parts:
+
 - front matter (information about the article);
 - and the body of the article.
 

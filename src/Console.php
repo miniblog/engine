@@ -29,7 +29,6 @@ use function strpos;
 use const false;
 use const null;
 use const PHP_EOL;
-use const true;
 
 class Console
 {
