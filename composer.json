@@ -1,6 +1,6 @@
 {
     "name": "miniblog/engine",
-    "description": "Miniblog is a minimal blogging platform, written in object-oriented PHP, aimed primarily at developers.  There are no plugins or themes, and there is no complicated setup.  The focus is blogging.",
+    "description": "Miniblog is a minimal blogging platform, written in object-oriented PHP, aimed primarily at developers.  There is no complicated setup, no distracting admin area, and no plugins or themes: the focus is blogging.",
     "keywords": [
         "blog",
         "blogging",
