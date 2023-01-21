@@ -8,15 +8,22 @@ use DanBettles\Marigold\AbstractTestCase;
 use Miniblog\Engine\Article;
 use Miniblog\Engine\ArticleRepository;
 use Miniblog\Engine\MarkdownParser;
+use Parsedown;
 use RangeException;
 
 use const null;
 
 class ArticleRepositoryTest extends AbstractTestCase
 {
+    // Factory method.
+    private function createMarkdownParser(): MarkdownParser
+    {
+        return new MarkdownParser(new Parsedown());
+    }
+
     public function testIsInstantiable(): void
     {
-        $markdownParser = new MarkdownParser();
+        $markdownParser = $this->createStub(MarkdownParser::class);
         $dataDir = $this->createFixturePathname(__FUNCTION__);
 
         $articleRepo = new ArticleRepository($markdownParser, $dataDir);
@@ -32,7 +39,7 @@ class ArticleRepositoryTest extends AbstractTestCase
         $this->expectException(RangeException::class);
         $this->expectExceptionMessage("The directory `{$dataDir}` does not exist.");
 
-        new ArticleRepository(new MarkdownParser(), $dataDir);
+        new ArticleRepository($this->createStub(MarkdownParser::class), $dataDir);
     }
 
     /** @return array<mixed[]> */
@@ -90,7 +97,7 @@ class ArticleRepositoryTest extends AbstractTestCase
     public function testFindLoadsASingleArticleById($expectedArticle, $articleId): void
     {
         $articleRepo = new ArticleRepository(
-            new MarkdownParser(),
+            $this->createMarkdownParser(),
             $this->createFixturePathname(__FUNCTION__)
         );
 
@@ -100,7 +107,7 @@ class ArticleRepositoryTest extends AbstractTestCase
     public function testFindReturnsNullIfTheArticleDoesNotExist(): void
     {
         $articleRepo = new ArticleRepository(
-            new MarkdownParser(),
+            $this->createStub(MarkdownParser::class),
             $this->createFixturePathname(__FUNCTION__)
         );
 
@@ -117,7 +124,7 @@ class ArticleRepositoryTest extends AbstractTestCase
         // The file *does* exist...
         $this->assertFileExists($articleFilePathname);
 
-        $articleRepo = new ArticleRepository(new MarkdownParser(), $dataDir);
+        $articleRepo = new ArticleRepository($this->createStub(MarkdownParser::class), $dataDir);
 
         // ...But it won't be returned because its ID is invalid.
         $this->assertNull($articleRepo->find($invalidId));
@@ -125,8 +132,10 @@ class ArticleRepositoryTest extends AbstractTestCase
 
     public function testFindallReturnsAnArrayOfValidArticlesSortedByRecency(): void
     {
-        $dataDir = $this->createFixturePathname(__FUNCTION__);
-        $articleRepo = new ArticleRepository(new MarkdownParser(), $dataDir);
+        $articleRepo = new ArticleRepository(
+            $this->createMarkdownParser(),
+            $this->createFixturePathname(__FUNCTION__)
+        );
 
         $this->assertEquals([
             // Newest:

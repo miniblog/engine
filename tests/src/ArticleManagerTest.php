@@ -14,7 +14,7 @@ class ArticleManagerTest extends AbstractTestCase
 {
     public function testIsInstantiable(): void
     {
-        $markdownParser = new MarkdownParser();
+        $markdownParser = $this->createStub(MarkdownParser::class);
         $dataDir = $this->createFixturePathname(__FUNCTION__);
 
         $manager = new ArticleManager($markdownParser, $dataDir);
@@ -30,7 +30,7 @@ class ArticleManagerTest extends AbstractTestCase
         $this->expectException(RangeException::class);
         $this->expectExceptionMessage("The directory `{$dataDir}` does not exist.");
 
-        new ArticleManager(new MarkdownParser(), $dataDir);
+        new ArticleManager($this->createStub(MarkdownParser::class), $dataDir);
     }
 
     public function testGetrepositoryReturnsAnArticleRepository(): void
@@ -38,7 +38,7 @@ class ArticleManagerTest extends AbstractTestCase
         $dataDir = $this->createFixturePathname(__FUNCTION__);
 
         $manager = new ArticleManager(
-            new MarkdownParser(),
+            $this->createStub(MarkdownParser::class),
             $dataDir
         );
 
@@ -51,7 +51,7 @@ class ArticleManagerTest extends AbstractTestCase
     public function testGetrepositoryAlwaysReturnsTheSameRepositoryForAGivenType(): void
     {
         $manager = new ArticleManager(
-            new MarkdownParser(),
+            $this->createStub(MarkdownParser::class),
             $this->createFixturePathname(__FUNCTION__)
         );
 

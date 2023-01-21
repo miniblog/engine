@@ -148,7 +148,10 @@ class Factory
         /** @var array<string,string> */
         $config = $registry->get('config');
 
-        return new ArticleManager(new MarkdownParser(), "{$config['projectDir']}/content");
+        return new ArticleManager(
+            new MarkdownParser(new ParsedownExtended()),
+            "{$config['projectDir']}/content"
+        );
     }
 
     /**

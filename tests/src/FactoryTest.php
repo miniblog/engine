@@ -15,6 +15,7 @@ use Miniblog\Engine\ArticleManager;
 use Miniblog\Engine\ErrorsService;
 use Miniblog\Engine\Factory;
 use Miniblog\Engine\OutputHelper;
+use Miniblog\Engine\ParsedownExtended;
 
 use function dirname;
 
@@ -103,6 +104,7 @@ class FactoryTest extends AbstractTestCase
         $articleManager = $registry->get('articleManager');
 
         $this->assertInstanceOf(ArticleManager::class, $articleManager);
+        $this->assertInstanceOf(ParsedownExtended::class, $articleManager->getMarkdownParser()->getParsedown());
         $this->assertSame("{$projectDir}/content", $articleManager->getDataDir());
 
         /** @var ErrorsService */

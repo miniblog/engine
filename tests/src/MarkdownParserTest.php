@@ -7,6 +7,7 @@ namespace Miniblog\Engine\Tests;
 use DanBettles\Marigold\AbstractTestCase;
 use JsonException;
 use Miniblog\Engine\MarkdownParser;
+use Parsedown;
 
 use function file_get_contents;
 
@@ -14,6 +15,20 @@ use const null;
 
 class MarkdownParserTest extends AbstractTestCase
 {
+    // Factory method.
+    private function createMarkdownParser(): MarkdownParser
+    {
+        return new MarkdownParser(new Parsedown());
+    }
+
+    public function testIsConstructedFromAParsedown(): void
+    {
+        $parsedown = $this->createStub(Parsedown::class);
+        $markdownParser = new MarkdownParser($parsedown);
+
+        $this->assertSame($parsedown, $markdownParser->getParsedown());
+    }
+
     /** @return array<mixed[]> */
     public function providesParsedMarkdownFiles(): array
     {
@@ -87,7 +102,7 @@ class MarkdownParserTest extends AbstractTestCase
     {
         /** @var string */
         $text = file_get_contents($filePathname);
-        $parsedMarkdown = (new MarkdownParser())->parse($text);
+        $parsedMarkdown = $this->createMarkdownParser()->parse($text);
 
         $this->assertEquals($expected, $parsedMarkdown);
     }
@@ -98,44 +113,32 @@ class MarkdownParserTest extends AbstractTestCase
 
         /** @var string */
         $text = file_get_contents($this->createFixturePathname('invalid-front-matter-json-plus-markdown.md'));
-        (new MarkdownParser())->parse($text);
+        $this->createMarkdownParser()->parse($text);
     }
 
-    /** @return array<mixed[]> */
-    public function providesHighlightedPhp(): array
+    public function testUsesTheParsedown(): void
     {
-        return [
-            [
-                <<<END
-                <div class="code-block"><code><span class="php__default"></span><span class="php__keyword">(function&nbsp;(</span><span class="php__default">string&nbsp;\$message</span><span class="php__keyword">):&nbsp;</span><span class="php__default">void&nbsp;</span><span class="php__keyword">{<br>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span class="php__default">\$message</span><span class="php__keyword">;<br>})(</span><span class="php__string">'Hello,&nbsp;World!'</span><span class="php__keyword">);</span></code></div>
-                END,
-                'containing-fenced-code-block.md',
-            ],
-            [
-                <<<END
-                <div class="code-block"><code><span class="php__default">\$domDocument&nbsp;</span><span class="php__keyword">=&nbsp;new&nbsp;</span><span class="php__default">DOMDocument</span><span class="php__keyword">();<br></span><span class="php__default">\$domDocument</span><span class="php__keyword">-&gt;</span><span class="php__default">formatOutput&nbsp;</span><span class="php__keyword">=&nbsp;</span><span class="php__default">false</span><span class="php__keyword">;</span></code></div>
-                END,
-                'containing-php-with-special-chars.md',
-            ],
-            [
-                <<<END
-                <div class="code-block"><code><span class="php__default"></span><span class="php__keyword">echo&nbsp;</span><span class="php__string">'Foo'</span><span class="php__keyword">;</span></code></div>
-                <div class="code-block"><code><span class="php__default"></span><span class="php__keyword">echo&nbsp;</span><span class="php__string">'Bar'</span><span class="php__keyword">;</span></code></div>
-                END,
-                'containing-multiple-fenced-code-blocks.md',
-            ],
-        ];
-    }
-
-    /** @dataProvider providesHighlightedPhp */
-    public function testHighlightsPhpInFencedCodeBlocks(
-        string $expectedHtml,
-        string $fixtureBasename
-    ): void {
         /** @var string */
-        $text = file_get_contents($this->createFixturePathname($fixtureBasename));
-        $parsedMarkdown = (new MarkdownParser())->parse($text);
+        $text = file_get_contents($this->createFixturePathname('front-matter-plus-markdown.md'));
 
-        $this->assertSame($expectedHtml, $parsedMarkdown['body']);
+        $parsedownMock = $this
+            ->getMockBuilder(Parsedown::class)
+            ->onlyMethods(['text'])
+            ->getMock()
+        ;
+
+        $parsedownMock
+            ->expects($this->once())
+            ->method('text')
+            ->with(<<<END
+            Lorem ipsum dolor sit amet.
+
+            Cras imperdiet ante non tortor iaculis.
+
+            END)
+        ;
+
+        /** @var Parsedown $parsedownMock */
+        (new MarkdownParser($parsedownMock))->parse($text);
     }
 }
