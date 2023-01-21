@@ -117,6 +117,13 @@ class MarkdownParserTest extends AbstractTestCase
                 END,
                 'containing-php-with-special-chars.md',
             ],
+            [
+                <<<END
+                <div class="code-block"><code><span class="php__default"></span><span class="php__keyword">echo&nbsp;</span><span class="php__string">'Foo'</span><span class="php__keyword">;</span></code></div>
+                <div class="code-block"><code><span class="php__default"></span><span class="php__keyword">echo&nbsp;</span><span class="php__string">'Bar'</span><span class="php__keyword">;</span></code></div>
+                END,
+                'containing-multiple-fenced-code-blocks.md',
+            ],
         ];
     }
 

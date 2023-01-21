@@ -142,11 +142,11 @@ class MarkdownParser
             return $bodyHtml;
         }
 
-        foreach ($matches[1] as $encodedPhp) {
+        foreach ($matches[1] as $matchNo => $encodedPhp) {
             $php = html_entity_decode($encodedPhp, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
 
             $bodyHtml = str_replace(
-                $matches[0],
+                $matches[0][$matchNo],
                 ('<div class="code-block">' . $this->highlightPhp($php) . '</div>'),
                 $bodyHtml
             );

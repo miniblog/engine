@@ -27,3 +27,7 @@ class Greeter
 ```
 
 Eros donec ac odio tempor orci. In arcu cursus euismod quis viverra nibh. Tristique senectus et netus et malesuada fames ac. Vitae proin sagittis nisl rhoncus mattis rhoncus urna neque viverra. Volutpat commodo sed egestas egestas fringilla phasellus faucibus. Viverra nibh cras pulvinar mattis nunc sed blandit libero volutpat. Urna nunc id cursus metus aliquam eleifend mi in nulla. Fermentum posuere urna nec tincidunt praesent. Egestas maecenas pharetra convallis posuere morbi leo urna molestie at. Sagittis orci a scelerisque purus semper eget duis at tellus. Dolor magna eget est lorem ipsum dolor. Sed euismod nisi porta lorem mollis aliquam. Viverra mauris in aliquam sem fringilla ut. Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Tellus pellentesque eu tincidunt tortor aliquam. Bibendum arcu vitae elementum curabitur vitae nunc sed velit dignissim. Pellentesque adipiscing commodo elit at imperdiet dui accumsan sit. Pellentesque massa placerat duis ultricies. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.
+
+```php
+echo "Hello, World!";
+```
