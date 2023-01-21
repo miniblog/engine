@@ -9,8 +9,6 @@ use JsonException;
 use Miniblog\Engine\MarkdownParser;
 use Parsedown;
 
-use function file_get_contents;
-
 use const null;
 
 class MarkdownParserTest extends AbstractTestCase
@@ -37,7 +35,7 @@ class MarkdownParserTest extends AbstractTestCase
                 [
                     'body' => null,
                 ],
-                $this->createFixturePathname('empty-article.md'),
+                'empty-article.md',
             ],
             [
                 [
@@ -47,14 +45,14 @@ class MarkdownParserTest extends AbstractTestCase
                     <p>Cras imperdiet ante non tortor iaculis.</p>
                     END,
                 ],
-                $this->createFixturePathname('only-markdown.md'),
+                'only-markdown.md',
             ],
             [  // #2
                 [
                     'title' => 'Title in Front Matter',
                     'body' => '',
                 ],
-                $this->createFixturePathname('only-front-matter.md'),
+                'only-front-matter.md',
             ],
             [
                 [
@@ -66,7 +64,7 @@ class MarkdownParserTest extends AbstractTestCase
                     END,
                     'publishedAt' => '2022-08-26',  // From front matter.
                 ],
-                $this->createFixturePathname('front-matter-plus-markdown.md'),
+                'front-matter-plus-markdown.md',
             ],
             [
                 [
@@ -77,7 +75,7 @@ class MarkdownParserTest extends AbstractTestCase
                     <p>Cras imperdiet ante non tortor iaculis.</p>
                     END,
                 ],
-                $this->createFixturePathname('unterminated-front-matter-plus-markdown.md'),
+                'unterminated-front-matter-plus-markdown.md',
             ],
             [  // #5
                 [
@@ -89,7 +87,7 @@ class MarkdownParserTest extends AbstractTestCase
                     <p>Cras imperdiet ante non tortor iaculis.</p>
                     END,
                 ],
-                $this->createFixturePathname('incorrectly-formatted-front-matter-plus-markdown.md'),
+                'incorrectly-formatted-front-matter-plus-markdown.md',
             ],
         ];
     }
@@ -98,11 +96,12 @@ class MarkdownParserTest extends AbstractTestCase
      * @dataProvider providesParsedMarkdownFiles
      * @param array<string,mixed> $expected
      */
-    public function testParseReturnsAnArray(array $expected, string $filePathname): void
+    public function testParseReturnsAnArray(array $expected, string $fileBasename): void
     {
-        /** @var string */
-        $text = file_get_contents($filePathname);
-        $parsedMarkdown = $this->createMarkdownParser()->parse($text);
+        $parsedMarkdown = $this
+            ->createMarkdownParser()
+            ->parse($this->getFixtureContents($fileBasename))
+        ;
 
         $this->assertEquals($expected, $parsedMarkdown);
     }
@@ -111,16 +110,14 @@ class MarkdownParserTest extends AbstractTestCase
     {
         $this->expectException(JsonException::class);
 
-        /** @var string */
-        $text = file_get_contents($this->createFixturePathname('invalid-front-matter-json-plus-markdown.md'));
-        $this->createMarkdownParser()->parse($text);
+        $this
+            ->createMarkdownParser()
+            ->parse($this->getFixtureContents('invalid-front-matter-json-plus-markdown.md'))
+        ;
     }
 
     public function testUsesTheParsedown(): void
     {
-        /** @var string */
-        $text = file_get_contents($this->createFixturePathname('front-matter-plus-markdown.md'));
-
         $parsedownMock = $this
             ->getMockBuilder(Parsedown::class)
             ->onlyMethods(['text'])
@@ -139,6 +136,8 @@ class MarkdownParserTest extends AbstractTestCase
         ;
 
         /** @var Parsedown $parsedownMock */
-        (new MarkdownParser($parsedownMock))->parse($text);
+        (new MarkdownParser($parsedownMock))
+            ->parse($this->getFixtureContents('front-matter-plus-markdown.md'))
+        ;
     }
 }

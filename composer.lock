@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "26751db5aec4875286fd786a9f534c00",
+    "content-hash": "d0991ff6130fd12e381b060f909db1ef",
     "packages": [
         {
             "name": "danbettles/marigold",
-            "version": "v2.3.3",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/danbettles/marigold.git",
-                "reference": "7ae149f7785dc05276418f1a67ae5ec49610555f"
+                "reference": "9062070afff1145fbab0977958fb0472b9394dd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danbettles/marigold/zipball/7ae149f7785dc05276418f1a67ae5ec49610555f",
-                "reference": "7ae149f7785dc05276418f1a67ae5ec49610555f",
+                "url": "https://api.github.com/repos/danbettles/marigold/zipball/9062070afff1145fbab0977958fb0472b9394dd8",
+                "reference": "9062070afff1145fbab0977958fb0472b9394dd8",
                 "shasum": ""
             },
             "require": {
@@ -48,9 +48,9 @@
             "description": "Marigold is a small set of tools that aims to make building simple websites easier while remaining close to the metal and adding minimal overheads; it is not a framework.",
             "support": {
                 "issues": "https://github.com/danbettles/marigold/issues",
-                "source": "https://github.com/danbettles/marigold/tree/v2.3.3"
+                "source": "https://github.com/danbettles/marigold/tree/v2.4.0"
             },
-            "time": "2023-01-17T16:18:10+00:00"
+            "time": "2023-01-21T20:19:37+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -457,16 +457,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.9.12",
+            "version": "1.9.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "44a338ff0d5572c13fd77dfd91addb96e48c29f8"
+                "reference": "e5fcc96289cf737304286a9b505fbed091f02e58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/44a338ff0d5572c13fd77dfd91addb96e48c29f8",
-                "reference": "44a338ff0d5572c13fd77dfd91addb96e48c29f8",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e5fcc96289cf737304286a9b505fbed091f02e58",
+                "reference": "e5fcc96289cf737304286a9b505fbed091f02e58",
                 "shasum": ""
             },
             "require": {
@@ -496,7 +496,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.9.12"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.14"
             },
             "funding": [
                 {
@@ -512,7 +512,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-17T10:44:04+00:00"
+            "time": "2023-01-19T10:47:09+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

@@ -8,8 +8,6 @@ use DanBettles\Marigold\AbstractTestCase;
 use Miniblog\Engine\ParsedownExtended;
 use Parsedown;
 
-use function file_get_contents;
-
 class ParsedownExtendedTest extends AbstractTestCase
 {
     public function testIsAParsedown(): void
@@ -48,9 +46,9 @@ class ParsedownExtendedTest extends AbstractTestCase
         string $expectedHtml,
         string $fixtureBasename
     ): void {
-        /** @var string */
-        $text = file_get_contents($this->createFixturePathname($fixtureBasename));
-        $actualHtml = (new ParsedownExtended())->parse($text);
+        $actualHtml = (new ParsedownExtended())
+            ->text($this->getFixtureContents($fixtureBasename))
+        ;
 
         $this->assertSame($expectedHtml, $actualHtml);
     }
