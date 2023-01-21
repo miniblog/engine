@@ -35,7 +35,7 @@ class ArticleRepositoryTest extends AbstractTestCase
         new ArticleRepository(new MarkdownParser(), $dataDir);
     }
 
-    /** @return array<int,array<int,mixed>> */
+    /** @return array<mixed[]> */
     public function providesSingleArticlesToLoadUsingFind(): array
     {
         return [

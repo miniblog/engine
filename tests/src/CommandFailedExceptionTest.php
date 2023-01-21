@@ -29,7 +29,7 @@ class CommandFailedExceptionTest extends AbstractTestCase
         $this->assertSame($ex->getExitCode(), $ex->getCode());
     }
 
-    /** @return array<int,mixed[]> */
+    /** @return array<mixed[]> */
     public function providesExceptions(): array
     {
         return [
