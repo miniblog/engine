@@ -10,6 +10,7 @@ use function array_replace;
 use function array_slice;
 use function explode;
 use function highlight_string;
+use function html_entity_decode;
 use function implode;
 use function ini_get;
 use function json_decode;
@@ -21,6 +22,9 @@ use function str_replace;
 use function substr;
 use function trim;
 
+use const ENT_HTML401;
+use const ENT_QUOTES;
+use const ENT_SUBSTITUTE;
 use const false;
 use const JSON_THROW_ON_ERROR;
 use const null;
@@ -138,7 +142,9 @@ class MarkdownParser
             return $bodyHtml;
         }
 
-        foreach ($matches[1] as $php) {
+        foreach ($matches[1] as $encodedPhp) {
+            $php = html_entity_decode($encodedPhp, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
+
             $bodyHtml = str_replace(
                 $matches[0],
                 ('<div class="code-block">' . $this->highlightPhp($php) . '</div>'),

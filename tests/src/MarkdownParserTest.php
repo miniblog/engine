@@ -101,14 +101,34 @@ class MarkdownParserTest extends AbstractTestCase
         (new MarkdownParser())->parse($text);
     }
 
-    public function testHighlightsPhpInFencedCodeBlocks(): void
+    /** @return array<mixed[]> */
+    public function providesHighlightedPhp(): array
     {
+        return [
+            [
+                <<<END
+                <div class="code-block"><code><span class="php__default"></span><span class="php__keyword">(function&nbsp;(</span><span class="php__default">string&nbsp;\$message</span><span class="php__keyword">):&nbsp;</span><span class="php__default">void&nbsp;</span><span class="php__keyword">{<br>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span class="php__default">\$message</span><span class="php__keyword">;<br>})(</span><span class="php__string">'Hello,&nbsp;World!'</span><span class="php__keyword">);</span></code></div>
+                END,
+                'containing-fenced-code-block.md',
+            ],
+            [
+                <<<END
+                <div class="code-block"><code><span class="php__default">\$domDocument&nbsp;</span><span class="php__keyword">=&nbsp;new&nbsp;</span><span class="php__default">DOMDocument</span><span class="php__keyword">();<br></span><span class="php__default">\$domDocument</span><span class="php__keyword">-&gt;</span><span class="php__default">formatOutput&nbsp;</span><span class="php__keyword">=&nbsp;</span><span class="php__default">false</span><span class="php__keyword">;</span></code></div>
+                END,
+                'containing-php-with-special-chars.md',
+            ],
+        ];
+    }
+
+    /** @dataProvider providesHighlightedPhp */
+    public function testHighlightsPhpInFencedCodeBlocks(
+        string $expectedHtml,
+        string $fixtureBasename
+    ): void {
         /** @var string */
-        $text = file_get_contents($this->createFixturePathname('containing-fenced-code-block.md'));
+        $text = file_get_contents($this->createFixturePathname($fixtureBasename));
         $parsedMarkdown = (new MarkdownParser())->parse($text);
 
-        $this->assertSame(<<<END
-        <div class="code-block"><code><span class="php__default"></span><span class="php__keyword">(function&nbsp;(</span><span class="php__default">string&nbsp;\$message</span><span class="php__keyword">):&nbsp;</span><span class="php__default">void&nbsp;</span><span class="php__keyword">{<br>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span class="php__default">\$message</span><span class="php__keyword">;<br>})(</span><span class="php__string">'Hello,&nbsp;World!'</span><span class="php__keyword">);</span></code></div>
-        END, $parsedMarkdown['body']);
+        $this->assertSame($expectedHtml, $parsedMarkdown['body']);
     }
 }

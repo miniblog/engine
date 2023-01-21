@@ -1,5 +1,6 @@
 # Miniblog To Dos
 
+- [ ] Create an extension of `Parsedown` to better handle PHP in fenced code blocks(?)
 - [ ] Next/previous links in articles, to make it easier to navigate through the available content.
 - [ ] Put the platform message, and Website Carbon Badge, out of the way in a strip at the very bottom of the page.
 - [ ] Display only a few articles on the homepage.
