@@ -18,6 +18,14 @@ html {
         /* Windows emoji */ "Segoe UI Emoji",
         /* Windows emoji */ "Segoe UI Symbol",
         /* Linux emoji */ "Noto Color Emoji";
+    /* See https://ianyepan.github.io/posts/system-default-monospace-fonts-pt1/ */
+    --font-code:
+        ui-monospace,
+        "Cascadia Mono", "Segoe UI Mono",
+        "Ubuntu Mono",
+        "Roboto Mono",
+        Menlo, Monaco, Consolas,
+        monospace;
     --gutter: 36px;
     --main-content-width: 696px;
 
@@ -71,6 +79,7 @@ kbd,
 samp,
 pre,
 .code-block {
+    font-family: var(--font-code);
     font-size: smaller;
     border-radius: 0.25rem;  /* `rem` for 'constant' radius. */
 }
