@@ -407,6 +407,12 @@ html {
     --colour-fg-muted: #6c757d;
     --colour-border: #ddd;
     --colour-link: #2455c3;
+
+    /* Based on the "Light+" Visual Studio Code theme. */
+    --colour-php-comment: #008002;
+    --colour-php-default: #001080;  /* E.g. variables. */
+    --colour-php-keyword: #0430fa;  /* E.g. punctuation. */
+    --colour-php-string: #a21615;
 }
 
 html[data-colourmode="dark"] {
@@ -417,6 +423,12 @@ html[data-colourmode="dark"] {
     --colour-fg-muted: #8b949e;
     --colour-border: #30363d;
     --colour-link: #58a6ff;
+
+    /* Based on the "Dark+ (color blind)" Visual Studio Code theme. */
+    --colour-php-comment: #6a9956;
+    --colour-php-default: #b7b8f5;  /* E.g. variables. */
+    --colour-php-keyword: #da71d6;  /* E.g. punctuation. */
+    --colour-php-string: #ce9278;
 }
 /* ###< Default variables ### */
 
@@ -433,24 +445,51 @@ body {
 }
 
 /* ###> Code ### */
-code, kbd, samp, pre {
-    font-family: monospace;
+code,
+kbd,
+samp,
+pre,
+.code-block {
+    font-size: smaller;
     border-radius: 0.25rem;  /* `rem` for 'constant' radius. */
 }
 
-code, kbd, samp {
+code,
+kbd,
+samp {
     background-color: var(--colour-bg-code);
     padding: 0.125em 0.25em;
 }
 
-pre {
+pre,
+.code-block {
     background-color: var(--colour-bg-canvas);
     padding: 1em;
 }
 
-pre > code {
+pre > code,
+.code-block > code {
     white-space: break-spaces;
+    font-size: inherit;
     background-color: transparent;
+    padding: initial;
+    border-radius: 0;
+}
+
+.php__comment {
+    color: var(--colour-php-comment);
+}
+
+.php__default {
+    color: var(--colour-php-default);
+}
+
+.php__keyword {
+    color: var(--colour-php-keyword);
+}
+
+.php__string {
+    color: var(--colour-php-string);
 }
 /* ###< Code ### */
 

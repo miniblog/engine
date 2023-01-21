@@ -9,11 +9,17 @@ use Parsedown;
 use function array_replace;
 use function array_slice;
 use function explode;
+use function highlight_string;
 use function implode;
+use function ini_get;
 use function json_decode;
+use function preg_match_all;
 use function preg_replace;
 use function strlen;
+use function strpos;
+use function str_replace;
 use function substr;
+use function trim;
 
 use const false;
 use const JSON_THROW_ON_ERROR;
@@ -66,11 +72,81 @@ class MarkdownParser
     /**
      * @return array<string,mixed>
      */
-    private function createResult(?string $body = null): array
+    private function createResult(?string $bodyHtml = null): array
     {
         return [
-            'body' => $body,
+            'body' => $bodyHtml,
         ];
+    }
+
+    private function highlightPhp(string $php): string
+    {
+        if ('' === trim($php)) {
+            return $php;
+        }
+
+        $phpOpenTag = '<?php';
+        $highlighted = '';
+
+        if (false === strpos($php, $phpOpenTag)) {
+            // (Assume there's no close-tag in the PHP, either.)
+            $highlighted = str_replace(
+                '&lt;?php&nbsp;',
+                '',
+                highlight_string("{$phpOpenTag} {$php}", true)
+            );
+        } else {
+            $highlighted = highlight_string($php, true);
+        }
+
+        // Remove trailing slashes from now-void elements.
+        $highlighted = str_replace(' />', '>', $highlighted);
+
+        // Peel off the outer layers, which introduce unwanted whitespace and are superfluous in any case.
+        /** @var string */
+        $highlighted = preg_replace('~^<code>\s*<span[^>]*>\R*(.*?)\R*</span>\s*</code>$~s', '$1', $highlighted);
+
+        $highlightColourClassNames = [
+            // 'highlight.bg' => 'php__bg',
+            'highlight.comment' => 'php__comment',
+            'highlight.default' => 'php__default',
+            // 'highlight.html' => 'php__html',
+            'highlight.keyword' => 'php__keyword',
+            'highlight.string' => 'php__string',
+        ];
+
+        foreach ($highlightColourClassNames as $iniName => $className) {
+            $colour = ini_get($iniName);
+
+            // Replace inline styles with class names.
+            $highlighted = str_replace(
+                "style=\"color: {$colour}\"",
+                "class=\"{$className}\"",
+                $highlighted
+            );
+        }
+
+        return "<code>{$highlighted}</code>";
+    }
+
+    private function highlightCodeInCodeBlocks(string $bodyHtml): string
+    {
+        $matches = [];
+        $matched = (bool) preg_match_all('~<pre><code class="language-php">(.*?)</code></pre>~s', $bodyHtml, $matches);
+
+        if (!$matched) {
+            return $bodyHtml;
+        }
+
+        foreach ($matches[1] as $php) {
+            $bodyHtml = str_replace(
+                $matches[0],
+                ('<div class="code-block">' . $this->highlightPhp($php) . '</div>'),
+                $bodyHtml
+            );
+        }
+
+        return $bodyHtml;
     }
 
     /**
@@ -84,7 +160,7 @@ class MarkdownParser
 
         // Normalise newlines.
         /** @var string */
-        $text = preg_replace('~(\r\n|\r|\n)~', PHP_EOL, $text);
+        $text = preg_replace('~\R~', PHP_EOL, $text);
 
         list(
             $frontMatterJson,
@@ -97,9 +173,10 @@ class MarkdownParser
             : json_decode($frontMatterJson, true, 2, JSON_THROW_ON_ERROR)
         ;
 
-        $body = (new Parsedown())->text($markdown);
+        $bodyHtml = (new Parsedown())->text($markdown);
+        $bodyHtml = $this->highlightCodeInCodeBlocks($bodyHtml);
 
-        $result = array_replace($this->createResult($body), $frontMatter);
+        $result = array_replace($this->createResult($bodyHtml), $frontMatter);
 
         return $result;
     }

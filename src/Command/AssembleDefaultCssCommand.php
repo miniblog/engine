@@ -81,7 +81,7 @@ class AssembleDefaultCssCommand extends AbstractCommand
         $mergedCss = implode(PHP_EOL . PHP_EOL, $sourceStylesheets);
 
         // Remove superfluous newlines to make the CSS neater and a little more compact.
-        $mergedCss = preg_replace('~(\r\n|\r|\n){3,}~', PHP_EOL, $mergedCss) . PHP_EOL;
+        $mergedCss = preg_replace('~\R{3,}~', PHP_EOL, $mergedCss) . PHP_EOL;
 
         if (!(bool) file_put_contents($this->outputFilePathname, $mergedCss)) {
             throw new RuntimeException("Failed to create `{$this->outputFilePathname}`");

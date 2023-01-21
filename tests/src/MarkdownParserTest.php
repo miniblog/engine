@@ -14,7 +14,7 @@ use const null;
 
 class MarkdownParserTest extends AbstractTestCase
 {
-    /** @return array<int,array<int,mixed>> */
+    /** @return array<mixed[]> */
     public function providesParsedMarkdownFiles(): array
     {
         return [
@@ -99,5 +99,16 @@ class MarkdownParserTest extends AbstractTestCase
         /** @var string */
         $text = file_get_contents($this->createFixturePathname('invalid-front-matter-json-plus-markdown.md'));
         (new MarkdownParser())->parse($text);
+    }
+
+    public function testHighlightsPhpInFencedCodeBlocks(): void
+    {
+        /** @var string */
+        $text = file_get_contents($this->createFixturePathname('containing-fenced-code-block.md'));
+        $parsedMarkdown = (new MarkdownParser())->parse($text);
+
+        $this->assertSame(<<<END
+        <div class="code-block"><code><span class="php__default"></span><span class="php__keyword">(function&nbsp;(</span><span class="php__default">string&nbsp;\$message</span><span class="php__keyword">):&nbsp;</span><span class="php__default">void&nbsp;</span><span class="php__keyword">{<br>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span class="php__default">\$message</span><span class="php__keyword">;<br>})(</span><span class="php__string">'Hello,&nbsp;World!'</span><span class="php__keyword">);</span></code></div>
+        END, $parsedMarkdown['body']);
     }
 }

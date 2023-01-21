@@ -9,11 +9,12 @@
 ## Website
 
 - Google Lighthouse gives it scores of 100 across the board on both desktop and mobile when using HTTPS.
-- High speed.
+- It's fast.
 - Uncluttered and easy to read.  The focus will always be the content.
 - Mobile friendly.
 - Automatic dark mode if the user's operating system says so.
 - Semantic markup and appropriate microdata baked in.
+- PHP code from qualified fenced code-blocks is automatically highlighted.
 - User-friendly URLs.
 
 ## General
