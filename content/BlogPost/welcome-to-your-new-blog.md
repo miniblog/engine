@@ -1,5 +1,5 @@
 {
-    "title": "👋 Welcome to Your New Blog!",
+    "title": "Welcome to Your New Blog 👋",
     "description": "Instructions on getting started with Miniblog",
     "publishedAt": "2022-12-15T14:04:00+00:00"
 }
