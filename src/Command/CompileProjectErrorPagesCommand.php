@@ -60,7 +60,7 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
     {
         $prevUseLibxmlInternalErrors = libxml_use_internal_errors(true);
 
-        $domDocument = new DOMDocument('1.0', 'utf8');
+        $domDocument = new DOMDocument();
         $domDocument->formatOutput = false;
         $domDocument->loadHTML($html, LIBXML_NOBLANKS);
 
