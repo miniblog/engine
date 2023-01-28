@@ -29,26 +29,37 @@ class ErrorsServiceTest extends AbstractTestCase
 
     public function testGetpagepathnamesReturnsAnArrayOfThePathnamesOfErrorPages(): void
     {
-        $varDir = $this->createFixturePathname(__FUNCTION__);
+        $projectDir = $this->createFixturePathname(__FUNCTION__);
 
         $service = new ErrorsService([
-            'varDir' => $varDir,
+            'projectDir' => $projectDir,
         ]);
 
         $this->assertSame([
-            404 => "{$varDir}/show_error_action/error_404.html",
-            500 => "{$varDir}/show_error_action/error_500.html",
+            404 => "{$projectDir}/public/errors/error-404.html",
+            500 => "{$projectDir}/public/errors/error-500.html",
         ], $service->getPagePathnames());
     }
 
     public function testGetpagepathnameReturnsThePathnameOfTheErrorPageForAStatusCode(): void
     {
-        $varDir = $this->createFixturePathname(__FUNCTION__);
+        $projectDir = $this->createFixturePathname(__FUNCTION__);
 
         $service = new ErrorsService([
-            'varDir' => $varDir,
+            'projectDir' => $projectDir,
         ]);
 
-        $this->assertSame("{$varDir}/show_error_action/error_404.html", $service->getPagePathname(404));
+        $this->assertSame("{$projectDir}/public/errors/error-404.html", $service->getPagePathname(404));
+    }
+
+    public function testGetpagedirReturnsThePathnameOfThePageDirectory(): void
+    {
+        $projectDir = $this->createFixturePathname(__FUNCTION__);
+
+        $service = new ErrorsService([
+            'projectDir' => $projectDir,
+        ]);
+
+        $this->assertSame("{$projectDir}/public/errors", $service->getPageDir());
     }
 }

@@ -2,7 +2,6 @@
 
 ## In Play
 
-- [ ] Move generated error pages into the public directory.  Means they can be easily tested.
 - [ ] Next/previous links in articles, to make it easier to navigate through the available content.
 - [ ] Email sign-up form.
 - [ ] Display only a few articles on the homepage.
@@ -28,5 +27,6 @@
 
 ## Completed
 
+- [X] ~~Move generated error pages into the public directory.  Means they can be easily tested.~~
 - [X] ~~Create an extension of `Parsedown` to better handle PHP in fenced code blocks(?)~~
 - [X] ~~Add feature-list to the documentation.~~

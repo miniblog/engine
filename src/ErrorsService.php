@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine;
 
+use DanBettles\Marigold\FileInfo;
 use DanBettles\Marigold\HttpResponse;
 
-use function strrpos;
-use function substr;
+use function preg_replace;
 
 class ErrorsService
 {
@@ -44,13 +44,17 @@ class ErrorsService
         return "show_error_action/error_{$statusCode}.html.php";
     }
 
+    public function getPageDir(): string
+    {
+        return $this->getConfig()['projectDir'] . '/public/errors';
+    }
+
     private function createPagePathname(int $statusCode): string
     {
-        $renderPathname = $this->createRenderPathname($statusCode);
-        /** @var int */
-        $posLastFullStop = strrpos($renderPathname, '.');
+        $renderPathnameInfo = new FileInfo($this->createRenderPathname($statusCode));
+        $pageBasename = preg_replace('~[^a-zA-Z0-9.]~', '-', $renderPathnameInfo->getBasenameMinusExtension());
 
-        return $this->getConfig()['varDir'] . '/' . substr($renderPathname, 0, $posLastFullStop);
+        return "{$this->getPageDir()}/{$pageBasename}";
     }
 
     /**

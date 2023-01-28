@@ -81,7 +81,6 @@ class Factory
             'engineTemplatesDir' => "{$engineDir}/templates",
             'projectDir' => $projectDir,
             'projectTemplatesDir' => "{$projectDir}/templates",
-            'varDir' => "{$projectDir}/var",
         ]);
     }
 

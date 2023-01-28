@@ -13,6 +13,7 @@ use RuntimeException;
 
 use function file_put_contents;
 use function libxml_use_internal_errors;
+use function sprintf;
 
 use const false;
 use const LIBXML_NOBLANKS;
@@ -38,6 +39,8 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
         $errorsService = $this->get('errorsService');
         /** @var Engine */
         $templateEngine = $this->get('templateEngine');
+
+        $this->getConsole()->passthru(sprintf('rm --force %s/*.*', $errorsService->getPageDir()));
 
         foreach ($errorsService->getPagePathnames() as $statusCode => $errorPagePathname) {
             $renderPathname = $errorsService->createRenderPathname($statusCode);
