@@ -682,7 +682,11 @@ article > header {
 
 article > header h1,
 article > header h2 {
-    margin-bottom: calc(1em / 6);
+    margin-bottom: 0;
+}
+
+.article__by-line {
+    font-size: smaller;
 }
 
 .article__by-line > span {
