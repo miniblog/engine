@@ -2,7 +2,11 @@
 
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 
-Miniblog is a minimal blogging platform, written in object-oriented PHP, aimed primarily at developers.  There is no complicated setup, no distracting admin area, and no plugins or themes: the focus is blogging.  Take a look at the [feature list](doc/features.md) and the [Miniblog Guiding Principles](https://justathought.dev/blog/miniblog-guiding-principles) to get a feel for what we're about.
+Miniblog is a minimal blogging platform, written in object-oriented PHP, aimed primarily at developers.
+
+There is no complicated setup, no distracting admin area, and no plugins or themes: the focus is blogging.
+
+Take a look at the [feature list](doc/features.md) and the [Miniblog Guiding Principles](https://justathought.dev/blog/miniblog-guiding-principles) to get a feel for what we're about.
 
 ## Documentation
 
@@ -17,4 +21,5 @@ Miniblog is a minimal blogging platform, written in object-oriented PHP, aimed p
 
 ## Props :clap:
 
-- [@paintedsky](https://github.com/paintedsky) for his excellent minimal app, [Dead Simple Blog](https://github.com/paintedsky/dead-simple-blog), which provided some of the inspiration for Miniblog.  Check it out if you're at all interested because it may suit you better.
+- [Steve Hobbs](https://www.iamstevehobbs.com/) ([@shoobzy](https://github.com/shoobzy)), my most excellent designer colleague, for making the Miniblog logo a&mdash;very-smart&mdash;reality.
+- Karyl Gilbertson ([@paintedsky](https://github.com/paintedsky)) for his excellent minimal app, [Dead Simple Blog](https://github.com/paintedsky/dead-simple-blog), which provided some of the inspiration for Miniblog.  Check it out if you're at all interested because it may suit you better.
