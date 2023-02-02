@@ -6,8 +6,6 @@ return [
         'title' => 'Title of the Website',
         /** @var string */
         'description' => "A concise description of the website's content",
-        /** @var string|null Optional */
-        'blurb' => 'This is the blurb.  Use it to welcome your visitors or tell them about the website',
         /** @var string Published date of the website, in ISO 8601 format */
         'publishedOn' => '2022-09-18',
         /** @var string The ISO 639-1 code of the website's language */

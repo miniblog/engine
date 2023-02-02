@@ -19,7 +19,6 @@ $helper = $globals->get('outputHelper');
 /** @var array<string,string> */
 $site = $config['site'];
 $siteTitle = $site['title'];
-$siteBlurb = $site['blurb'];
 
 /** @var array{id:string} */
 $matchedRoute = $request->attributes['route'] ?? ['id' => ''];
@@ -92,10 +91,6 @@ $showWebsiteCarbonBadge = 'dev' !== $config['env'];
                         <?php endforeach ?>
                     </ul>
                 </nav>
-
-                <?php if (null !== $siteBlurb) : ?>
-                    <p class="masthead__blurb"><?= $siteBlurb ?></p>
-                <?php endif ?>
             </header>
 
             <main>

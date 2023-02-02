@@ -81,6 +81,7 @@ class Factory
             'engineTemplatesDir' => "{$engineDir}/templates",
             'projectDir' => $projectDir,
             'projectTemplatesDir' => "{$projectDir}/templates",
+            'contentDir' => "{$projectDir}/content",
         ]);
     }
 
@@ -149,7 +150,7 @@ class Factory
 
         return new ArticleManager(
             new MarkdownParser(new ParsedownExtended()),
-            "{$config['projectDir']}/content"
+            $config['contentDir']
         );
     }
 

@@ -212,13 +212,6 @@ blockquote {
     color: var(--colour-fg-default);
 }
 
-.masthead__blurb {
-    display: none;
-    font-family: var(--font-body);
-    font-size: smaller;
-    color: var(--colour-fg-muted);
-}
-
 main,
 .footer {
     max-width: var(--main-content-width);
@@ -270,10 +263,6 @@ main {
         margin-right: 0;
     }
 
-    .masthead__blurb {
-        display: block;  /* Show. */
-    }
-
     main,
     .footer {
         margin-left: calc(var(--masthead-width) + var(--gutter));
@@ -291,6 +280,10 @@ main {
     }
 }
 /* ###< Layout ### */
+
+.blurb {
+    text-align: center;
+}
 
 .blog-posts {
     text-align: center;

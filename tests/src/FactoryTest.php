@@ -68,6 +68,7 @@ class FactoryTest extends AbstractTestCase
             'engineTemplatesDir' => "{$engineDir}/templates",
             'projectDir' => $projectDir,
             'projectTemplatesDir' => "{$projectDir}/templates",
+            'contentDir' => "{$projectDir}/content",
         ], $config);
 
         $requestFromRegistry = $registry->get('request');

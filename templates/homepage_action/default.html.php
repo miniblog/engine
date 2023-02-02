@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * @param Article|null blurb
  * @param Article[] articles
  */
 
@@ -19,9 +20,21 @@ $output->insertInto('layout.html.php', 'mainContent', [
     'metaDescription' => $site['description'],
 ]);
 
+/** @var Article|null */
+$blurb = $input['blurb'];
+
 /** @var array<string,string> */
 $owner = $config['owner'];
 ?>
+<?php if ($blurb) : ?>
+    <div class="blurb">
+        <?= $output->include('article.html.php', [
+            'article' => $blurb,
+            'firstHeadingLevel' => 2,
+        ]) ?>
+    </div>
+<?php endif ?>
+
 <div class="blog-posts">
     <?php /** @var Article $article */ foreach ($input['articles'] as $article) : ?>
         <?php /** @var string */ $articleId = $article->getId() ?>

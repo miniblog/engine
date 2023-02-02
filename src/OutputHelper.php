@@ -11,6 +11,7 @@ use IntlDateFormatter;
 
 use function array_filter;
 use function array_replace;
+use function array_unshift;
 use function implode;
 use function is_array;
 use function is_string;
@@ -142,6 +143,21 @@ class OutputHelper extends Html5OutputHelper
     public function createTitle(string ...$parts): string
     {
         return $this->createEl('title', implode(' | ', array_filter($parts)));
+    }
+
+    /**
+     * @param mixed ...$args  Other args.
+     * @todo Move to Marigold.
+     */
+    public function createH(
+        int $level,
+        ...$args
+    ): string {
+        $tagName = "h{$level}";
+        array_unshift($args, $tagName);
+
+        /** @phpstan-ignore-next-line */
+        return $this->createEl(...$args);
     }
 
     private function setRouter(Router $router): self

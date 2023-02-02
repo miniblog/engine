@@ -2,7 +2,6 @@
 
 ## In Play
 
-- [ ] Display blurb only at the top of the homepage, above the most recent articles.
 - [ ] Email sign-up form.
 - [ ] Next/previous links in articles, to make it easier to navigate through the available content.
 - [ ] Display only a few articles on the homepage.
@@ -28,6 +27,7 @@
 
 ## Completed
 
+- [X] ~~Display blurb only at the top of the homepage, above the most recent articles.~~
 - [X] ~~Move generated error pages into the public directory.  Means they can be easily tested.~~
 - [X] ~~Create an extension of `Parsedown` to better handle PHP in fenced code blocks(?)~~
 - [X] ~~Add feature-list to the documentation.~~
