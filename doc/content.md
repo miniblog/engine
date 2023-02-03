@@ -57,4 +57,4 @@ At present, blog-post articles have no special features.
 
 ## Blurb
 
-Miniblog will automatically attempt to display the article `content/Article/blurb.md` at the top of the homepage.  This article is called "blurb" because it is intended to provide an overview of the site's content.
+Miniblog will automatically attempt to display the article `content/Article/blurb.md` at the top of the homepage.  This article is called "blurb" because it is intended to provide an overview of the site's content.  As such, its title will not be automatically displayed; this is because the blurb is printed directly beneath the main heading on the homepage&mdash;to which that content effectively belongs.

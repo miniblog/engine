@@ -440,11 +440,6 @@ html[data-colourmode="dark"] {
 }
 /* ###< Default variables ### */
 
-/* Override sanitize.css. */
-:where(:root) {
-    line-height: 1.6;
-}
-
 html {
     font-family: var(--font-body);
     font-size: 18px;
@@ -455,6 +450,11 @@ html {
 html,
 body {
     height: 100%;
+}
+
+/* Override sanitize.css. */
+body {
+    line-height: 1.6;
 }
 
 /* ###> Code ### */
@@ -512,7 +512,6 @@ pre > code,
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 500;
-    text-align: center;
 }
 
 /* ###> Links ### */
@@ -555,7 +554,6 @@ blockquote {
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    text-align: center;
     border-bottom: 1px solid var(--colour-border);
 }
 
@@ -563,7 +561,6 @@ blockquote {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: normal;
-    text-align: inherit;
     margin: 0.83em 0;
 }
 
@@ -614,67 +611,15 @@ main {
     font-size: small;
     color: var(--colour-fg-muted);
 }
-
-@media screen and (min-width: 992px) {
-    :root {
-        --masthead-width: 220px;
-    }
-
-    .container {
-        max-width: calc(var(--gutter) + var(--masthead-width) + var(--gutter) + var(--main-content-width) + var(--gutter));
-    }
-
-    .masthead {
-        display: block;  /* Disable flex. */
-        position: fixed;
-        top: 0;
-        width: var(--masthead-width);
-        text-align: left;
-        border-bottom: 0;
-    }
-
-    .masthead nav ul {
-        display: block;  /* Disable flex. */
-    }
-
-    .masthead nav li {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    main,
-    .footer {
-        margin-left: calc(var(--masthead-width) + var(--gutter));
-    }
-
-    .footer {
-        text-align: left;
-    }
-
-    .footer__spec {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        align-items: center;
-    }
-}
 /* ###< Layout ### */
 
-.blurb {
-    text-align: center;
-}
-
-.blog-posts {
-    text-align: center;
-}
-
+/* ###> Articles ### */
 article > header {
     font-family: var(--font-heading);
-    text-align: center;
 }
 
 article > header h1,
-article > header h2 {
+article > header h3 {
     margin-bottom: 0;
 }
 
@@ -685,3 +630,8 @@ article > header h2 {
 .article__by-line > span {
     font-weight: bolder;
 }
+
+.full.blog-post header {
+    text-align: center;
+}
+/* ###< Articles ### */

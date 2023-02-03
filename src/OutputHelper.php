@@ -145,21 +145,6 @@ class OutputHelper extends Html5OutputHelper
         return $this->createEl('title', implode(' | ', array_filter($parts)));
     }
 
-    /**
-     * @param mixed ...$args  Other args.
-     * @todo Move to Marigold.
-     */
-    public function createH(
-        int $level,
-        ...$args
-    ): string {
-        $tagName = "h{$level}";
-        array_unshift($args, $tagName);
-
-        /** @phpstan-ignore-next-line */
-        return $this->createEl(...$args);
-    }
-
     private function setRouter(Router $router): self
     {
         $this->router = $router;

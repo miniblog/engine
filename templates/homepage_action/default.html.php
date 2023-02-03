@@ -28,25 +28,24 @@ $owner = $config['owner'];
 ?>
 <?php if ($blurb) : ?>
     <div class="blurb">
-        <?= $output->include('article.html.php', [
-            'article' => $blurb,
-            'firstHeadingLevel' => 2,
-        ]) ?>
+        <?= $blurb->getBody() ?>
     </div>
 <?php endif ?>
 
 <div class="blog-posts">
+    <h2>Articles</h2>
+
     <?php /** @var Article $article */ foreach ($input['articles'] as $article) : ?>
         <?php /** @var string */ $articleId = $article->getId() ?>
 
         <article>
             <header>
-                <h2>
+                <h3>
                     <?= $helper->linkTo(
                         ['showBlogPost', ['postId' => $articleId]],
                         $article->getTitle()
                     ) ?>
-                </h2>
+                </h3>
 
                 <?= $helper->createArticleByLine($article, $owner, false) ?>
             </header>

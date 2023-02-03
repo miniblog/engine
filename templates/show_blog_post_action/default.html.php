@@ -23,7 +23,11 @@ $helper = $globals->get('outputHelper');
 /** @var array<string,string> */
 $author = $config['owner'];
 ?>
-<article itemscope itemtype="https://schema.org/BlogPosting">
+<article
+    itemscope
+    itemtype="https://schema.org/BlogPosting"
+    class="full blog-post"
+>
     <header>
         <h1 itemprop="headline"><?= $article->getTitle() ?></h1>
         <?= $helper->createArticleByLine($article, $author) ?>
