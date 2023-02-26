@@ -11,7 +11,7 @@ A Document comprises at most two parts:
 
 As an example, here's what a blog-post Document looks like:
 
-```json
+```markdown
 {
     "headline": "Lorem Ipsum Dolor",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",

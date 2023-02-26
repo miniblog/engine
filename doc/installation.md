@@ -16,10 +16,7 @@ Follow these instructions to quickly get a Miniblog-powered website up and runni
 1. Assuming Composer is installed globally, run:\
 `composer create-project miniblog/blog-project <target-directory>`\
 Replace `<target-directory>` with the name of the directory you want to create.
-1. At the root of the project you just created, run `bin/console refresh`.
 1. Make `public/` the document root of your website.
-
-> :warning: Always run `bin/console refresh` after updating content.
 
 You should now see the Miniblog homepage when you navigate to the root of your website.
 
