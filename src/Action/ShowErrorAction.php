@@ -7,6 +7,7 @@ namespace Miniblog\Engine\Action;
 use DanBettles\Marigold\Exception\HttpException;
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\HttpResponse;
+use Miniblog\Engine\AbstractAction;
 use Miniblog\Engine\ErrorsService;
 use Throwable;
 
@@ -42,11 +43,9 @@ class ShowErrorAction extends AbstractAction
             $statusCode = $error->getStatusCode();
         }
 
-        $responseContent = '';
+        $responseContent = "<pre>{$error}</pre>";
 
-        if ('dev' === $config['env']) {
-            $responseContent = "<pre>{$error}</pre>";
-        } else {
+        if ('prod' === $config['env']) {
             /** @var string */
             $responseContent = file_get_contents($errorsService->getPagePathname($statusCode));
         }

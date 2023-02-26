@@ -6,18 +6,40 @@ namespace Miniblog\Engine\Action;
 
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\HttpResponse;
-use Miniblog\Engine\ArticleManager;
+use DateTime;
+use Miniblog\Engine\AbstractAction;
+use Miniblog\Engine\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
+use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
+use Miniblog\Engine\Schema\Thing\Person;
+use Miniblog\Engine\ThingManager;
+
+use function usort;
+
+use const true;
 
 class HomepageAction extends AbstractAction
 {
     public function __invoke(HttpRequest $request): HttpResponse
     {
-        /** @var ArticleManager */
-        $articleManager = $this->getServices()->get('articleManager');
+        /** @var ThingManager */
+        $thingManager = $this->getServices()->get('thingManager');
+
+        /** @var BlogPosting[] */
+        $blogPostings = $thingManager->findAll(BlogPosting::class);
+
+        usort($blogPostings, function (BlogPosting $posting1, BlogPosting $posting2): int {
+            /** @var DateTime */
+            $publishedAt1 = $posting1->getDatePublished(true);
+            /** @var DateTime */
+            $publishedAt2 = $posting2->getDatePublished(true);
+
+            return -1 * ($publishedAt1->getTimestamp() <=> $publishedAt2->getTimestamp());
+        });
 
         return $this->renderDefault([
-            'blurb' => $articleManager->getRepository('Article')->find('blurb'),
-            'articles' => $articleManager->getRepository('BlogPost')->findAll(),
+            'website' => $thingManager->getThisWebsite(),
+            'owner' => $thingManager->getOwner(),
+            'blogPostings' => $blogPostings,
         ]);
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Miniblog\Engine\Tests\Action;
 
 use DanBettles\Marigold\AbstractTestCase;
-use Miniblog\Engine\Action\AbstractAction;
+use Miniblog\Engine\AbstractAction;
 
 class HomepageActionTest extends AbstractTestCase
 {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine\Command;
 
+use Miniblog\Engine\AbstractCommand;
+
 /**
  * Checks quality and then completely (re)builds the app.
  */

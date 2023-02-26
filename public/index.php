@@ -10,7 +10,11 @@ $projectDir = dirname(__DIR__);
 
 require "{$projectDir}/vendor/autoload.php";
 
-$factory = new Factory($projectDir, HttpRequest::createFromGlobals());
+$factory = new Factory(
+    $projectDir,
+    getenv('MINIBLOG_ENV') ?: 'prod',
+    HttpRequest::createFromGlobals()
+);
 
 (new Website($factory->getRegistry()))
     ->handleRequest()

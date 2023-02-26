@@ -2,9 +2,9 @@
 
 ## Installation
 
-- No database required.  Articles are written in Markdown with a sprinkling of JSON; pop those files in the content directory in your project and you're done.
+- No database required: all content is stored in text files comprising minimal [JSON](https://en.wikipedia.org/wiki/JSON) and [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)-formatted text.
 - Requires only tech that's readily available in basic hosting packages.
-- Installation is quick, with very little configuration&mdash;take a look at the [installation instructions](installation.md) to see what we mean.
+- Installation is quick, with practically zero configuration&mdash;take a look at the [installation instructions](installation.md) to see what we mean.
 
 ## Website
 
@@ -19,6 +19,6 @@
 
 ## General
 
-- Arranged to allow you to easily version-control just your content.
+- Arranged to allow you to easily version-control just your data.
 - While the focus isn't on flexibility, templates can be overridden, which does give some control over the appearance of your website.
 - Miniblog is written in object-oriented PHP and is unit-tested.  It was designed to be basic, but robust and extensible.

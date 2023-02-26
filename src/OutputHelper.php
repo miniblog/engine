@@ -8,13 +8,16 @@ use DanBettles\Marigold\OutputHelper\Html5OutputHelper;
 use DanBettles\Marigold\Router;
 use DateTime;
 use IntlDateFormatter;
+use Miniblog\Engine\Schema\Thing\CreativeWork;
+use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
+use Miniblog\Engine\Schema\Thing\Person;
 
 use function array_filter;
 use function array_replace;
-use function array_unshift;
 use function implode;
 use function is_array;
 use function is_string;
+use function strlen;
 use function strpos;
 
 use const false;
@@ -74,60 +77,55 @@ class OutputHelper extends Html5OutputHelper
         ]), $content);
     }
 
-    /**
-     * @param array<string,string> $author
-     */
-    public function createArticleByLine(
-        Article $article,
-        array $author,
-        bool $inArticleScope = true
+    public function createByLine(
+        CreativeWork $creativeWork,
+        Person $author,
+        bool $inHtmlArticleScope = true
     ): string {
         $personNameEl = $this->createSpan([
             'itemprop' => 'name',
-        ], $author['name']);
+        ], $author->getFullName());
 
-        $articleAuthorEl = $this->createSpan([
-            'itemprop' => ($inArticleScope ? 'author' : false),
+        $creativeWorkAuthorEl = $this->createSpan([
+            'itemprop' => ($inHtmlArticleScope ? 'author' : false),
             'itemscope' => true,
             'itemtype' => 'https://schema.org/Person',
         ], $personNameEl);
 
         /** @var DateTime */
-        $publishedAt = $article->getPublishedAt();
+        $creativeWorkPublishedAt = $creativeWork->getDatePublished(true);
 
-        $articleDatePublishedEl = $this->createTime([
-            'datetime' => $publishedAt->format('c'),
-            'itemprop' => ($inArticleScope ? 'datePublished' : false),
-        ], $this->getDateFormatter()->format($publishedAt));
+        $creativeWorkDatePublishedEl = $this->createTime([
+            'datetime' => $creativeWorkPublishedAt->format('c'),
+            'itemprop' => ($inHtmlArticleScope ? 'datePublished' : false),
+        ], $this->getDateFormatter()->format($creativeWorkPublishedAt));
 
-        $bylineContent = "by {$articleAuthorEl} on {$articleDatePublishedEl}";
+        $bylineContent = "by {$creativeWorkAuthorEl} on {$creativeWorkDatePublishedEl}";
 
-        if ($article->getUpdatedAt()) {
+        if ($creativeWork->getDateModified()) {
             /** @var DateTime */
-            $updatedAt = $article->getUpdatedAt();
+            $creativeWorkUpdatedAt = $creativeWork->getDateModified(true);
 
-            $articleDateUpdatedEl = $this->createTime([
-                'datetime' => $updatedAt->format('c'),
-                'itemprop' => ($inArticleScope ? 'dateModified' : false),
-            ], $this->getDateFormatter()->format($updatedAt));
+            $creativeWorkDateModifiedEl = $this->createTime([
+                'datetime' => $creativeWorkUpdatedAt->format('c'),
+                'itemprop' => ($inHtmlArticleScope ? 'dateModified' : false),
+            ], $this->getDateFormatter()->format($creativeWorkUpdatedAt));
 
-            $bylineContent .= ", updated on {$articleDateUpdatedEl}";
+            $bylineContent .= ", updated on {$creativeWorkDateModifiedEl}";
         }
 
         return $this->createDiv([
-            'class' => 'article__by-line',
+            'class' => 'creative-work__by-line',
         ], $bylineContent);
     }
 
-    /**
-     * @param array<string,string> $site
-     * @param array<string,string> $owner
-     */
     public function createCopyrightNotice(
-        array $site,
-        array $owner
+        WebSite $website,
+        Person $owner
     ): string {
-        $siteLaunchYear = (new DateTime($site['publishedOn']))->format('Y');
+        /** @var DateTime */
+        $websitePublishedAt = $website->getDatePublished(true);
+        $siteLaunchYear = $websitePublishedAt->format('Y');
         $thisYear = (new DateTime())->format('Y');
 
         $range = $siteLaunchYear === $thisYear
@@ -135,7 +133,11 @@ class OutputHelper extends Html5OutputHelper
             : "{$siteLaunchYear}-{$thisYear}"
         ;
 
-        $ownerName = $this->linkTo("mailto:{$owner['email']}", $owner['name']);
+        $ownerName = $owner->getFullName();
+
+        if (strlen((string) $owner->getEmail())) {
+            $ownerName = $this->linkTo("mailto:{$owner->getEmail()}", $ownerName);
+        }
 
         return $this->createP("Copyright &copy; {$range} {$ownerName}");
     }

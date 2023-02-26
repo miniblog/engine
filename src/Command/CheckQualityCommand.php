@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine\Command;
 
+use Miniblog\Engine\AbstractCommand;
+
 /**
  * Runs all automated tests; lints all the code; performs static analysis on the PHP.
  */

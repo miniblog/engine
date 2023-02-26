@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Miniblog\Engine\Tests\Command;
 
 use DanBettles\Marigold\AbstractTestCase;
-use Miniblog\Engine\Command\AbstractCommand;
+use Miniblog\Engine\AbstractCommand;
 
 class CompileProjectErrorPagesCommandTest extends AbstractTestCase
 {

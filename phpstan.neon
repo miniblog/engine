@@ -1,11 +1,19 @@
 parameters:
     level: max
+
     paths:
         - bin
         - public
         - src
         - templates
         - tests
+
+    typeAliases:
+        FrontMatter: 'array<string,?string>'
+        ParsedDocument: 'array{frontMatter:FrontMatter,body:?string}'
+        MatchedRoute: 'array{id:string,path:string,action:class-string<Miniblog\Engine\AbstractAction>,parameters:array<string,string>}'
+        Config: 'array<string,string>'
+
     ignoreErrors:
         -
             message: '#Call to an undefined method Miniblog\\Engine\\OutputHelper::create[A-Z]#'

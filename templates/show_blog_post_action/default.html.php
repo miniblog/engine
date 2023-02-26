@@ -1,39 +1,46 @@
 <?php
 
 /**
- * @param Article article
+ * @param WebSite website
+ * @param Person author
+ * @param BlogPosting blogPosting
  */
 
-use Miniblog\Engine\Article;
 use Miniblog\Engine\OutputHelper;
+use Miniblog\Engine\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
+use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
+use Miniblog\Engine\Schema\Thing\Person;
 
-/** @var Article */
-$article = $input['article'];
-
-$output->insertInto('layout.html.php', 'mainContent', [
-    'metaTitle' => $article->getTitle(),
-    'metaDescription' => ($article->getDescription() ?: ''),
-]);
-
-/** @var array<string,string|string[]> */
-$config = $globals->get('config');
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
 
-/** @var array<string,string> */
-$author = $config['owner'];
+/** @var WebSite */
+$website = $input['website'];
+/** @var Person */
+$author = $input['author'];
+/** @var BlogPosting */
+$blogPosting = $input['blogPosting'];
+
+$output->insertInto('layout.html.php', 'mainContent', [
+    'website' => $website,
+    'owner' => $author,
+    'metaTitle' => $blogPosting->getHeadline(),
+    'metaDescription' => $blogPosting->getDescription(),
+]);
 ?>
 <article
     itemscope
     itemtype="https://schema.org/BlogPosting"
-    class="full blog-post"
+    class="full blog-posting"
 >
+    <meta itemprop="inLanguage" content="<?= $blogPosting->getInLanguage() ?: $website->getInLanguage() ?>">
+
     <header>
-        <h1 itemprop="headline"><?= $article->getTitle() ?></h1>
-        <?= $helper->createArticleByLine($article, $author) ?>
+        <h1 itemprop="headline"><?= $blogPosting->getHeadline() ?></h1>
+        <?= $helper->createByLine($blogPosting, $author) ?>
     </header>
 
     <div itemprop="articleBody">
-        <?= $article->getBody() ?>
+        <?= $blogPosting->getArticleBody() ?>
     </div>
 </article>

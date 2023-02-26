@@ -1,58 +1,57 @@
 <?php
 
 /**
- * @param Article|null blurb
- * @param Article[] articles
+ * @param WebSite website
+ * @param Person owner
+ * @param BlogPosting[] blogPostings
  */
 
-use Miniblog\Engine\Article;
 use Miniblog\Engine\OutputHelper;
+use Miniblog\Engine\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
+use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
+use Miniblog\Engine\Schema\Thing\Person;
 
-/** @var array<string,string|mixed[]> */
+/** @phpstan-var Config */
 $config = $globals->get('config');
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
 
-/** @var array{description:string} */
-$site = $config['site'];
+/** @var WebSite */
+$website = $input['website'];
+/** @var Person */
+$owner = $input['owner'];
 
 $output->insertInto('layout.html.php', 'mainContent', [
-    'metaDescription' => $site['description'],
+    'website' => $website,
+    'owner' => $owner,
+    'metaTitle' => '',
+    'metaDescription' => $website->getDescription(),
 ]);
-
-/** @var Article|null */
-$blurb = $input['blurb'];
-
-/** @var array<string,string> */
-$owner = $config['owner'];
 ?>
-<?php if ($blurb) : ?>
+<?php if ($website->getText()) : ?>
     <div class="blurb">
-        <?= $blurb->getBody() ?>
+        <?= $website->getText() ?>
     </div>
 <?php endif ?>
 
-<div class="blog-posts">
+<div class="blog-postings">
     <h2>Articles</h2>
 
-    <?php /** @var Article $article */ foreach ($input['articles'] as $article) : ?>
-        <?php /** @var string */ $articleId = $article->getId() ?>
-
+    <?php /** @var BlogPosting $blogPosting */ foreach ($input['blogPostings'] as $blogPosting) : ?>
         <article>
             <header>
                 <h3>
+                    <?php /** @var string */ $postingId = $blogPosting->getIdentifier() ?>
                     <?= $helper->linkTo(
-                        ['showBlogPost', ['postId' => $articleId]],
-                        $article->getTitle()
+                        ['showBlogPosting', ['postingId' => $postingId]],
+                        $blogPosting->getHeadline()
                     ) ?>
                 </h3>
 
-                <?= $helper->createArticleByLine($article, $owner, false) ?>
+                <?= $helper->createByLine($blogPosting, $owner, false) ?>
             </header>
 
-            <?php if ($article->getDescription()) : ?>
-                <p><?= $article->getDescription() ?></p>
-            <?php endif ?>
+            <p><?= $blogPosting->getDescription() ?></p>
         </article>
     <?php endforeach ?>
 </div>

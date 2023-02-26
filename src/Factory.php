@@ -12,8 +12,9 @@ use DanBettles\Marigold\TemplateEngine\TemplateFileLoader;
 use InvalidArgumentException;
 use Miniblog\Engine\Action\HomepageAction;
 use Miniblog\Engine\Action\ShowBlogPostAction;
+use Miniblog\Engine\Schema\Thing;
+use ReflectionClass;
 
-use function array_replace;
 use function is_dir;
 use function dirname;
 
@@ -24,51 +25,28 @@ class Factory
 {
     private string $projectDir;
 
+    private string $env;
+
     private HttpRequest $request;
 
     private Registry $registry;
 
     public function __construct(
         string $projectDir,
+        string $env,
         HttpRequest $request
     ) {
         $this
             ->setProjectDir($projectDir)
+            ->setEnv($env)
             ->setRequest($request)
         ;
-    }
-
-    private function setProjectDir(string $projectDir): self
-    {
-        if (!is_dir($projectDir)) {
-            throw new InvalidArgumentException("The project directory, `{$projectDir}`, does not exist.");
-        }
-
-        $this->projectDir = $projectDir;
-
-        return $this;
-    }
-
-    public function getProjectDir(): string
-    {
-        return $this->projectDir;
-    }
-
-    private function setRequest(HttpRequest $request): self
-    {
-        $this->request = $request;
-        return $this;
-    }
-
-    public function getRequest(): HttpRequest
-    {
-        return $this->request;
     }
 
     /**
      * Strictly private.
      *
-     * @return array<string,mixed>
+     * @phpstan-return Config
      * @todo Create an object!
      */
     private function createAugmentedConfig(): array
@@ -76,13 +54,14 @@ class Factory
         $engineDir = dirname(__DIR__);
         $projectDir = $this->getProjectDir();
 
-        return array_replace(require "{$projectDir}/config.php", [
+        return [
+            'env' => $this->getEnv(),
             'engineDir' => $engineDir,
             'engineTemplatesDir' => "{$engineDir}/templates",
             'projectDir' => $projectDir,
             'projectTemplatesDir' => "{$projectDir}/templates",
-            'contentDir' => "{$projectDir}/content",
-        ]);
+            'dataDir' => "{$projectDir}/data",
+        ];
     }
 
     /**
@@ -97,8 +76,8 @@ class Factory
                 'action' => HomepageAction::class,
             ],
             [
-                'id' => 'showBlogPost',
-                'path' => '/blog/{postId}',
+                'id' => 'showBlogPosting',
+                'path' => '/blog/{postingId}',
                 'action' => ShowBlogPostAction::class,
             ],
         ]);
@@ -109,7 +88,7 @@ class Factory
      */
     private function createTemplateFileLoader(Registry $registry): TemplateFileLoader
     {
-        /** @var array<string,string> */
+        /** @phpstan-var Config */
         $config = $registry->get('config');
 
         return new TemplateFileLoader([
@@ -143,14 +122,16 @@ class Factory
     /**
      * Strictly private.
      */
-    private function createArticleManager(Registry $registry): ArticleManager
+    private function createThingManager(Registry $registry): ThingManager
     {
-        /** @var array<string,string> */
+        $baseThingClass = new ReflectionClass(Thing::class);
+        /** @phpstan-var Config */
         $config = $registry->get('config');
 
-        return new ArticleManager(
-            new MarkdownParser(new ParsedownExtended()),
-            $config['contentDir']
+        return new ThingManager(
+            $baseThingClass->getNamespaceName(),
+            $config['dataDir'],
+            new DocumentParser(new ParsedownExtended())
         );
     }
 
@@ -159,7 +140,7 @@ class Factory
      */
     private function createErrorsService(Registry $registry): ErrorsService
     {
-        /** @var array<string,string> */
+        /** @phpstan-var Config */
         $config = $registry->get('config');
 
         return new ErrorsService($config);
@@ -184,8 +165,8 @@ class Factory
                 ->addFactory('outputHelper', function (Registry $registry): OutputHelper {
                     return $this->createOutputHelper($registry);
                 })
-                ->addFactory('articleManager', function (Registry $registry): ArticleManager {
-                    return $this->createArticleManager($registry);
+                ->addFactory('thingManager', function (Registry $registry): ThingManager {
+                    return $this->createThingManager($registry);
                 })
                 ->addFactory('errorsService', function (Registry $registry): ErrorsService {
                     return $this->createErrorsService($registry);
@@ -194,5 +175,43 @@ class Factory
         }
 
         return $this->registry;
+    }
+
+    private function setProjectDir(string $projectDir): self
+    {
+        if (!is_dir($projectDir)) {
+            throw new InvalidArgumentException("The project directory, `{$projectDir}`, does not exist.");
+        }
+
+        $this->projectDir = $projectDir;
+
+        return $this;
+    }
+
+    public function getProjectDir(): string
+    {
+        return $this->projectDir;
+    }
+
+    private function setEnv(string $env): self
+    {
+        $this->env = $env;
+        return $this;
+    }
+
+    public function getEnv(): string
+    {
+        return $this->env;
+    }
+
+    private function setRequest(HttpRequest $request): self
+    {
+        $this->request = $request;
+        return $this;
+    }
+
+    public function getRequest(): HttpRequest
+    {
+        return $this->request;
     }
 }

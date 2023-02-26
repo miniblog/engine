@@ -61,9 +61,7 @@ class CommandFailedExceptionTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providesExceptions
-     */
+    /** @dataProvider providesExceptions */
     public function testHasDefaultValues(
         string $message,
         int $exitCode,

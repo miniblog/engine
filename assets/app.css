@@ -244,15 +244,15 @@ article > header h3 {
     margin-bottom: 0;
 }
 
-.article__by-line {
+.creative-work__by-line {
     font-size: smaller;
 }
 
-.article__by-line > span {
+.creative-work__by-line > span {
     font-weight: bolder;
 }
 
-.full.blog-post header {
+.full.blog-posting header {
     text-align: center;
 }
 /* ###< Articles ### */

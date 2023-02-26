@@ -20,7 +20,7 @@ class ErrorsService
     ];
 
     /**
-     * @var array<string,string>
+     * @phpstan-var Config
      */
     private array $config;
 
@@ -32,7 +32,7 @@ class ErrorsService
     private array $errorPagePathnames;
 
     /**
-     * @param array<string,string> $config
+     * @phpstan-param Config $config
      */
     public function __construct(array $config)
     {
@@ -84,7 +84,7 @@ class ErrorsService
     }
 
     /**
-     * @param array<string,string> $config
+     * @phpstan-param Config $config
      */
     private function setConfig(array $config): self
     {
@@ -93,7 +93,7 @@ class ErrorsService
     }
 
     /**
-     * @return array<string,string>
+     * @phpstan-return Config
      */
     public function getConfig(): array
     {

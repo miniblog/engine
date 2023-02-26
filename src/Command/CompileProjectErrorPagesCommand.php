@@ -8,7 +8,10 @@ use DanBettles\Marigold\CssMinifier;
 use DanBettles\Marigold\TemplateEngine\Engine;
 use DOMDocument;
 use DOMElement;
+use Miniblog\Engine\AbstractCommand;
 use Miniblog\Engine\ErrorsService;
+use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
+use Miniblog\Engine\ThingManager;
 use RuntimeException;
 
 use function file_put_contents;
@@ -39,12 +42,18 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
         $errorsService = $this->get('errorsService');
         /** @var Engine */
         $templateEngine = $this->get('templateEngine');
+        /** @var ThingManager */
+        $thingManager = $this->get('thingManager');
 
         $this->getConsole()->passthru(sprintf('rm --force %s/*.*', $errorsService->getPageDir()));
 
         foreach ($errorsService->getPagePathnames() as $statusCode => $errorPagePathname) {
             $renderPathname = $errorsService->createRenderPathname($statusCode);
-            $html = $templateEngine->render($renderPathname);
+
+            $html = $templateEngine->render($renderPathname, [
+                'website' => $thingManager->getThisWebsite(),
+            ]);
+
             $html = $this->minifyWebPage($html);
 
             $fpcResult = file_put_contents($errorPagePathname, $html);

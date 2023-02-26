@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Miniblog\Engine\Command;
 
 use Exception;
+use Miniblog\Engine\AbstractCommand;
 use Miniblog\Engine\Console;
 use RuntimeException;
 
@@ -40,7 +41,7 @@ class AssembleDefaultCssCommand extends AbstractCommand
     {
         parent::__construct($console);
 
-        /** @var array<string,mixed> */
+        /** @phpstan-var Config */
         $config = $this->get('config');
 
         /** @var string */

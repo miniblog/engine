@@ -6,7 +6,6 @@ namespace Miniblog\Engine;
 
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\Registry;
-use Miniblog\Engine\Command\AbstractCommand;
 use Miniblog\Engine\Command\AssembleDefaultCssCommand;
 use Miniblog\Engine\Command\BuildCommand;
 use Miniblog\Engine\Command\CheckQualityCommand;
@@ -196,7 +195,7 @@ class Console
     public function passthru(string $command): self
     {
         // By default, execute the command at the root of the project.
-        /** @var array<string,string> */
+        /** @phpstan-var Config */
         $config = $this->getRegistry()->get('config');
         $command = "cd {$config['projectDir']} && {$command}";
 

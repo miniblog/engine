@@ -7,7 +7,11 @@ namespace Miniblog\Engine\Action;
 use DanBettles\Marigold\Exception\NotFoundHttpException;
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\HttpResponse;
-use Miniblog\Engine\ArticleManager;
+use Miniblog\Engine\AbstractAction;
+use Miniblog\Engine\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
+use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
+use Miniblog\Engine\Schema\Thing\Person;
+use Miniblog\Engine\ThingManager;
 
 use const null;
 
@@ -18,20 +22,22 @@ class ShowBlogPostAction extends AbstractAction
      */
     public function __invoke(HttpRequest $request): HttpResponse
     {
-        /** @var array{parameters:array<string,string>} */
+        /** @phpstan-var MatchedRoute */
         $matchedRoute = $request->attributes['route'];
-        $postId = $matchedRoute['parameters']['postId'];
+        $postingId = $matchedRoute['parameters']['postingId'];
 
-        /** @var ArticleManager */
-        $articleManager = $this->getServices()->get('articleManager');
-        $article = $articleManager->getRepository('BlogPost')->find($postId);
+        /** @var ThingManager */
+        $thingManager = $this->getServices()->get('thingManager');
+        $blogPosting = $thingManager->find(BlogPosting::class, $postingId);
 
-        if (null === $article) {
-            throw new NotFoundHttpException("Blog post `{$postId}`");
+        if (null === $blogPosting) {
+            throw new NotFoundHttpException("Blog post `{$postingId}`");
         }
 
         return $this->renderDefault([
-            'article' => $article,
+            'website' => $thingManager->getThisWebsite(),
+            'author' => $thingManager->getOwner(),
+            'blogPosting' => $blogPosting,
         ]);
     }
 }

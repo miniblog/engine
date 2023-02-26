@@ -1,37 +1,44 @@
 <?php
 
 /**
+ * @param WebSite website
+ * @param Person owner
+ * @param string metaTitle
  * @param string mainContent
- * @param string [metaTitle]
+ *
  * @param string [metaDescription]
  */
 
 use DanBettles\Marigold\HttpRequest;
 use Miniblog\Engine\OutputHelper;
+use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
+use Miniblog\Engine\Schema\Thing\Person;
 
-/** @var array<string,string|string[]> */
+/** @phpstan-var Config */
 $config = $globals->get('config');
 /** @var HttpRequest */
 $request = $globals->get('request');
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
 
-/** @var array<string,string> */
-$site = $config['site'];
-$siteTitle = $site['title'];
+/** @var WebSite */
+$website = $input['website'];
+/** @var Person */
+$owner = $input['owner'];
 
-/** @var array{id:string} */
+/** @phpstan-var MatchedRoute */
 $matchedRoute = $request->attributes['route'] ?? ['id' => ''];
 $onHomepage = 'homepage' === $matchedRoute['id'];
-$showWebsiteCarbonBadge = 'dev' !== $config['env'];
+$showWebsiteCarbonBadge = 'prod' === $config['env'];
 ?>
 <!DOCTYPE html>
-<html lang="<?= $site['lang'] ?>">
+<html lang="<?= $website->getInLanguage() ?>">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <?= $helper->createTitle(($input['metaTitle'] ?? ''), $siteTitle) ?>
+        <?php /** @var string */ $websiteName = $website->getHeadline() ?>
+        <?= $helper->createTitle(($input['metaTitle'] ?? ''), $websiteName) ?>
 
         <?= $helper->createMeta([
             'name' => 'description',
@@ -71,7 +78,7 @@ $showWebsiteCarbonBadge = 'dev' !== $config['env'];
         <div class="container">
 
             <header itemscope itemtype="https://schema.org/WebSite" class="masthead">
-                <?php $homepageLink = $helper->linkTo('homepage', $siteTitle) ?>
+                <?php $homepageLink = $helper->linkTo('homepage', $website->getHeadline()) ?>
 
                 <?= $helper->createEl(($onHomepage ? 'h1' : 'p'), [
                     'itemprop' => 'name',
@@ -98,8 +105,7 @@ $showWebsiteCarbonBadge = 'dev' !== $config['env'];
             </main>
 
             <footer class="footer">
-                <?php /** @var array<string,string> */ $owner = $config['owner'] ?>
-                <?= $helper->createCopyrightNotice($site, $owner) ?>
+                <?= $helper->createCopyrightNotice($website, $owner) ?>
 
                 <div class="footer__spec">
                     <p>Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>

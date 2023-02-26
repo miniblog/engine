@@ -9,7 +9,6 @@ use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\Registry;
 use DanBettles\Marigold\Router;
 use DanBettles\Marigold\TemplateEngine\Engine;
-use Miniblog\Engine\Action\AbstractAction;
 use Miniblog\Engine\Action\ShowErrorAction;
 use Throwable;
 
@@ -44,7 +43,7 @@ class Website
 
             /** @var Router */
             $router = $this->getRegistry()->get('router');
-            /** @var array{action:class-string<AbstractAction>}|null */
+            /** @phpstan-var MatchedRoute|null */
             $matchedRoute = $router->match($request);
 
             if (null === $matchedRoute) {

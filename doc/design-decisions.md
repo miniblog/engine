@@ -10,4 +10,4 @@ Here I will document some of the decisions I've made, and why.  I think this is 
 ## Miscellaneous
 
 - Front-matter is written in JSON, which is supported natively by PHP.
-- Code syntax-highlighting is carried out *on the server*.  (Currently only PHP is highlighted, using the built-in function `highlight_string()`.)  The alternative is to do syntax-highlighting in JavaScript, on the client.  The problem with that is the same work&mdash;of syntax highlighting&mdash;will be done repeatedly, by different clients.  Since my aim is to eventually cache the HTML generated from Markdown articles, it will then be far less wasteful to do the work on the server.
+- Code syntax-highlighting is carried out *on the server*.  (Currently only PHP is highlighted, using the built-in function `highlight_string()`.)  The alternative is to do syntax-highlighting in JavaScript, on the client.  The problem with that is the same work&mdash;of syntax highlighting&mdash;will be done repeatedly, by different clients.  Since my aim is to eventually cache the HTML generated from Miniblog Documents, it will then be far less wasteful to do the work on the server.

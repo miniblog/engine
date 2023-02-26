@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine\Command;
 
+use Miniblog\Engine\AbstractCommand;
+
 class RefreshContentCommand extends AbstractCommand
 {
     /**

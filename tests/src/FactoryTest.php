@@ -11,7 +11,7 @@ use DanBettles\Marigold\Router;
 use DanBettles\Marigold\TemplateEngine\Engine;
 use DanBettles\Marigold\TemplateEngine\TemplateFileLoader;
 use InvalidArgumentException;
-use Miniblog\Engine\ArticleManager;
+use Miniblog\Engine\ThingManager;
 use Miniblog\Engine\ErrorsService;
 use Miniblog\Engine\Factory;
 use Miniblog\Engine\OutputHelper;
@@ -24,16 +24,18 @@ class FactoryTest extends AbstractTestCase
     // Factory method.
     private function createFactory(string $projectDir): Factory
     {
-        return new Factory($projectDir, HttpRequest::createFromGlobals());
+        return new Factory($projectDir, 'prod', HttpRequest::createFromGlobals());
     }
 
     public function testIsInstantiable(): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
+        $env = 'prod';
         $request = HttpRequest::createFromGlobals();
-        $factory = new Factory($projectDir, $request);
+        $factory = new Factory($projectDir, $env, $request);
 
         $this->assertSame($projectDir, $factory->getProjectDir());
+        $this->assertSame($env, $factory->getEnv());
         $this->assertSame($request, $factory->getRequest());
     }
 
@@ -54,21 +56,19 @@ class FactoryTest extends AbstractTestCase
         $engineDir = dirname(dirname(__DIR__));
         $request = HttpRequest::createFromGlobals();
 
-        $registry = (new Factory($projectDir, $request))->getRegistry();
+        $registry = (new Factory($projectDir, 'prod', $request))->getRegistry();
 
         $this->assertInstanceOf(Registry::class, $registry);
 
         $config = $registry->get('config');
 
         $this->assertSame([
-            'site' => [],
-            'owner' => [],
             'env' => 'prod',
             'engineDir' => $engineDir,
             'engineTemplatesDir' => "{$engineDir}/templates",
             'projectDir' => $projectDir,
             'projectTemplatesDir' => "{$projectDir}/templates",
-            'contentDir' => "{$projectDir}/content",
+            'dataDir' => "{$projectDir}/data",
         ], $config);
 
         $requestFromRegistry = $registry->get('request');
@@ -100,12 +100,12 @@ class FactoryTest extends AbstractTestCase
         $this->assertInstanceOf(OutputHelper::class, $outputHelper);
         $this->assertSame($router, $outputHelper->getRouter());
 
-        /** @var ArticleManager */
-        $articleManager = $registry->get('articleManager');
+        /** @var ThingManager */
+        $thingManager = $registry->get('thingManager');
 
-        $this->assertInstanceOf(ArticleManager::class, $articleManager);
-        $this->assertInstanceOf(ParsedownExtended::class, $articleManager->getMarkdownParser()->getParsedown());
-        $this->assertSame("{$projectDir}/content", $articleManager->getDataDir());
+        $this->assertInstanceOf(ThingManager::class, $thingManager);
+        $this->assertInstanceOf(ParsedownExtended::class, $thingManager->getDocumentParser()->getParsedown());
+        $this->assertSame("{$projectDir}/data", $thingManager->getDataDir());
 
         /** @var ErrorsService */
         $errorsService = $registry->get('errorsService');
