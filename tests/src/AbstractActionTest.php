@@ -45,14 +45,14 @@ class AbstractActionTest extends AbstractTestCase
 
     public function testRenderdefaultRendersTheDefaultTemplateForTheAction(): void
     {
-        $expectedTemplateDirBasename = 'renders_default_template_action_mock';
+        $mockClassName = 'RendersDefaultTemplateActionMock';
         $expectedResponse = new HttpResponse('404 Not Found', HttpResponse::HTTP_NOT_FOUND);
 
         $this->assertTrue(is_subclass_of(RendersDefaultTemplateAction::class, AbstractAction::class));
 
         $actionMock = $this
             ->getMockBuilder(RendersDefaultTemplateAction::class)
-            ->setMockClassName('RendersDefaultTemplateActionMock')
+            ->setMockClassName($mockClassName)
             ->onlyMethods(['render'])
             ->disableOriginalConstructor()
             ->getMock()
@@ -61,7 +61,7 @@ class AbstractActionTest extends AbstractTestCase
         $actionMock
             ->expects($this->once())
             ->method('render')
-            ->with("{$expectedTemplateDirBasename}/default.html.php", [
+            ->with("{$mockClassName}/default.html.php", [
                 'message' => '404 Not Found',
             ], HttpResponse::HTTP_NOT_FOUND)
             ->willReturn($expectedResponse)

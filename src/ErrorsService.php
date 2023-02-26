@@ -41,7 +41,7 @@ class ErrorsService
 
     public function createRenderPathname(int $statusCode): string
     {
-        return "show_error_action/error_{$statusCode}.html.php";
+        return "ShowErrorAction/error_{$statusCode}.html.php";
     }
 
     public function getPageDir(): string

@@ -22,7 +22,7 @@ class ErrorsServiceTest extends AbstractTestCase
         $service = new ErrorsService([]);
 
         $this->assertSame(
-            "show_error_action/error_404.html.php",
+            "ShowErrorAction/error_404.html.php",
             $service->createRenderPathname(404)
         );
     }

@@ -6,7 +6,7 @@
 
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 
-$output->insertInto('show_error_action/layout.html.php', 'mainContent', [
+$output->insertInto('ShowErrorAction/layout.html.php', 'mainContent', [
     'website' => $input['website'],
     'metaTitle' => 'Unexpected Error',
 ]);

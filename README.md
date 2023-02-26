@@ -23,3 +23,4 @@ There is no complicated setup, no distracting admin area, and no plugins or them
 
 - [Steve Hobbs](https://www.iamstevehobbs.com/) ([@shoobzy](https://github.com/shoobzy)), my most excellent designer colleague, for making the Miniblog logo a very smart reality.
 - Karyl Gilbertson ([@paintedsky](https://github.com/paintedsky)) for his excellent minimal app, [Dead Simple Blog](https://github.com/paintedsky/dead-simple-blog), which provided some of the inspiration for Miniblog.  Check it out if you're at all interested because it may suit you better.
+- [Symfony](https://symfony.com/), [Doctrine](https://www.doctrine-project.org/), and the like, for your outstanding products and your contributions to the PHP scene as a whole.  I think projects like these have not only eliminated some of the drudgery of Web development, making many tasks a good deal more pleasurable, but have also helped PHP mature as an option, have improved its credibility.

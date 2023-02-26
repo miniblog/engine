@@ -10,11 +10,6 @@ use DanBettles\Marigold\Registry;
 use DanBettles\Marigold\TemplateEngine\Engine;
 use ReflectionClass;
 
-use function ltrim;
-use function preg_replace;
-use function strtolower;
-use function str_replace;
-
 abstract class AbstractAction extends MarigoldAbstractAction
 {
     private Registry $services;
@@ -31,7 +26,7 @@ abstract class AbstractAction extends MarigoldAbstractAction
     /**
      * Renders the default template for this action.
      *
-     * For the action class `DoSomethingAction`, for example, this would be `"do_something_action/default.html.php"`.
+     * For the action class `DoSomethingAction`, for example, this would be `"DoSomethingAction/default.html.php"`.
      *
      * @param array<string,mixed> $variables
      */
@@ -40,12 +35,9 @@ abstract class AbstractAction extends MarigoldAbstractAction
         int $httpStatusCode = HttpResponse::HTTP_OK
     ): HttpResponse {
         $shortClassName = (new ReflectionClass($this))->getShortName();
-        /** @var string */
-        $spaced = preg_replace('~([A-Z])~', ' $1', $shortClassName);
-        $underscored = strtolower(str_replace(' ', '_', ltrim($spaced)));
 
         return $this->render(
-            "{$underscored}/default.html.php",
+            "{$shortClassName}/default.html.php",
             $variables,
             $httpStatusCode
         );

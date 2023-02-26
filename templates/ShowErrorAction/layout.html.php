@@ -27,7 +27,7 @@ $website = $input['website'];
         <?= $helper->createTitle($input['metaTitle'], $websiteName) ?>
 
         <style>
-            <?= $output->include('show_error_action/stylesheet.css') ?>
+            <?= $output->include('ShowErrorAction/stylesheet.css') ?>
         </style>
     </head>
 
