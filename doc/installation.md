@@ -16,10 +16,10 @@ Follow these instructions to quickly get a Miniblog-powered website up and runni
 1. Assuming Composer is installed globally, run:\
 `composer create-project miniblog/blog-project <target-directory>`\
 Replace `<target-directory>` with the name of the directory you want to create.
-1. At the root of the project you just created, run `bin/console refresh-content`.
+1. At the root of the project you just created, run `bin/console refresh`.
 1. Make `public/` the document root of your website.
 
-> :warning: Always run `bin/console refresh-content` after updating content.
+> :warning: Always run `bin/console refresh` after updating content.
 
 You should now see the Miniblog homepage when you navigate to the root of your website.
 
@@ -31,8 +31,8 @@ In Miniblog there is no configuration as such: everything is content.  Thus, to 
 
 1. Update the information about the website in `data/Thing/CreativeWork/WebSite/this.md`.
 1. Update the details of the website's owner, or principal author, in `data/Thing/Person/owner.md`.
-1. At the root of the project, run `bin/console refresh-content`.
+1. At the root of the project, run `bin/console refresh`.
 
-> :warning: Always run `bin/console refresh-content` after updating content.
+> :warning: Always run `bin/console refresh` after updating content.
 
 Now you've been rooting around in `data/`, it's highly likely you'll understand enough, and have the confidence, to just get on with adding/editing blog posts.  You can always come back and read the [gory details of Miniblog's content model](content.md) if you really need to 🙂

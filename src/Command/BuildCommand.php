@@ -22,7 +22,7 @@ class BuildCommand extends AbstractCommand
             ->getConsole()
             ->invokeCommand('dev:check-quality')
             ->invokeCommand('dev:assemble-default-css')
-            ->invokeCommand('refresh-content')
+            ->invokeCommand('refresh')
         ;
 
         return self::SUCCESS;

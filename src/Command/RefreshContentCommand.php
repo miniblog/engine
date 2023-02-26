@@ -11,7 +11,7 @@ class RefreshContentCommand extends AbstractCommand
     /**
      * @var string
      */
-    public const COMMAND_NAME = 'refresh-content';
+    public const COMMAND_NAME = 'refresh';
 
     public function __invoke(): int
     {
