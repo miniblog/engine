@@ -142,6 +142,7 @@ class CreativeWork extends Thing
      * Returns the date-time string, or `null`, by default.
      *
      * @return string|DateTime|null
+     * @phpstan-return ($returnObject is true ? DateTime|null : string|null)
      */
     public function getDatePublished(bool $returnObject = false)
     {
@@ -161,6 +162,7 @@ class CreativeWork extends Thing
      * Returns the date-time string, or `null`, by default.
      *
      * @return string|DateTime|null
+     * @phpstan-return ($returnObject is true ? DateTime|null : string|null)
      */
     public function getDateModified(bool $returnObject = false)
     {

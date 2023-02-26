@@ -11,11 +11,6 @@ use Miniblog\Engine\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPos
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 use Miniblog\Engine\Schema\Thing\Person;
 
-/** @phpstan-var Config */
-$config = $globals->get('config');
-/** @var OutputHelper */
-$helper = $globals->get('outputHelper');
-
 /** @var WebSite */
 $website = $input['website'];
 /** @var Person */
@@ -27,6 +22,9 @@ $output->insertInto('layout.html.php', 'mainContent', [
     'metaTitle' => '',
     'metaDescription' => $website->getDescription(),
 ]);
+
+/** @var OutputHelper */
+$helper = $globals->get('outputHelper');
 ?>
 <?php if ($website->getText()) : ?>
     <div class="blurb">
@@ -38,17 +36,25 @@ $output->insertInto('layout.html.php', 'mainContent', [
     <h2>Articles</h2>
 
     <?php /** @var BlogPosting $blogPosting */ foreach ($input['blogPostings'] as $blogPosting) : ?>
-        <article>
+        <article
+            itemscope
+            itemtype="https://schema.org/BlogPosting"
+            class="summary blog-posting"
+        >
             <header>
                 <h3>
                     <?php /** @var string */ $postingId = $blogPosting->getIdentifier() ?>
                     <?= $helper->linkTo(
                         ['showBlogPosting', ['postingId' => $postingId]],
+                        ['itemprop' => 'url'],
                         $blogPosting->getHeadline()
                     ) ?>
                 </h3>
 
-                <?= $helper->createByLine($blogPosting, $owner, false) ?>
+                <div class="blog-posting__by-line">
+                    by <span class="author__name"><?= $owner->getFullName() ?></span>
+                    on <?= $helper->createDate($blogPosting->getDatePublished(true)) ?>
+                </div>
             </header>
 
             <p><?= $blogPosting->getDescription() ?></p>

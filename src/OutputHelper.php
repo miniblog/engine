@@ -8,7 +8,6 @@ use DanBettles\Marigold\OutputHelper\Html5OutputHelper;
 use DanBettles\Marigold\Router;
 use DateTime;
 use IntlDateFormatter;
-use Miniblog\Engine\Schema\Thing\CreativeWork;
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 use Miniblog\Engine\Schema\Thing\Person;
 
@@ -77,46 +76,20 @@ class OutputHelper extends Html5OutputHelper
         ]), $content);
     }
 
-    public function createByLine(
-        CreativeWork $creativeWork,
-        Person $author,
-        bool $inHtmlArticleScope = true
+    /**
+     * @param array<string,mixed> $attributes
+     */
+    public function createDate(
+        ?DateTime $datetime,
+        array $attributes = []
     ): string {
-        $personNameEl = $this->createSpan([
-            'itemprop' => 'name',
-        ], $author->getFullName());
-
-        $creativeWorkAuthorEl = $this->createSpan([
-            'itemprop' => ($inHtmlArticleScope ? 'author' : false),
-            'itemscope' => true,
-            'itemtype' => 'https://schema.org/Person',
-        ], $personNameEl);
-
-        /** @var DateTime */
-        $creativeWorkPublishedAt = $creativeWork->getDatePublished(true);
-
-        $creativeWorkDatePublishedEl = $this->createTime([
-            'datetime' => $creativeWorkPublishedAt->format('c'),
-            'itemprop' => ($inHtmlArticleScope ? 'datePublished' : false),
-        ], $this->getDateFormatter()->format($creativeWorkPublishedAt));
-
-        $bylineContent = "by {$creativeWorkAuthorEl} on {$creativeWorkDatePublishedEl}";
-
-        if ($creativeWork->getDateModified()) {
-            /** @var DateTime */
-            $creativeWorkUpdatedAt = $creativeWork->getDateModified(true);
-
-            $creativeWorkDateModifiedEl = $this->createTime([
-                'datetime' => $creativeWorkUpdatedAt->format('c'),
-                'itemprop' => ($inHtmlArticleScope ? 'dateModified' : false),
-            ], $this->getDateFormatter()->format($creativeWorkUpdatedAt));
-
-            $bylineContent .= ", updated on {$creativeWorkDateModifiedEl}";
+        if (!$datetime) {
+            return '';
         }
 
-        return $this->createDiv([
-            'class' => 'creative-work__by-line',
-        ], $bylineContent);
+        $attributes['datetime'] = $datetime->format('c');
+
+        return $this->createTime($attributes, $this->getDateFormatter()->format($datetime));
     }
 
     public function createCopyrightNotice(

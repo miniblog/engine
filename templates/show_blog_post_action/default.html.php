@@ -11,9 +11,6 @@ use Miniblog\Engine\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPos
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 use Miniblog\Engine\Schema\Thing\Person;
 
-/** @var OutputHelper */
-$helper = $globals->get('outputHelper');
-
 /** @var WebSite */
 $website = $input['website'];
 /** @var Person */
@@ -27,6 +24,12 @@ $output->insertInto('layout.html.php', 'mainContent', [
     'metaTitle' => $blogPosting->getHeadline(),
     'metaDescription' => $blogPosting->getDescription(),
 ]);
+
+/** @var OutputHelper */
+$helper = $globals->get('outputHelper');
+
+$datePublished = $helper->createDate($blogPosting->getDatePublished(true), ['itemprop' => 'datePublished']);
+$dateModified = $helper->createDate($blogPosting->getDateModified(true), ['itemprop' => 'dateModified']);
 ?>
 <article
     itemscope
@@ -37,7 +40,13 @@ $output->insertInto('layout.html.php', 'mainContent', [
 
     <header>
         <h1 itemprop="headline"><?= $blogPosting->getHeadline() ?></h1>
-        <?= $helper->createByLine($blogPosting, $author) ?>
+
+        <div class="blog-posting__by-line">
+            by <span itemscope itemtype="https://schema.org/Person" itemprop="author"><span itemprop="name" class="author__name"><?= $author->getFullName() ?></span></span>
+            <?php // @codingStandardsIgnoreStart ?>
+            on <?= $datePublished ?><?php if ($dateModified) : ?>, updated on <?= $dateModified ?><?php endif ?>
+            <?php // @codingStandardsIgnoreEnd ?>
+        </div>
     </header>
 
     <div itemprop="articleBody">

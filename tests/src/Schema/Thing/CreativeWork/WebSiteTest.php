@@ -60,7 +60,7 @@ class WebSiteTest extends AbstractTestCase
                     ->setIdentifier('this')
                     ->setHeadline('Title of the Website')
                     ->setDescription('Meta description')
-                    // Missing published date.
+                    // Missing date published.
                     ->setInLanguage('en-gb'),
             ],
             [  // #5

@@ -1,5 +1,5 @@
 {
-    "name": "Missing Published Date"
+    "name": "Missing Date Published"
 }
 
 Lorem ipsum dolor.

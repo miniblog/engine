@@ -110,7 +110,7 @@ class ArticleTest extends AbstractTestCase
                     ->setIdentifier('foo')
                     ->setHeadline('Title of the Article')
                     ->setDescription('A concise description of the Article.')
-                    // Missing published date.
+                    // Missing date published.
                     ->setArticleBody('Body of the Article.'),
             ],
             [  // #5
