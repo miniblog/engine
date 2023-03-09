@@ -64,6 +64,10 @@ class AssembleDefaultCssCommand extends AbstractCommand
         $this->outputFilePathname = "{$engineTemplatesDir}/stylesheet.css";
     }
 
+    /**
+     * @throws RuntimeException If a stylesheet file does not exist
+     * @throws RuntimeException If it failed to create the output file
+     */
     public function __invoke(): int
     {
         $sourceStylesheets = [];

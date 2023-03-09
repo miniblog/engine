@@ -177,13 +177,16 @@ class Factory
         return $this->registry;
     }
 
-    private function setProjectDir(string $projectDir): self
+    /**
+     * @throws InvalidArgumentException If the directory does not exist
+     */
+    private function setProjectDir(string $dir): self
     {
-        if (!is_dir($projectDir)) {
-            throw new InvalidArgumentException("The project directory, `{$projectDir}`, does not exist.");
+        if (!is_dir($dir)) {
+            throw new InvalidArgumentException("The project directory, `{$dir}`, does not exist");
         }
 
-        $this->projectDir = $projectDir;
+        $this->projectDir = $dir;
 
         return $this;
     }

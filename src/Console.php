@@ -13,7 +13,6 @@ use Miniblog\Engine\Command\CompileProjectErrorPagesCommand;
 use Miniblog\Engine\Command\RefreshContentCommand;
 use Miniblog\Engine\Command\TestCommand;
 use OutOfBoundsException;
-use RuntimeException;
 use Throwable;
 
 use function array_keys;
@@ -141,12 +140,12 @@ class Console
     }
 
     /**
-     * @throws OutOfBoundsException If the command does not exist.
+     * @throws OutOfBoundsException If the command does not exist
      */
     private function createCommandByCommandName(string $name): AbstractCommand
     {
         if (!array_key_exists($name, self::COMMAND_CLASSES)) {
-            throw new OutOfBoundsException("The command, `{$name}`, does not exist.");
+            throw new OutOfBoundsException("The command, `{$name}`, does not exist");
         }
 
         /** @var class-string<AbstractCommand> */
@@ -190,7 +189,7 @@ class Console
     }
 
     /**
-     * @throws RuntimeException If it failed to execute the command.
+     * @throws CommandFailedException If it failed to execute the command
      */
     public function passthru(string $command): self
     {

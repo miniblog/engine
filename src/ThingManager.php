@@ -169,7 +169,7 @@ class ThingManager
     /**
      * Returns a Thing that describes this website.
      *
-     * @throws RuntimeException If there is something wrong with the Document that describes this website.
+     * @throws RuntimeException If there is something wrong with the Document that describes this website
      */
     public function getThisWebsite(): WebSite
     {
@@ -178,7 +178,7 @@ class ThingManager
             $thisWebSite = $this->find(WebSite::class, 'this');
 
             if (!$thisWebSite) {
-                throw new RuntimeException('There is something wrong with the Document that describes this website.');
+                throw new RuntimeException('There is something wrong with the Document that describes this website');
             }
 
             self::$thisWebSite = $thisWebSite;
@@ -190,7 +190,7 @@ class ThingManager
     /**
      * Returns a Thing that describes the owner of this website.
      *
-     * @throws RuntimeException If there is something wrong with the Document that describes the owner of this website.
+     * @throws RuntimeException If there is something wrong with the Document that describes the owner of this website
      */
     public function getOwner(): Person
     {
@@ -199,7 +199,7 @@ class ThingManager
             $owner = $this->find(Person::class, 'owner');
 
             if (!$owner) {
-                throw new RuntimeException('There is something wrong with the Document that describes the owner of this website.');
+                throw new RuntimeException('There is something wrong with the Document that describes the owner of this website');
             }
 
             self::$owner = $owner;
@@ -220,15 +220,15 @@ class ThingManager
     }
 
     /**
-     * @throws RangeException If the directory does not exist.
+     * @throws RangeException If the directory does not exist
      */
-    private function setDataDir(string $dataDir): self
+    private function setDataDir(string $dir): self
     {
-        if (!is_dir($dataDir)) {
-            throw new RangeException("The directory `{$dataDir}` does not exist.");
+        if (!is_dir($dir)) {
+            throw new RangeException("The directory `{$dir}` does not exist");
         }
 
-        $this->dataDir = $dataDir;
+        $this->dataDir = $dir;
 
         return $this;
     }

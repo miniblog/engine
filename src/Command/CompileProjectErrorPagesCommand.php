@@ -10,7 +10,6 @@ use DOMDocument;
 use DOMElement;
 use Miniblog\Engine\AbstractCommand;
 use Miniblog\Engine\ErrorsService;
-use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 use Miniblog\Engine\ThingManager;
 use RuntimeException;
 
@@ -34,7 +33,7 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
     public const COMMAND_NAME = 'compile-project-error-pages';
 
     /**
-     * @throws RuntimeException If it failed to create a file.
+     * @throws RuntimeException If it failed to create a file
      */
     public function __invoke(): int
     {
@@ -59,7 +58,7 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
             $fpcResult = file_put_contents($errorPagePathname, $html);
 
             if (false === $fpcResult) {
-                throw new RuntimeException("Failed to create file `{$errorPagePathname}`.");
+                throw new RuntimeException("Failed to create file `{$errorPagePathname}`");
             }
 
             $this->getConsole()->writeLn("Created `{$errorPagePathname}`");
@@ -68,6 +67,9 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
         return self::SUCCESS;
     }
 
+    /**
+     * @throws RuntimeException If it failed to save the minified web page
+     */
     private function minifyWebPage(string $html): string
     {
         $prevUseLibxmlInternalErrors = libxml_use_internal_errors(true);
@@ -92,7 +94,7 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
         libxml_use_internal_errors($prevUseLibxmlInternalErrors);
 
         if (false === $html) {
-            throw new RuntimeException('Failed to save the minified web page.');
+            throw new RuntimeException('Failed to save the minified web page');
         }
 
         return $html;

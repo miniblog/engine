@@ -9,8 +9,6 @@ use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\HttpResponse;
 use Miniblog\Engine\AbstractAction;
 use Miniblog\Engine\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
-use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
-use Miniblog\Engine\Schema\Thing\Person;
 use Miniblog\Engine\ThingManager;
 
 use const null;
@@ -18,7 +16,7 @@ use const null;
 class ShowBlogPostAction extends AbstractAction
 {
     /**
-     * @throws NotFoundHttpException If the blog post does not exist.
+     * @throws NotFoundHttpException If the blog post does not exist
      */
     public function __invoke(HttpRequest $request): HttpResponse
     {

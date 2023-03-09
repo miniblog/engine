@@ -45,7 +45,7 @@ class FactoryTest extends AbstractTestCase
         $nonExistentDir = "{$fixturesDir}/non_existent";
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("The project directory, `{$nonExistentDir}`, does not exist.");
+        $this->expectExceptionMessage("The project directory, `{$nonExistentDir}`, does not exist");
 
         $this->createFactory($nonExistentDir);
     }

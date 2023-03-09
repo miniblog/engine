@@ -9,8 +9,6 @@ use DanBettles\Marigold\HttpResponse;
 use DateTime;
 use Miniblog\Engine\AbstractAction;
 use Miniblog\Engine\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
-use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
-use Miniblog\Engine\Schema\Thing\Person;
 use Miniblog\Engine\ThingManager;
 
 use function usort;

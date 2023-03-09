@@ -61,7 +61,7 @@ class ThingManagerTest extends AbstractTestCase
         $dataDir = $this->createFixturePathname('non_existent_dir');
 
         $this->expectException(RangeException::class);
-        $this->expectExceptionMessage("The directory `{$dataDir}` does not exist.");
+        $this->expectExceptionMessage("The directory `{$dataDir}` does not exist");
 
         new ThingManager(
             'Foo',
@@ -224,7 +224,7 @@ class ThingManagerTest extends AbstractTestCase
     public function testGetthiswebsiteThrowsAnExceptionIfTheDocumentDoesNotExist(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('There is something wrong with the Document that describes this website.');
+        $this->expectExceptionMessage('There is something wrong with the Document that describes this website');
 
         $this
             ->createThingManager($this->createFixturePathname(__FUNCTION__))
@@ -260,7 +260,7 @@ class ThingManagerTest extends AbstractTestCase
     public function testGetownerThrowsAnExceptionIfTheDocumentDoesNotExist(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('There is something wrong with the Document that describes the owner of this website.');
+        $this->expectExceptionMessage('There is something wrong with the Document that describes the owner of this website');
 
         $this
             ->createThingManager($this->createFixturePathname(__FUNCTION__))

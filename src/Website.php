@@ -36,6 +36,9 @@ class Website
         return $action;
     }
 
+    /**
+     * @throws NotFoundHttpException If the requested resource does not exist
+     */
     public function handleRequest(): void
     {
         try {

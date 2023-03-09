@@ -27,7 +27,7 @@ class ShowErrorAction extends AbstractAction
 
         if (!$error instanceof Throwable) {
             // For now, this is *our* problem.
-            return new HttpResponse('The error is not a throwable.', HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+            return new HttpResponse('The error is not a throwable', HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         /** @var array{env:string} */
