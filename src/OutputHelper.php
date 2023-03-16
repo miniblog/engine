@@ -112,7 +112,9 @@ class OutputHelper extends Html5OutputHelper
             $ownerName = $this->linkTo("mailto:{$owner->getEmail()}", $ownerName);
         }
 
-        return $this->createP("Copyright &copy; {$range} {$ownerName}");
+        return $this->createP([
+            'class' => 'copyright-notice',
+        ], "Copyright &copy; {$range} {$ownerName}");
     }
 
     public function createTitle(string ...$parts): string

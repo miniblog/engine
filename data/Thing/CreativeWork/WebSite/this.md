@@ -2,7 +2,8 @@
   "headline": "Name of the Website",
   "description": "A concise description of the website's content",
   "datePublished": "2022-09-18",
-  "inLanguage": "en-gb"
+  "inLanguage": "en-gb",
+  "url": "https://example.com"
 }
 
 Thank you for installing Miniblog.  Please [let us know if you had any difficulties](https://github.com/miniblog/engine/issues)&mdash;or, indeed, if it was a pleasant experience.

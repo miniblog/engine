@@ -34,7 +34,8 @@ class WebSiteTest extends AbstractTestCase
                     ->setHeadline('Title of the Website')
                     ->setDescription('Meta description')
                     ->setDatePublished(new DateTime())
-                    ->setInLanguage('en-gb'),
+                    ->setInLanguage('en-gb')
+                    ->setUrl('https://example.com'),
             ],
             [  // #2
                 false,
@@ -43,7 +44,8 @@ class WebSiteTest extends AbstractTestCase
                     // Missing headline.
                     ->setDescription('Meta description')
                     ->setDatePublished(new DateTime())
-                    ->setInLanguage('en-gb'),
+                    ->setInLanguage('en-gb')
+                    ->setUrl('https://example.com'),
             ],
             [
                 false,
@@ -52,7 +54,8 @@ class WebSiteTest extends AbstractTestCase
                     ->setHeadline('Title of the Website')
                     // Missing description.
                     ->setDatePublished(new DateTime())
-                    ->setInLanguage('en-gb'),
+                    ->setInLanguage('en-gb')
+                    ->setUrl('https://example.com'),
             ],
             [
                 false,
@@ -61,7 +64,8 @@ class WebSiteTest extends AbstractTestCase
                     ->setHeadline('Title of the Website')
                     ->setDescription('Meta description')
                     // Missing date published.
-                    ->setInLanguage('en-gb'),
+                    ->setInLanguage('en-gb')
+                    ->setUrl('https://example.com'),
             ],
             [  // #5
                 false,
@@ -69,8 +73,19 @@ class WebSiteTest extends AbstractTestCase
                     ->setIdentifier('this')
                     ->setHeadline('Title of the Website')
                     ->setDescription('Meta description')
-                    ->setDatePublished(new DateTime()),
+                    ->setDatePublished(new DateTime())
                     // Missing language.
+                    ->setUrl('https://example.com'),
+            ],
+            [
+                false,
+                (new WebSite())
+                    ->setIdentifier('this')
+                    ->setHeadline('Title of the Website')
+                    ->setDescription('Meta description')
+                    ->setDatePublished(new DateTime())
+                    ->setInLanguage('en-gb'),
+                    // Missing URL.
             ],
             [
                 true,
@@ -79,7 +94,8 @@ class WebSiteTest extends AbstractTestCase
                     ->setHeadline('Title of the Website')
                     ->setDescription('Meta description')
                     ->setDatePublished(new DateTime())
-                    ->setInLanguage('en-gb'),
+                    ->setInLanguage('en-gb')
+                    ->setUrl('https://example.com'),
             ],
             [
                 true,
@@ -88,7 +104,8 @@ class WebSiteTest extends AbstractTestCase
                     ->setName('Title of the Website')  // `name` => `headline`
                     ->setDescription('Meta description')
                     ->setDatePublished(new DateTime())
-                    ->setInLanguage('en-gb'),
+                    ->setInLanguage('en-gb')
+                    ->setUrl('https://example.com'),
             ],
         ];
     }

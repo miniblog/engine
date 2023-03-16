@@ -39,12 +39,18 @@ class Thing
      */
     private ?string $description;
 
+    /**
+     * @link https://schema.org/url
+     */
+    private ?string $url;
+
     public function __construct()
     {
         $this
             ->setIdentifier(null)
             ->setName(null)
             ->setDescription(null)
+            ->setUrl(null)
         ;
     }
 
@@ -88,6 +94,20 @@ class Thing
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    /**
+     * @return static
+     */
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
     }
 
     /**

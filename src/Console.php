@@ -194,7 +194,7 @@ class Console
     public function passthru(string $command): self
     {
         // By default, execute the command at the root of the project.
-        /** @phpstan-var Config */
+        /** @phpstan-var ConfigArray */
         $config = $this->getRegistry()->get('config');
         $command = "cd {$config['projectDir']} && {$command}";
 

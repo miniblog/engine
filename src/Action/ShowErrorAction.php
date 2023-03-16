@@ -30,7 +30,7 @@ class ShowErrorAction extends AbstractAction
             return new HttpResponse('The error is not a throwable', HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        /** @var array{env:string} */
+        /** @phpstan-var ConfigArray */
         $config = $this->getServices()->get('config');
 
         /** @var ErrorsService */

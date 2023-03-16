@@ -18,6 +18,7 @@ class WebSite extends CreativeWork
             && (null !== $this->getDescription() && '' !== $this->getDescription())
             && null !== $this->getDatePublished()
             && (null !== $this->getInLanguage() && '' !== $this->getInLanguage())
+            && (null !== $this->getUrl() && '' !== $this->getUrl())
         );
     }
 }

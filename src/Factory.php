@@ -11,7 +11,12 @@ use DanBettles\Marigold\TemplateEngine\Engine;
 use DanBettles\Marigold\TemplateEngine\TemplateFileLoader;
 use InvalidArgumentException;
 use Miniblog\Engine\Action\HomepageAction;
+use Miniblog\Engine\Action\SignUpAction;
 use Miniblog\Engine\Action\ShowBlogPostAction;
+use Miniblog\Engine\Action\ShowSignUpCompleteAction;
+use Miniblog\Engine\Action\ShowSignUpConfirmationEmailAction;
+use Miniblog\Engine\Action\ShowSignUpPendingAction;
+use Miniblog\Engine\Action\AddSubscriberAction;
 use Miniblog\Engine\Schema\Thing;
 use ReflectionClass;
 
@@ -46,7 +51,7 @@ class Factory
     /**
      * Strictly private.
      *
-     * @phpstan-return Config
+     * @phpstan-return ConfigArray
      * @todo Create an object!
      */
     private function createAugmentedConfig(): array
@@ -80,6 +85,31 @@ class Factory
                 'path' => '/blog/{postingId}',
                 'action' => ShowBlogPostAction::class,
             ],
+            [
+                'id' => 'signUp',
+                'path' => '/sign-up',
+                'action' => SignUpAction::class,
+            ],
+            [
+                'id' => 'showSignUpConfirmationEmail',
+                'path' => '/sign-up/confirmation-email',
+                'action' => ShowSignUpConfirmationEmailAction::class,
+            ],
+            [
+                'id' => 'showSignUpPending',
+                'path' => '/sign-up/pending',
+                'action' => ShowSignUpPendingAction::class,
+            ],
+            [
+                'id' => 'showSignUpCompleteAction',
+                'path' => '/sign-up/complete',
+                'action' => ShowSignUpCompleteAction::class,
+            ],
+            [
+                'id' => 'addSubscriberAction',
+                'path' => '/subscribers',
+                'action' => AddSubscriberAction::class,
+            ],
         ]);
     }
 
@@ -88,7 +118,7 @@ class Factory
      */
     private function createTemplateFileLoader(Registry $registry): TemplateFileLoader
     {
-        /** @phpstan-var Config */
+        /** @phpstan-var ConfigArray */
         $config = $registry->get('config');
 
         return new TemplateFileLoader([
@@ -125,7 +155,7 @@ class Factory
     private function createThingManager(Registry $registry): ThingManager
     {
         $baseThingClass = new ReflectionClass(Thing::class);
-        /** @phpstan-var Config */
+        /** @phpstan-var ConfigArray */
         $config = $registry->get('config');
 
         return new ThingManager(
@@ -140,7 +170,7 @@ class Factory
      */
     private function createErrorsService(Registry $registry): ErrorsService
     {
-        /** @phpstan-var Config */
+        /** @phpstan-var ConfigArray */
         $config = $registry->get('config');
 
         return new ErrorsService($config);

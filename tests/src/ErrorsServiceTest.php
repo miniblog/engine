@@ -11,7 +11,8 @@ class ErrorsServiceTest extends AbstractTestCase
 {
     public function testIsInstantiable(): void
     {
-        $config = ['foo' => 'bar'];
+        $config = ['env' => 'dev'];
+        /** @phpstan-var ConfigArray $config */
         $service = new ErrorsService($config);
 
         $this->assertSame($config, $service->getConfig());
@@ -19,7 +20,9 @@ class ErrorsServiceTest extends AbstractTestCase
 
     public function testCreaterenderpathnameReturnsTheRenderPathnameOfAnErrorTemplate(): void
     {
-        $service = new ErrorsService([]);
+        $config = [];
+        /** @phpstan-var ConfigArray $config */
+        $service = new ErrorsService($config);
 
         $this->assertSame(
             "ShowErrorAction/error_404.html.php",
@@ -30,10 +33,9 @@ class ErrorsServiceTest extends AbstractTestCase
     public function testGetpagepathnamesReturnsAnArrayOfThePathnamesOfErrorPages(): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
-
-        $service = new ErrorsService([
-            'projectDir' => $projectDir,
-        ]);
+        /** @phpstan-var ConfigArray $config */
+        $config = ['projectDir' => $projectDir];
+        $service = new ErrorsService($config);
 
         $this->assertSame([
             404 => "{$projectDir}/public/errors/error-404.html",
@@ -44,10 +46,9 @@ class ErrorsServiceTest extends AbstractTestCase
     public function testGetpagepathnameReturnsThePathnameOfTheErrorPageForAStatusCode(): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
-
-        $service = new ErrorsService([
-            'projectDir' => $projectDir,
-        ]);
+        /** @phpstan-var ConfigArray $config */
+        $config = ['projectDir' => $projectDir];
+        $service = new ErrorsService($config);
 
         $this->assertSame("{$projectDir}/public/errors/error-404.html", $service->getPagePathname(404));
     }
@@ -55,10 +56,9 @@ class ErrorsServiceTest extends AbstractTestCase
     public function testGetpagedirReturnsThePathnameOfThePageDirectory(): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
-
-        $service = new ErrorsService([
-            'projectDir' => $projectDir,
-        ]);
+        /** @phpstan-var ConfigArray $config */
+        $config = ['projectDir' => $projectDir];
+        $service = new ErrorsService($config);
 
         $this->assertSame("{$projectDir}/public/errors", $service->getPageDir());
     }

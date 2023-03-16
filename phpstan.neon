@@ -12,7 +12,7 @@ parameters:
         FrontMatter: 'array<string,?string>'
         ParsedDocument: 'array{frontMatter:FrontMatter,body:?string}'
         MatchedRoute: 'array{id:string,path:string,action:class-string<Miniblog\Engine\AbstractAction>,parameters:array<string,string>}'
-        Config: 'array<string,string>'
+        ConfigArray: 'array{env:string,engineDir:string,engineTemplatesDir:string,projectDir:string,projectTemplatesDir:string,dataDir:string}'
 
     ignoreErrors:
         -
@@ -20,6 +20,7 @@ parameters:
             paths:
                 - src/OutputHelper.php
                 - templates/layout.html.php
+                - templates/SignUpAction/confirmation_email.html.php
         -
             message: '#^Variable \$\w+ might not be defined.$#'
             path: templates/*

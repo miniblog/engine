@@ -225,6 +225,7 @@ class ThingManager
     private function setDataDir(string $dir): self
     {
         if (!is_dir($dir)) {
+            // @todo Use a different exception.
             throw new RangeException("The directory `{$dir}` does not exist");
         }
 

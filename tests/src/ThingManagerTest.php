@@ -216,6 +216,7 @@ class ThingManagerTest extends AbstractTestCase
             ->setDescription("A concise description of the website's content")
             ->setDatePublished('2023-02-26')
             ->setInLanguage('en-gb')
+            ->setUrl('https://example.com')
         ;
 
         $this->assertEquals($expectedThing, $thisWebsite);

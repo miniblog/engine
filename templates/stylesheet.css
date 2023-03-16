@@ -407,6 +407,7 @@ html {
         monospace;
     --gutter: 36px;
     --main-content-width: 696px;
+    --border-radius: 0.375rem;
 
     --colour-bg-default: #fff;
     --colour-bg-code: rgba(175,184,193,0.2);
@@ -414,7 +415,9 @@ html {
     --colour-fg-default: #222;
     --colour-fg-muted: #6c757d;
     --colour-border: #ddd;
-    --colour-link: #2455c3;
+    --colour-primary: #1f6feb;
+    --colour-primary-inverse: #fff;
+    --colour-danger: #b02a37;
 
     /* Based on the "Light+" Visual Studio Code theme. */
     --colour-php-comment: #008002;
@@ -424,13 +427,14 @@ html {
 }
 
 html[data-colourmode="dark"] {
-    --colour-bg-default: #0d1117;
+    --colour-bg-default: #02040a;
     --colour-bg-code: rgba(110,118,129,0.4);
     --colour-bg-canvas: #161b22;
     --colour-fg-default: #c9d1d9;
     --colour-fg-muted: #8b949e;
     --colour-border: #30363d;
-    --colour-link: #58a6ff;
+    --colour-primary: #1f6feb;
+    --colour-primary-inverse: #fff;
 
     /* Based on the "Dark+ (color blind)" Visual Studio Code theme. */
     --colour-php-comment: #6a9956;
@@ -465,7 +469,7 @@ pre,
 .code-block {
     font-family: var(--font-code);
     font-size: smaller;
-    border-radius: 0.25rem;  /* `rem` for constant radius. */
+    border-radius: var(--border-radius);
 }
 
 code,
@@ -517,7 +521,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ###> Links ### */
 a {
     text-decoration: none;
-    color: var(--colour-link);
+    color: var(--colour-primary);
 }
 
 a:hover, a:focus, a:active {
@@ -552,8 +556,8 @@ blockquote {
 .masthead {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid var(--colour-border);
 }
 
@@ -572,8 +576,8 @@ blockquote {
 .masthead nav ul {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     font-family: var(--font-heading);
     font-size: smaller;
 }
@@ -599,15 +603,33 @@ main {
 }
 
 .footer {
-    font-family: var(--font-heading);
     font-size: smaller;
-    text-align: center;
     margin-top: 1em;
     padding: 1em 0;
-    border-top: 1px solid var(--colour-border);
+    border: 1px solid var(--colour-border);
+    border-left: 0;
+    border-right: 0;
 }
 
-.footer__spec {
+@media (min-width: 768px) {
+    .footer {
+        display: flex;
+        align-items: end;
+    }
+
+    .footer > * {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 0px;
+    }
+}
+
+.copyright-notice {
+    font-family: var(--font-heading);
+}
+
+.platform-meta {
+    font-family: var(--font-heading);
     font-size: small;
     color: var(--colour-fg-muted);
 }
@@ -635,3 +657,71 @@ article > header h3 {
     text-align: center;
 }
 /* ###< Articles ### */
+
+/* ###> Forms ### */
+input,
+button {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    padding: 0.375rem 0.75rem;
+}
+
+input {
+    border: 1px solid var(--colour-border);
+    border-radius: var(--border-radius);
+}
+
+button {
+    color: var(--colour-primary-inverse);
+    background-color: var(--colour-primary);
+    border: 1px solid var(--colour-primary);
+    border-radius: var(--border-radius);
+}
+
+.is-invalid {
+    border-color: var(--colour-danger);
+}
+
+.form-help,
+.invalid-feedback {
+    font-family: var(--font-heading);
+    font-size: smaller;
+    margin-top: 0;
+}
+
+.form-help {
+    color: var(--colour-fg-muted);
+}
+
+.invalid-feedback {
+    color: var(--colour-danger);
+}
+/* ###< Forms ### */
+
+/* ###> Sign-up block ### */
+.sign-up form {
+    display: flex;
+    align-items: start;
+}
+
+.sign-up form > * {
+    margin: 3px;
+}
+
+.sign-up form > *:first-child {
+    flex-grow: 1;
+}
+
+.sign-up form > *:last-child {
+    flex-shrink: 0;
+}
+
+.sign-up form input {
+    width: 100%;
+}
+
+.footer__sign-up h2 {
+    font-size: 1em;
+    margin-bottom: 0;
+}
+/* ###< Sign-up block ### */

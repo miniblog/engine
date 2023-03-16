@@ -20,6 +20,7 @@ class ThingTest extends AbstractTestCase
         $this->assertNull($thing->getIdentifier());
         $this->assertNull($thing->getName());
         $this->assertNull($thing->getDescription());
+        $this->assertNull($thing->getUrl());
     }
 
     public function testHasAccessorsForAllProperties(): void
@@ -37,6 +38,10 @@ class ThingTest extends AbstractTestCase
         $baz = $thing->setDescription('Lorem ipsum dolor.');
         $this->assertSame('Lorem ipsum dolor.', $thing->getDescription());
         $this->assertSame($thing, $baz);
+
+        $qux = $thing->setUrl('https://example.com');
+        $this->assertSame('https://example.com', $thing->getUrl());
+        $this->assertSame($thing, $qux);
     }
 
     public function testDoesNotHaveABodyProperty(): void
@@ -70,12 +75,14 @@ class ThingTest extends AbstractTestCase
                 (new Thing())
                     ->setIdentifier('123')
                     ->setName('Title')
-                    ->setDescription('Description'),
+                    ->setDescription('Description')
+                    ->setUrl('https://example.com'),
                 Thing::class,
                 [
                     'identifier' => '123',
                     'name' => 'Title',
                     'description' => 'Description',
+                    'url' => 'https://example.com',
                 ],
             ],
             [  // #2

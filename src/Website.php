@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine;
 
-use DanBettles\Marigold\Exception\NotFoundHttpException;
+use DanBettles\Marigold\Exception\HttpException\NotFoundHttpException;
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\Registry;
 use DanBettles\Marigold\Router;

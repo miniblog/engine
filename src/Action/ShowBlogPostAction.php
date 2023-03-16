@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine\Action;
 
-use DanBettles\Marigold\Exception\NotFoundHttpException;
+use DanBettles\Marigold\Exception\HttpException\NotFoundHttpException;
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\HttpResponse;
 use Miniblog\Engine\AbstractAction;
@@ -29,7 +29,7 @@ class ShowBlogPostAction extends AbstractAction
         $blogPosting = $thingManager->find(BlogPosting::class, $postingId);
 
         if (null === $blogPosting) {
-            throw new NotFoundHttpException("Blog post `{$postingId}`");
+            throw $this->createNotFoundException("Blog post `{$postingId}`");
         }
 
         return $this->renderDefault([

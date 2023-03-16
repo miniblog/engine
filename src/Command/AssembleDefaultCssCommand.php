@@ -41,7 +41,7 @@ class AssembleDefaultCssCommand extends AbstractCommand
     {
         parent::__construct($console);
 
-        /** @phpstan-var Config */
+        /** @phpstan-var ConfigArray */
         $config = $this->get('config');
 
         /** @var string */

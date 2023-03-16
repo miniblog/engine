@@ -14,6 +14,6 @@ class RendersDefaultTemplateAction extends AbstractAction
     {
         return $this->renderDefault([
             'message' => '404 Not Found',
-        ], HttpResponse::HTTP_NOT_FOUND);
+        ], 404);
     }
 }

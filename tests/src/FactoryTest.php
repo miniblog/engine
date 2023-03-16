@@ -79,7 +79,7 @@ class FactoryTest extends AbstractTestCase
         $router = $registry->get('router');
 
         $this->assertInstanceOf(Router::class, $router);
-        $this->assertCount(2, $router->getRoutes());
+        $this->assertCount(7, $router->getRoutes());
 
         /** @var TemplateFileLoader */
         $templateFileLoader = $registry->get('templateFileLoader');

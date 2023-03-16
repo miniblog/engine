@@ -1,30 +1,23 @@
 <?php
 
-/**
- * @param WebSite website
- * @param Person owner
- * @param string metaTitle
- * @param string mainContent
- *
- * @param string [metaDescription]
- */
-
 use DanBettles\Marigold\HttpRequest;
 use Miniblog\Engine\OutputHelper;
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 use Miniblog\Engine\Schema\Thing\Person;
 
-/** @phpstan-var Config */
+/** @var WebSite */
+$website = $input['website'];
+/** @var Person */
+$owner = $input['owner'];
+/** @var bool */
+$showSignUpForm = $input['showSignUpForm'] ?? true;
+
+/** @phpstan-var ConfigArray */
 $config = $globals->get('config');
 /** @var HttpRequest */
 $request = $globals->get('request');
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
-
-/** @var WebSite */
-$website = $input['website'];
-/** @var Person */
-$owner = $input['owner'];
 
 /** @phpstan-var MatchedRoute */
 $matchedRoute = $request->attributes['route'] ?? ['id' => ''];
@@ -107,14 +100,21 @@ $showWebsiteCarbonBadge = 'prod' === $config['env'];
             <footer class="footer">
                 <?= $helper->createCopyrightNotice($website, $owner) ?>
 
-                <div class="footer__spec">
-                    <p>Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>
-
-                    <?php if ($showWebsiteCarbonBadge) : ?>
-                        <div id="wcb"></div>
-                    <?php endif ?>
-                </div>
+                <?php if ($showSignUpForm) : ?>
+                    <aside class="footer__sign-up">
+                        <h2>Subscribe for Updates</h2>
+                        <?= $output->include('SignUpAction/form.html.php') ?>
+                    </aside>
+                <?php endif ?>
             </footer>
+
+            <div class="platform-meta">
+                <p>Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>
+
+                <?php if ($showWebsiteCarbonBadge) : ?>
+                    <div id="wcb"></div>
+                <?php endif ?>
+            </div>
 
         </div>
 

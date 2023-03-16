@@ -15,13 +15,13 @@ The ID (basename) of a BlogPosting Document is used as the slug of the blog post
 
 ### Front Matter
 
-| Name            | Type   | Format                        | Required? | Notes                                                                          |
-|-----------------|--------|-------------------------------|-----------|--------------------------------------------------------------------------------|
-| `headline`      | string |                               | Yes       | Used to automatically create a heading.  Used in the meta tags.                |
-| `description`   | string |                               | Yes       | Used in the meta tags.                                                         |
-| `datePublished` | string | ISO 8601 date-time[^1]        | Yes       |                                                                                |
-| `dateModified`  | string | ISO 8601 date-time[^1]        |           |                                                                                |
-| `inLanguage`    | string | IETF BCP 47 language code[^2] |           | Overrides the language specified in `data/Thing/CreativeWork/WebSite/this.md`. |
+| Name            | Type   | Format                        | Required? | Notes                                                                         |
+|-----------------|--------|-------------------------------|-----------|-------------------------------------------------------------------------------|
+| `headline`      | string |                               | Yes       | Used to automatically create a heading.  Used in the meta tags.               |
+| `description`   | string |                               | Yes       | Used in the meta tags                                                         |
+| `datePublished` | string | ISO 8601 date-time[^1]        | Yes       |                                                                               |
+| `dateModified`  | string | ISO 8601 date-time[^1]        |           |                                                                               |
+| `inLanguage`    | string | IETF BCP 47 language code[^2] |           | Overrides the language specified in `data/Thing/CreativeWork/WebSite/this.md` |
 
 ## `Person`
 
@@ -36,11 +36,11 @@ At present, `Person` is used only to capture details of the owner, or principal 
 
 ### Front Matter
 
-| Name         | Type   | Format | Required? | Notes                                                                                        |
-|--------------|--------|--------|-----------|----------------------------------------------------------------------------------------------|
-| `givenName`  | string |        | Yes       | Also known as "first name".                                                                  |
-| `familyName` | string |        | Yes       | Also known as "last name".                                                                   |
-| `email`      | string |        |           | The email address of the owner of the website is used in the footer to hyperlink their name. |
+| Name         | Type   | Format | Required? | Notes                      |
+|--------------|--------|--------|-----------|----------------------------|
+| `givenName`  | string |        | Yes       | Also known as "first name" |
+| `familyName` | string |        | Yes       | Also known as "last name"  |
+| `email`      | string |        |           |                            |
 
 ## `WebSite`
 
@@ -59,13 +59,14 @@ The body&mdash;if present&mdash;is used as the blurb, the introductory text disp
 
 ### Front Matter
 
-| Name            | Type   | Format                        | Required? | Notes                                                            |
-|-----------------|--------|-------------------------------|-----------|------------------------------------------------------------------|
-| `headline`      | string |                               | Yes       | The name of the website.                                         |
-| `description`   | string |                               | Yes       | Used in the meta tags.                                           |
-| `datePublished` | string | ISO 8601 date-time[^1]        | Yes       | The date the website was launched; used in the copyright notice. |
-| `inLanguage`    | string | IETF BCP 47 language code[^2] | Yes       | The principal language of the website's content.                 |
-| `dateModified`  | string | ISO 8601 date-time[^1]        |           |                                                                  |
+| Name            | Type   | Format                        | Required? | Notes                                                           |
+|-----------------|--------|-------------------------------|-----------|-----------------------------------------------------------------|
+| `headline`      | string |                               | Yes       | The name of the website                                         |
+| `description`   | string |                               | Yes       | Used in the meta tags                                           |
+| `datePublished` | string | ISO 8601 date-time[^1]        | Yes       | The date the website was launched; used in the copyright notice |
+| `inLanguage`    | string | IETF BCP 47 language code[^2] | Yes       | The principal language of the website's content                 |
+| `url`           | string |                               | Yes       | The canonical URL of the website                                |
+| `dateModified`  | string | ISO 8601 date-time[^1]        |           |                                                                 |
 
 [^1]: [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601) (e.g. `2023-02-24` or `2023-02-24T10:22:39+0000`)
 [^2]: [IETF BCP 47 language code](https://en.wikipedia.org/wiki/IETF_language_tag) (e.g. `en-GB` for British English or `en-US` for American English)
