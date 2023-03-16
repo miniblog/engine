@@ -15,7 +15,7 @@ use function usort;
 
 use const true;
 
-class HomepageAction extends AbstractAction
+class ShowHomepageAction extends AbstractAction
 {
     public function __invoke(HttpRequest $request): HttpResponse
     {

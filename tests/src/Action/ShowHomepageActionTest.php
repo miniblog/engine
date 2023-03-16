@@ -7,7 +7,7 @@ namespace Miniblog\Engine\Tests\Action;
 use DanBettles\Marigold\AbstractTestCase;
 use Miniblog\Engine\AbstractAction;
 
-class HomepageActionTest extends AbstractTestCase
+class ShowHomepageActionTest extends AbstractTestCase
 {
     public function testIsAMiniblogAction(): void
     {

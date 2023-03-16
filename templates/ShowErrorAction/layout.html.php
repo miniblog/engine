@@ -55,7 +55,7 @@ $website = $input['website'];
 
                 <p class="confirm__choices">
                     <?= $helper->linkTo('javascript:window.history.back()', 'Go back') ?>
-                    <?= $helper->linkTo('homepage', 'Start over') ?>
+                    <?= $helper->linkTo('showHomepage', 'Start over') ?>
                 </p>
             </div>
 

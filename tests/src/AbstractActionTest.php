@@ -87,7 +87,7 @@ class AbstractActionTest extends AbstractTestCase
             ->setConstructorArgs([
                 [
                     [
-                        'id' => 'homepage',
+                        'id' => 'showHomepage',
                         'path' => '/',
                         'action' => null,
                     ],
@@ -99,7 +99,7 @@ class AbstractActionTest extends AbstractTestCase
         $routerMock
             ->expects($this->once())
             ->method('generatePath')
-            ->with('homepage')
+            ->with('showHomepage')
             ->willReturn('/')
         ;
 
@@ -121,7 +121,7 @@ class AbstractActionTest extends AbstractTestCase
         {
             public function __invoke(HttpRequest $request): HttpResponse
             {
-                return $this->redirectToRoute('homepage');
+                return $this->redirectToRoute('showHomepage');
             }
         };
 

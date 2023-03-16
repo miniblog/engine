@@ -10,9 +10,9 @@ use DanBettles\Marigold\Router;
 use DanBettles\Marigold\TemplateEngine\Engine;
 use DanBettles\Marigold\TemplateEngine\TemplateFileLoader;
 use InvalidArgumentException;
-use Miniblog\Engine\Action\HomepageAction;
 use Miniblog\Engine\Action\SignUpAction;
 use Miniblog\Engine\Action\ShowBlogPostAction;
+use Miniblog\Engine\Action\ShowHomepageAction;
 use Miniblog\Engine\Action\ShowSignUpCompleteAction;
 use Miniblog\Engine\Action\ShowSignUpConfirmationEmailAction;
 use Miniblog\Engine\Action\ShowSignUpPendingAction;
@@ -76,9 +76,9 @@ class Factory
     {
         return new Router([
             [
-                'id' => 'homepage',
+                'id' => 'showHomepage',
                 'path' => '/',
-                'action' => HomepageAction::class,
+                'action' => ShowHomepageAction::class,
             ],
             [
                 'id' => 'showBlogPosting',

@@ -21,7 +21,7 @@ $helper = $globals->get('outputHelper');
 
 /** @phpstan-var MatchedRoute */
 $matchedRoute = $request->attributes['route'] ?? ['id' => ''];
-$onHomepage = 'homepage' === $matchedRoute['id'];
+$onHomepage = 'showHomepage' === $matchedRoute['id'];
 $showWebsiteCarbonBadge = 'prod' === $config['env'];
 ?>
 <!DOCTYPE html>
@@ -71,7 +71,7 @@ $showWebsiteCarbonBadge = 'prod' === $config['env'];
         <div class="container">
 
             <header itemscope itemtype="https://schema.org/WebSite" class="masthead">
-                <?php $homepageLink = $helper->linkTo('homepage', $website->getHeadline()) ?>
+                <?php $homepageLink = $helper->linkTo('showHomepage', $website->getHeadline()) ?>
 
                 <?= $helper->createEl(($onHomepage ? 'h1' : 'p'), [
                     'itemprop' => 'name',
@@ -80,7 +80,7 @@ $showWebsiteCarbonBadge = 'prod' === $config['env'];
 
                 <nav aria-label="Website">
                     <ul>
-                        <?php foreach (['Home' => 'homepage'] as $label => $routeId) : ?>
+                        <?php foreach (['Home' => 'showHomepage'] as $label => $routeId) : ?>
                             <li>
                                 <?php if ($matchedRoute['id'] === $routeId) : ?>
                                     <?= $helper->linkTo($routeId, ['class' => 'active'], $label) ?>
