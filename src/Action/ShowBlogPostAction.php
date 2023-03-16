@@ -29,7 +29,7 @@ class ShowBlogPostAction extends AbstractAction
         $blogPosting = $thingManager->find(BlogPosting::class, $postingId);
 
         if (null === $blogPosting) {
-            throw $this->createNotFoundException("Blog post `{$postingId}`");
+            throw new NotFoundHttpException("Blog post `{$postingId}`");
         }
 
         return $this->renderDefault([
