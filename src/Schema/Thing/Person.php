@@ -115,6 +115,7 @@ class Person extends Thing
         return (
             (null !== $this->getIdentifier() && '' !== $this->getIdentifier())
             && (null !== $fullName && '' !== $fullName)
+            && (null !== $this->getEmail() && '' !== $this->getEmail())
         );
     }
 }

@@ -103,61 +103,101 @@ class PersonTest extends AbstractTestCase
                 false,
                 (new Person()),
             ],
+            // ---
             [
                 false,
                 (new Person())
-                    // Missing identifier.
-                    ->setName('Jane Doe'),
+                    // Missing identifier
+                    ->setName('Jane Doe')
+                    ->setEmail('janedoe@example.com'),
             ],
             [  // #2
                 false,
                 (new Person())
-                    // Missing identifier.
-                    ->setGivenName('Jane'),
+                    ->setIdentifier('jane-doe')
+                    // Missing name
+                    ->setEmail('janedoe@example.com'),
             ],
             [
                 false,
                 (new Person())
-                    // Missing identifier.
-                    ->setFamilyName('Doe'),
+                    ->setIdentifier('jane-doe')
+                    ->setName('Jane Doe'),
+                    // Missing email
             ],
+            // ---
             [
                 false,
                 (new Person())
-                    // Missing identifier.
+                    // Missing identifier
                     ->setGivenName('Jane')
-                    ->setFamilyName('Doe'),
+                    ->setEmail('janedoe@example.com'),
             ],
             [  // #5
                 false,
                 (new Person())
-                    ->setIdentifier('jane-doe'),
-                    // Missing name.
-            ],
-            [
-                true,
-                (new Person())
                     ->setIdentifier('jane-doe')
-                    ->setName('Jane Doe'),
+                    // Missing name
+                    ->setEmail('janedoe@example.com'),
             ],
             [
-                true,
+                false,
                 (new Person())
                     ->setIdentifier('jane-doe')
                     ->setGivenName('Jane'),
+                    // Missing email
+            ],
+            // ---
+            [
+                false,
+                (new Person())
+                    // Missing identifier
+                    ->setFamilyName('Doe')
+                    ->setEmail('janedoe@example.com'),
             ],
             [  // #8
-                true,
+                false,
+                (new Person())
+                    ->setIdentifier('jane-doe')
+                    // Missing name
+                    ->setEmail('janedoe@example.com'),
+            ],
+            [
+                false,
                 (new Person())
                     ->setIdentifier('jane-doe')
                     ->setFamilyName('Doe'),
+                    // Missing email
+            ],
+            // ---
+            [
+                true,
+                (new Person())
+                    ->setIdentifier('jane-doe')
+                    ->setName('Jane Doe')
+                    ->setEmail('janedoe@example.com'),
+            ],
+            [  // #11
+                true,
+                (new Person())
+                    ->setIdentifier('jane-doe')
+                    ->setGivenName('Jane')
+                    ->setEmail('janedoe@example.com'),
+            ],
+            [
+                true,
+                (new Person())
+                    ->setIdentifier('jane-doe')
+                    ->setFamilyName('Doe')
+                    ->setEmail('janedoe@example.com'),
             ],
             [
                 true,
                 (new Person())
                     ->setIdentifier('jane-doe')
                     ->setGivenName('Jane')
-                    ->setFamilyName('Doe'),
+                    ->setFamilyName('Doe')
+                    ->setEmail('janedoe@example.com'),
             ],
         ];
     }

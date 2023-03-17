@@ -40,7 +40,7 @@ At present, `Person` is used only to capture details of the owner, or principal 
 |--------------|--------|--------|-----------|----------------------------|
 | `givenName`  | string |        | Yes       | Also known as "first name" |
 | `familyName` | string |        | Yes       | Also known as "last name"  |
-| `email`      | string |        |           |                            |
+| `email`      | string |        | Yes       |                            |
 
 ## `WebSite`
 
