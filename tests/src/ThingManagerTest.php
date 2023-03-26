@@ -23,8 +23,9 @@ class ThingManagerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        ThingManager::$thisWebSite = null;
-        ThingManager::$owner = null;
+        ThingManager::$thisWebsite = null;
+        ThingManager::$ownerOfThisWebsite = null;
+        ThingManager::$aboutThisWebsite = null;
     }
 
     // Factory method.
@@ -241,11 +242,11 @@ class ThingManagerTest extends AbstractTestCase
         $this->assertSame($thisWebsite, $thingManager->getThisWebsite());
     }
 
-    public function testGetownerReturnsAThingThatDescribesTheOwnerOfTheCurrentWebsite(): void
+    public function testGetownerofthiswebsiteReturnsAThingThatDescribesTheOwnerOfTheCurrentWebsite(): void
     {
         $owner = $this
             ->createThingManager($this->createFixturePathname(__FUNCTION__))
-            ->getOwner()
+            ->getOwnerOfThisWebsite()
         ;
 
         $expectedThing = (new Person())
@@ -258,22 +259,48 @@ class ThingManagerTest extends AbstractTestCase
         $this->assertEquals($expectedThing, $owner);
     }
 
-    public function testGetownerThrowsAnExceptionIfTheDocumentDoesNotExist(): void
+    public function testGetownerofthiswebsiteThrowsAnExceptionIfTheDocumentDoesNotExist(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('There is something wrong with the Document that describes the owner of this website');
 
         $this
             ->createThingManager($this->createFixturePathname(__FUNCTION__))
-            ->getOwner()
+            ->getOwnerOfThisWebsite()
         ;
     }
 
-    public function testGetownerAlwaysReturnsTheSameInstance(): void
+    public function testGetownerofthiswebsiteAlwaysReturnsTheSameInstance(): void
     {
         $thingManager = $this->createThingManager($this->createFixturePathname(__FUNCTION__));
-        $owner = $thingManager->getOwner();
+        $owner = $thingManager->getOwnerOfThisWebsite();
 
-        $this->assertSame($owner, $thingManager->getOwner());
+        $this->assertSame($owner, $thingManager->getOwnerOfThisWebsite());
+    }
+
+    public function testGetaboutthiswebsiteReturnsAnArticleAboutTheCurrentWebsite(): void
+    {
+        $aboutThisWebsite = $this
+            ->createThingManager($this->createFixturePathname(__FUNCTION__))
+            ->getAboutThisWebsite()
+        ;
+
+        $expectedThing = (new Article())
+            ->setIdentifier('about-this-website')
+            ->setHeadline('About This Website')
+            ->setDescription('The about-page for this website')
+            ->setDatePublished('2023-03-26')
+            ->setArticleBody('<p>Lorem ipsum dolor.</p>')
+        ;
+
+        $this->assertEquals($expectedThing, $aboutThisWebsite);
+    }
+
+    public function testGetaboutthiswebsiteAlwaysReturnsTheSameInstance(): void
+    {
+        $thingManager = $this->createThingManager($this->createFixturePathname(__FUNCTION__));
+        $aboutThisWebsite = $thingManager->getAboutThisWebsite();
+
+        $this->assertSame($aboutThisWebsite, $thingManager->getAboutThisWebsite());
     }
 }

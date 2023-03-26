@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @param WebSite website
- * @param Person author
- * @param BlogPosting blogPosting
- */
-
 use Miniblog\Engine\OutputHelper;
 use Miniblog\Engine\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;

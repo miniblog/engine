@@ -2,10 +2,6 @@
 
 /**
  * ASCII art created using https://www.kammerl.de/ascii/AsciiSignature.php
- *
- * @param WebSite website
- * @param string metaTitle
- * @param string mainContent
  */
 
 use Miniblog\Engine\OutputHelper;

@@ -18,7 +18,7 @@ class ShowSignUpPendingAction extends AbstractAction
 
         return $this->renderDefault([
             'website' => $thingManager->getThisWebsite(),
-            'owner' => $thingManager->getOwner(),
+            'owner' => $thingManager->getOwnerOfThisWebsite(),
         ]);
     }
 }

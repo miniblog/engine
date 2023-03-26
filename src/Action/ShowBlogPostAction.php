@@ -34,7 +34,7 @@ class ShowBlogPostAction extends AbstractAction
 
         return $this->renderDefault([
             'website' => $thingManager->getThisWebsite(),
-            'author' => $thingManager->getOwner(),
+            'author' => $thingManager->getOwnerOfThisWebsite(),
             'blogPosting' => $blogPosting,
         ]);
     }

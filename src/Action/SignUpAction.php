@@ -27,7 +27,7 @@ class SignUpAction extends AbstractAction
         /** @var ThingManager */
         $thingManager = $this->getServices()->get('thingManager');
         $website = $thingManager->getThisWebsite();
-        $owner = $thingManager->getOwner();
+        $owner = $thingManager->getOwnerOfThisWebsite();
 
         if ('GET' === $request->server['REQUEST_METHOD']) {
             // Show the (empty) sign-up form.
@@ -94,7 +94,7 @@ class SignUpAction extends AbstractAction
         /** @var ThingManager */
         $thingManager = $this->getServices()->get('thingManager');
         $website = $thingManager->getThisWebsite();
-        $owner = $thingManager->getOwner();
+        $owner = $thingManager->getOwnerOfThisWebsite();
 
         $to = $submittedValues['email'];
         $subject = 'Please confirm your email address';

@@ -7,6 +7,7 @@ namespace Miniblog\Engine;
 use DanBettles\Marigold\FileInfo;
 use DirectoryIterator;
 use Miniblog\Engine\Schema\Thing;
+use Miniblog\Engine\Schema\Thing\CreativeWork\Article;
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 use Miniblog\Engine\Schema\Thing\Person;
 use RangeException;
@@ -36,13 +37,19 @@ class ThingManager
      * @access private
      * @var WebSite|null
      */
-    public static $thisWebSite;
+    public static $thisWebsite;
 
     /**
      * @access private
      * @var Person|null
      */
-    public static $owner;
+    public static $ownerOfThisWebsite;
+
+    /**
+     * @access private
+     * @var Article|null
+     */
+    public static $aboutThisWebsite;
 
     private string $namespace;
 
@@ -173,18 +180,18 @@ class ThingManager
      */
     public function getThisWebsite(): WebSite
     {
-        if (!isset(self::$thisWebSite)) {
+        if (!isset(self::$thisWebsite)) {
             /** @var WebSite|null */
-            $thisWebSite = $this->find(WebSite::class, 'this');
+            $webSite = $this->find(WebSite::class, 'this');
 
-            if (!$thisWebSite) {
+            if (!$webSite) {
                 throw new RuntimeException('There is something wrong with the Document that describes this website');
             }
 
-            self::$thisWebSite = $thisWebSite;
+            self::$thisWebsite = $webSite;
         }
 
-        return self::$thisWebSite;
+        return self::$thisWebsite;
     }
 
     /**
@@ -192,20 +199,34 @@ class ThingManager
      *
      * @throws RuntimeException If there is something wrong with the Document that describes the owner of this website
      */
-    public function getOwner(): Person
+    public function getOwnerOfThisWebsite(): Person
     {
-        if (!isset(self::$owner)) {
+        if (!isset(self::$ownerOfThisWebsite)) {
             /** @var Person|null */
-            $owner = $this->find(Person::class, 'owner');
+            $person = $this->find(Person::class, 'owner');
 
-            if (!$owner) {
+            if (!$person) {
                 throw new RuntimeException('There is something wrong with the Document that describes the owner of this website');
             }
 
-            self::$owner = $owner;
+            self::$ownerOfThisWebsite = $person;
         }
 
-        return self::$owner;
+        return self::$ownerOfThisWebsite;
+    }
+
+    /**
+     * Returns the Article about the website.
+     */
+    public function getAboutThisWebsite(): ?Article
+    {
+        if (!isset(self::$aboutThisWebsite)) {
+            /** @var Article|null */
+            $article = $this->find(Article::class, 'about-this-website');
+            self::$aboutThisWebsite = $article;
+        }
+
+        return self::$aboutThisWebsite;
     }
 
     private function setNamespace(string $namespace): self

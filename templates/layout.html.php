@@ -4,6 +4,7 @@ use DanBettles\Marigold\HttpRequest;
 use Miniblog\Engine\OutputHelper;
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 use Miniblog\Engine\Schema\Thing\Person;
+use Miniblog\Engine\ThingManager;
 
 /** @var WebSite */
 $website = $input['website'];
@@ -20,8 +21,20 @@ $request = $globals->get('request');
 $helper = $globals->get('outputHelper');
 
 /** @phpstan-var MatchedRoute */
-$matchedRoute = $request->attributes['route'] ?? ['id' => ''];
+$matchedRoute = $request->attributes['route'];
 $onHomepage = 'showHomepage' === $matchedRoute['id'];
+
+/** @var ThingManager */
+$thingManager = $globals->get('thingManager');
+
+$websiteMenuItems = [
+    'Home' => 'showHomepage',
+];
+
+if (null !== $thingManager->getAboutThisWebsite()) {
+    $websiteMenuItems['About'] = 'showAboutWebsite';
+}
+
 $showWebsiteCarbonBadge = 'prod' === $config['env'];
 ?>
 <!DOCTYPE html>
@@ -70,17 +83,14 @@ $showWebsiteCarbonBadge = 'prod' === $config['env'];
     <body>
         <div class="container">
 
-            <header itemscope itemtype="https://schema.org/WebSite" class="masthead">
+            <header class="masthead">
                 <?php $homepageLink = $helper->linkTo('showHomepage', $website->getHeadline()) ?>
 
-                <?= $helper->createEl(($onHomepage ? 'h1' : 'p'), [
-                    'itemprop' => 'name',
-                    'class' => 'masthead__title',
-                ], $homepageLink) ?>
+                <?= $helper->createEl(($onHomepage ? 'h1' : 'p'), ['class' => 'masthead__title'], $homepageLink) ?>
 
                 <nav aria-label="Website">
                     <ul>
-                        <?php foreach (['Home' => 'showHomepage'] as $label => $routeId) : ?>
+                        <?php foreach ($websiteMenuItems as $label => $routeId) : ?>
                             <li>
                                 <?php if ($matchedRoute['id'] === $routeId) : ?>
                                     <?= $helper->linkTo($routeId, ['class' => 'active'], $label) ?>

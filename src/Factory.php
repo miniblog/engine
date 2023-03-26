@@ -17,6 +17,7 @@ use Miniblog\Engine\Action\ShowSignUpCompleteAction;
 use Miniblog\Engine\Action\ShowSignUpConfirmationEmailAction;
 use Miniblog\Engine\Action\ShowSignUpPendingAction;
 use Miniblog\Engine\Action\AddSubscriberAction;
+use Miniblog\Engine\Action\ShowArticleAction;
 use Miniblog\Engine\Schema\Thing;
 use ReflectionClass;
 
@@ -74,16 +75,19 @@ class Factory
      */
     private function createRouter(): Router
     {
-        return new Router([
+        $routes = [
             [
                 'id' => 'showHomepage',
                 'path' => '/',
                 'action' => ShowHomepageAction::class,
             ],
             [
-                'id' => 'showBlogPosting',
-                'path' => '/blog/{postingId}',
-                'action' => ShowBlogPostAction::class,
+                'id' => 'showAboutWebsite',
+                'path' => '/about',
+                'action' => ShowArticleAction::class,
+                'parameters' => [
+                    'id' => 'about-this-website',
+                ],
             ],
             [
                 'id' => 'signUp',
@@ -110,7 +114,15 @@ class Factory
                 'path' => '/subscribers',
                 'action' => AddSubscriberAction::class,
             ],
-        ]);
+            [
+                'id' => 'showBlogPosting',
+                'path' => '/blog/{postingId}',
+                'action' => ShowBlogPostAction::class,
+            ],
+        ];
+
+        /** @phpstan-ignore-next-line */
+        return new Router($routes);
     }
 
     /**

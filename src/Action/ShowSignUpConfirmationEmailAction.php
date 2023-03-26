@@ -26,7 +26,7 @@ class ShowSignUpConfirmationEmailAction extends AbstractAction
 
         /** @var ThingManager */
         $thingManager = $this->getServices()->get('thingManager');
-        $owner = $thingManager->getOwner();
+        $owner = $thingManager->getOwnerOfThisWebsite();
 
         return $this->render('SignUpAction/confirmation_email.html.php', [
             'website' => $thingManager->getThisWebsite(),

@@ -54,7 +54,7 @@ class DocumentParserTest extends AbstractTestCase
                     'frontMatter' => [
                         'title' => 'Title in Front Matter',
                     ],
-                    'body' => '',
+                    'body' => null,
                 ],
                 'only-front-matter.md',
             ],
@@ -111,7 +111,7 @@ class DocumentParserTest extends AbstractTestCase
             ->parse($this->getFixtureContents($fileBasename))
         ;
 
-        $this->assertEquals($expected, $parsedMarkdown);
+        $this->assertSame($expected, $parsedMarkdown);
     }
 
     public function testParseThrowsAnExceptionIfTheFrontMatterJsonIsInvalid(): void

@@ -30,7 +30,7 @@ class DocumentParser
     }
 
     /**
-     * @return array{?string,string}
+     * @return array{string,string}
      */
     private function splitText(string $text): array
     {
@@ -64,7 +64,7 @@ class DocumentParser
         }
 
         return [
-            null,
+            '',
             $text,
         ];
     }
@@ -102,12 +102,15 @@ class DocumentParser
         ) = $this->splitText($text);
 
         /** @phpstan-var FrontMatter */
-        $frontMatter = null === $frontMatterJson
+        $frontMatter = '' === $frontMatterJson
             ? []
             : json_decode($frontMatterJson, true, 2, JSON_THROW_ON_ERROR)
         ;
 
-        $bodyHtml = $this->getParsedown()->text($markdown);
+        $bodyHtml = '' === $markdown
+            ? null
+            : $this->getParsedown()->text($markdown)
+        ;
 
         return $this->createResult($frontMatter, $bodyHtml);
     }

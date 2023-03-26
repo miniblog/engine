@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @param WebSite website
- */
-
-use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
-
 $output->insertInto('ShowErrorAction/layout.html.php', 'mainContent', [
     'website' => $input['website'],
     'metaTitle' => 'Not Found',
