@@ -24,12 +24,13 @@ You should now see the Miniblog homepage when you navigate to the root of your w
 
 ## Basic Customisation
 
-In Miniblog there is no configuration as such: everything is content.  Thus, to begin customising the website, you will need to update the Document that describes the website, and the Document containing details of the owner, or principal author, of the content.
+In Miniblog there is no configuration as such: everything is content.  Thus, to begin customising the website, you will need to update the Document containing the website metadata, and the Document containing details of the owner/principal-author of the content.  If you want to keep the about-page, you'll need to update the Document containing its content.
 
-1. Update the information about the website in `data/Thing/CreativeWork/WebSite/this.md`.
-1. Update the details of the website's owner, or principal author, in `data/Thing/Person/owner.md`.
+1. Update website metadata in `data/Thing/CreativeWork/WebSite/this.md`.
+1. Update the details of the website's owner/principal-author in `data/Thing/Person/owner.md`.
+1. Update/remove `data/Thing/CreativeWork/Article/about-this-website.md`, which contains the content for the about-page.
 1. At the root of the project, run `bin/console refresh`.
 
 > :warning: Always run `bin/console refresh` after updating content.
 
-Now you've been rooting around in `data/`, it's highly likely you'll understand enough, and have the confidence, to just get on with adding/editing blog posts.  You can always come back and read the [gory details of Miniblog's content model](content.md) if you really need to 🙂
+Now you've been rooting around in `data/`, it's likely you'll understand enough to just get on with adding/editing blog posts.  You can always come back and read the [gory details of Miniblog's content model](content.md) if you really need to 🙂

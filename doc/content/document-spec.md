@@ -21,7 +21,7 @@ As an example, here's what a blog-post Document looks like:
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis.
 ```
 
-> :warning: At present, Miniblog will simply ignore invalid Documents (i.e. Documents that do not follow this spec): invalid Documents will not be listed, nor will it be possible to request them directly.
+> :warning: At present, Miniblog will simply ignore invalid Documents (i.e. Documents that do not follow this spec): invalid Documents will not be listed, nor will it be possible to request them directly&mdash;a 404 will be thrown if you attempt to.
 
 ## Front Matter
 
@@ -31,6 +31,6 @@ Take a look at the [reference on Miniblog content types](content-types.md) to fi
 
 ## Body
 
-The remainder of the file *may* be the body (full textual content) of the Thing.  Miniblog does not allow for a body in all [types of content](content-types.md).  If present, though, the body *must* be separated from the front matter by at least one blank line.  The body can be formatted using [GitHub-flavoured Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+The remainder of the file *may* be the body (full textual content) of the Thing.  Miniblog does not allow for a body in all [types of content](content-types.md).  If present, though, the body *must* be separated from the front matter by at least one blank line.  The body can be formatted using [GitHub-Flavoured Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
 [Next: Content Types &rarr;](content-types.md)
