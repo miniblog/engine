@@ -40,7 +40,7 @@ class WebSiteTest extends AbstractTestCase
             [  // #2
                 false,
                 (new WebSite())
-                    ->setIdentifier('this')
+                    ->setIdentifier('this-website')
                     // Missing headline.
                     ->setDescription('Meta description')
                     ->setDatePublished(new DateTime())
@@ -50,7 +50,7 @@ class WebSiteTest extends AbstractTestCase
             [
                 false,
                 (new WebSite())
-                    ->setIdentifier('this')
+                    ->setIdentifier('this-website')
                     ->setHeadline('Title of the Website')
                     // Missing description.
                     ->setDatePublished(new DateTime())
@@ -60,7 +60,7 @@ class WebSiteTest extends AbstractTestCase
             [
                 false,
                 (new WebSite())
-                    ->setIdentifier('this')
+                    ->setIdentifier('this-website')
                     ->setHeadline('Title of the Website')
                     ->setDescription('Meta description')
                     // Missing date published.
@@ -70,7 +70,7 @@ class WebSiteTest extends AbstractTestCase
             [  // #5
                 false,
                 (new WebSite())
-                    ->setIdentifier('this')
+                    ->setIdentifier('this-website')
                     ->setHeadline('Title of the Website')
                     ->setDescription('Meta description')
                     ->setDatePublished(new DateTime())
@@ -80,7 +80,7 @@ class WebSiteTest extends AbstractTestCase
             [
                 false,
                 (new WebSite())
-                    ->setIdentifier('this')
+                    ->setIdentifier('this-website')
                     ->setHeadline('Title of the Website')
                     ->setDescription('Meta description')
                     ->setDatePublished(new DateTime())
@@ -90,7 +90,7 @@ class WebSiteTest extends AbstractTestCase
             [
                 true,
                 (new WebSite())
-                    ->setIdentifier('this')
+                    ->setIdentifier('this-website')
                     ->setHeadline('Title of the Website')
                     ->setDescription('Meta description')
                     ->setDatePublished(new DateTime())
@@ -100,7 +100,7 @@ class WebSiteTest extends AbstractTestCase
             [
                 true,
                 (new WebSite())
-                    ->setIdentifier('this')
+                    ->setIdentifier('this-website')
                     ->setName('Title of the Website')  // `name` => `headline`
                     ->setDescription('Meta description')
                     ->setDatePublished(new DateTime())

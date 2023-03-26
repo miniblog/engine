@@ -182,7 +182,7 @@ class ThingManager
     {
         if (!isset(self::$thisWebsite)) {
             /** @var WebSite|null */
-            $webSite = $this->find(WebSite::class, 'this');
+            $webSite = $this->find(WebSite::class, 'this-website');
 
             if (!$webSite) {
                 throw new RuntimeException('There is something wrong with the Document that describes this website');
@@ -203,7 +203,7 @@ class ThingManager
     {
         if (!isset(self::$ownerOfThisWebsite)) {
             /** @var Person|null */
-            $person = $this->find(Person::class, 'owner');
+            $person = $this->find(Person::class, 'owner-of-this-website');
 
             if (!$person) {
                 throw new RuntimeException('There is something wrong with the Document that describes the owner of this website');

@@ -212,7 +212,7 @@ class ThingManagerTest extends AbstractTestCase
         ;
 
         $expectedThing = (new WebSite())
-            ->setIdentifier('this')
+            ->setIdentifier('this-website')
             ->setHeadline('Name of the Website')
             ->setDescription("A concise description of the website's content")
             ->setDatePublished('2023-02-26')
@@ -250,7 +250,7 @@ class ThingManagerTest extends AbstractTestCase
         ;
 
         $expectedThing = (new Person())
-            ->setIdentifier('owner')
+            ->setIdentifier('owner-of-this-website')
             ->setGivenName('John')
             ->setFamilyName('Dory')
             ->setEmail('johndory@example.com')

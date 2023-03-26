@@ -21,7 +21,7 @@ At present, `Article` is used only for the about-page, which is stored in `data/
 | `description`   | string |                               | Yes       | Used in the meta tags                                                         |
 | `datePublished` | string | ISO 8601 date-time[^1]        | Yes       |                                                                               |
 | `dateModified`  | string | ISO 8601 date-time[^1]        |           |                                                                               |
-| `inLanguage`    | string | IETF BCP 47 language code[^2] |           | Overrides the language specified in `data/Thing/CreativeWork/WebSite/this.md` |
+| `inLanguage`    | string | IETF BCP 47 language code[^2] |           | Overrides the language specified in `data/Thing/CreativeWork/WebSite/this-website.md` |
 
 ## `BlogPosting`
 
@@ -44,7 +44,7 @@ The ID (basename) of a `BlogPosting` Document is used as the slug of the blog po
 | `description`   | string |                               | Yes       | Used in the meta tags                                                         |
 | `datePublished` | string | ISO 8601 date-time[^1]        | Yes       |                                                                               |
 | `dateModified`  | string | ISO 8601 date-time[^1]        |           |                                                                               |
-| `inLanguage`    | string | IETF BCP 47 language code[^2] |           | Overrides the language specified in `data/Thing/CreativeWork/WebSite/this.md` |
+| `inLanguage`    | string | IETF BCP 47 language code[^2] |           | Overrides the language specified in `data/Thing/CreativeWork/WebSite/this-website.md` |
 
 ## `Person`
 
@@ -78,7 +78,7 @@ At present, `Person` is used only to capture details of the owner/principal-auth
   <dd>No</dd>
 </dl>
 
-At present, `WebSite` is used only to capture details of the Miniblog website: these data are stored in `data/Thing/CreativeWork/WebSite/this.md`.
+At present, `WebSite` is used only to capture details of the Miniblog website: these data are stored in `data/Thing/CreativeWork/WebSite/this-website.md`.
 
 ### Front Matter
 
