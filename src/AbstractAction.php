@@ -12,6 +12,8 @@ use DanBettles\Marigold\Router;
 use DanBettles\Marigold\TemplateEngine\Engine;
 use ReflectionClass;
 
+use function array_replace;
+
 abstract class AbstractAction extends MarigoldAbstractAction
 {
     private Registry $services;
@@ -37,6 +39,14 @@ abstract class AbstractAction extends MarigoldAbstractAction
         int $httpStatusCode = HttpResponse::HTTP_OK
     ): HttpResponse {
         $shortClassName = (new ReflectionClass($this))->getShortName();
+
+        /** @var ThingManager */
+        $thingManager = $this->getServices()->get('thingManager');
+
+        $variables = array_replace([
+            'website' => $thingManager->getThisWebsite(),
+            'owner' => $thingManager->getOwnerOfThisWebsite(),
+        ], $variables);
 
         return $this->render(
             "{$shortClassName}/default.html.php",

@@ -13,7 +13,10 @@ use DanBettles\Marigold\Registry;
 use DanBettles\Marigold\Router;
 use DanBettles\Marigold\TemplateEngine\Engine;
 use Miniblog\Engine\AbstractAction;
+use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
+use Miniblog\Engine\Schema\Thing\Person;
 use Miniblog\Engine\Tests\AbstractActionTest\RendersDefaultTemplateAction;
+use Miniblog\Engine\ThingManager;
 
 use function is_subclass_of;
 
@@ -54,11 +57,53 @@ class AbstractActionTest extends AbstractTestCase
 
         $this->assertTrue(is_subclass_of(RendersDefaultTemplateAction::class, AbstractAction::class));
 
+        $website = new WebSite();
+        $owner = new Person();
+
+        $thingManagerMock = $this
+            ->getMockBuilder(ThingManager::class)
+            ->onlyMethods([
+                'getThisWebsite',
+                'getOwnerOfThisWebsite',
+            ])
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $thingManagerMock
+            ->expects($this->once())
+            ->method('getThisWebsite')
+            ->willReturn($website)
+        ;
+
+        $thingManagerMock
+            ->expects($this->once())
+            ->method('getOwnerOfThisWebsite')
+            ->willReturn($owner)
+        ;
+
+        $servicesMock = $this
+            ->getMockBuilder(Registry::class)
+            ->onlyMethods(['get'])
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $servicesMock
+            ->expects($this->once())
+            ->method('get')
+            ->with('thingManager')
+            ->willReturn($thingManagerMock)
+        ;
+
         $actionMock = $this
             ->getMockBuilder(RendersDefaultTemplateAction::class)
             ->setMockClassName($mockClassName)
             ->onlyMethods(['render'])
-            ->disableOriginalConstructor()
+            ->setConstructorArgs([
+                $this->createStub(Engine::class),
+                $servicesMock,
+            ])
             ->getMock()
         ;
 
@@ -66,6 +111,8 @@ class AbstractActionTest extends AbstractTestCase
             ->expects($this->once())
             ->method('render')
             ->with("{$mockClassName}/default.html.php", [
+                'website' => $website,
+                'owner' => $owner,
                 'message' => '404 Not Found',
             ], 404)
             ->willReturn($expectedResponse)

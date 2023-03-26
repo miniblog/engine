@@ -24,17 +24,9 @@ class SignUpAction extends AbstractAction
      */
     public function __invoke(HttpRequest $request): HttpResponse
     {
-        /** @var ThingManager */
-        $thingManager = $this->getServices()->get('thingManager');
-        $website = $thingManager->getThisWebsite();
-        $owner = $thingManager->getOwnerOfThisWebsite();
-
         if ('GET' === $request->server['REQUEST_METHOD']) {
             // Show the (empty) sign-up form.
-            return $this->renderDefault([
-                'website' => $website,
-                'owner' => $owner,
-            ]);
+            return $this->renderDefault();
         }
 
         if ('POST' !== $request->server['REQUEST_METHOD']) {
@@ -53,8 +45,6 @@ class SignUpAction extends AbstractAction
 
         if ($errors) {
             return $this->renderDefault([
-                'website' => $website,
-                'owner' => $owner,
                 'values' => $submittedValues,
                 'errors' => $errors,
             ], HttpResponse::HTTP_UNPROCESSABLE_CONTENT);

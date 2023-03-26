@@ -35,8 +35,6 @@ class ShowHomepageAction extends AbstractAction
         });
 
         return $this->renderDefault([
-            'website' => $thingManager->getThisWebsite(),
-            'owner' => $thingManager->getOwnerOfThisWebsite(),
             'blogPostings' => $blogPostings,
         ]);
     }
