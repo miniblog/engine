@@ -85,6 +85,6 @@ class AddSubscriberAction extends AbstractAction
             @fclose($subscribersFile);
         }
 
-        return $this->redirectToRoute('showSignUpCompleteAction', [], HttpResponse::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('showSignUpComplete', [], HttpResponse::HTTP_SEE_OTHER);
     }
 }

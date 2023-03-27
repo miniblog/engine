@@ -50,7 +50,7 @@ $ownerName = $owner->getFullName();
 
                                 <p style="<?= $bodyTextStyle ?>">Your email address was just used to join the <?= $websiteLink ?> mailing list.  If that was you then please click the button to start your subscription.</p>
 
-                                <form method="POST" action="<?= $router->generatePath('addSubscriberAction') ?>">
+                                <form method="POST" action="<?= $router->generatePath('addSubscriber') ?>">
                                     <input type="hidden" name="email" value="<?= $helper->escape($email) ?>">
                                     <button type="submit" style="<?= $titleStyle ?>">Yes, I'd like to join your mailing list</button>
                                 </form>

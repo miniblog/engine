@@ -10,19 +10,17 @@ use DanBettles\Marigold\Router;
 use DanBettles\Marigold\TemplateEngine\Engine;
 use DanBettles\Marigold\TemplateEngine\TemplateFileLoader;
 use InvalidArgumentException;
-use Miniblog\Engine\Action\SignUpAction;
-use Miniblog\Engine\Action\ShowBlogPostAction;
-use Miniblog\Engine\Action\ShowHomepageAction;
-use Miniblog\Engine\Action\ShowSignUpCompleteAction;
-use Miniblog\Engine\Action\ShowSignUpConfirmationEmailAction;
-use Miniblog\Engine\Action\ShowSignUpPendingAction;
 use Miniblog\Engine\Action\AddSubscriberAction;
 use Miniblog\Engine\Action\ShowArticleAction;
+use Miniblog\Engine\Action\ShowBlogPostAction;
+use Miniblog\Engine\Action\ShowHomepageAction;
+use Miniblog\Engine\Action\ShowSignUpConfirmationEmailAction;
+use Miniblog\Engine\Action\SignUpAction;
 use Miniblog\Engine\Schema\Thing;
 use ReflectionClass;
 
-use function is_dir;
 use function dirname;
+use function is_dir;
 
 /**
  * Builds the registry, which wires-up the app's dependencies.
@@ -102,15 +100,21 @@ class Factory
             [
                 'id' => 'showSignUpPending',
                 'path' => '/sign-up/pending',
-                'action' => ShowSignUpPendingAction::class,
+                'action' => ShowArticleAction::class,
+                'parameters' => [
+                    'id' => 'sign-up-pending',
+                ],
             ],
             [
-                'id' => 'showSignUpCompleteAction',
+                'id' => 'showSignUpComplete',
                 'path' => '/sign-up/complete',
-                'action' => ShowSignUpCompleteAction::class,
+                'action' => ShowArticleAction::class,
+                'parameters' => [
+                    'id' => 'sign-up-complete',
+                ],
             ],
             [
-                'id' => 'addSubscriberAction',
+                'id' => 'addSubscriber',
                 'path' => '/subscribers',
                 'action' => AddSubscriberAction::class,
             ],
