@@ -4,37 +4,21 @@ use DanBettles\Marigold\HttpRequest;
 use Miniblog\Engine\OutputHelper;
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 use Miniblog\Engine\Schema\Thing\Person;
-use Miniblog\Engine\ThingManager;
 
 /** @var WebSite */
 $website = $input['website'];
-/** @var Person */
-$owner = $input['owner'];
-/** @var bool */
-$showSignUpForm = $input['showSignUpForm'] ?? true;
 
-/** @phpstan-var ConfigArray */
-$config = $globals->get('config');
-/** @var HttpRequest */
-$request = $globals->get('request');
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
 
+/** @var HttpRequest */
+$request = $globals->get('request');
 /** @phpstan-var MatchedRoute */
 $matchedRoute = $request->attributes['route'];
 $onHomepage = 'showHomepage' === $matchedRoute['id'];
 
-/** @var ThingManager */
-$thingManager = $globals->get('thingManager');
-
-$websiteMenuItems = [
-    'Home' => 'showHomepage',
-];
-
-if (null !== $thingManager->getAboutThisWebsite()) {
-    $websiteMenuItems['About'] = 'showAboutWebsite';
-}
-
+/** @phpstan-var ConfigArray */
+$config = $globals->get('config');
 $showWebsiteCarbonBadge = 'prod' === $config['env'];
 ?>
 <!DOCTYPE html>
@@ -85,22 +69,9 @@ $showWebsiteCarbonBadge = 'prod' === $config['env'];
 
             <header class="masthead">
                 <?php $homepageLink = $helper->linkTo('showHomepage', $website->getHeadline()) ?>
-
                 <?= $helper->createEl(($onHomepage ? 'h1' : 'p'), ['class' => 'masthead__title'], $homepageLink) ?>
 
-                <nav aria-label="Website">
-                    <ul>
-                        <?php foreach ($websiteMenuItems as $label => $routeId) : ?>
-                            <li>
-                                <?php if ($matchedRoute['id'] === $routeId) : ?>
-                                    <?= $helper->linkTo($routeId, ['class' => 'active'], $label) ?>
-                                <?php else : ?>
-                                    <?= $helper->linkTo($routeId, $label) ?>
-                                <?php endif ?>
-                            </li>
-                        <?php endforeach ?>
-                    </ul>
-                </nav>
+                <?= $output->include('website_menu.html.php') ?>
             </header>
 
             <main>
@@ -108,14 +79,8 @@ $showWebsiteCarbonBadge = 'prod' === $config['env'];
             </main>
 
             <footer class="footer">
+                <?php /** @var Person */ $owner = $input['owner'] ?>
                 <?= $helper->createCopyrightNotice($website, $owner) ?>
-
-                <?php if ($showSignUpForm) : ?>
-                    <aside class="footer__sign-up">
-                        <h2>Subscribe for Updates</h2>
-                        <?= $output->include('SignUpAction/form.html.php') ?>
-                    </aside>
-                <?php endif ?>
             </footer>
 
             <div class="platform-meta">

@@ -227,9 +227,7 @@ main {
     font-size: smaller;
     margin-top: 1em;
     padding: 1em 0;
-    border: 1px solid var(--colour-border);
-    border-left: 0;
-    border-right: 0;
+    border-top: 1px solid var(--colour-border);
 }
 
 @media (min-width: 768px) {
@@ -339,10 +337,5 @@ button {
 
 .sign-up form input {
     width: 100%;
-}
-
-.footer__sign-up h2 {
-    font-size: 1em;
-    margin-bottom: 0;
 }
 /* ###< Sign-up block ### */
