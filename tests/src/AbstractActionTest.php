@@ -6,6 +6,7 @@ namespace Miniblog\Engine\Tests;
 
 use DanBettles\Marigold\AbstractAction as MarigoldAbstractAction;
 use DanBettles\Marigold\AbstractTestCase;
+use DanBettles\Marigold\Exception\HttpException;
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\HttpResponse;
 use DanBettles\Marigold\HttpResponse\RedirectHttpResponse;
@@ -21,6 +22,7 @@ use Miniblog\Engine\ThingManager;
 use function is_subclass_of;
 
 use const null;
+use const true;
 
 class AbstractActionTest extends AbstractTestCase
 {
@@ -290,5 +292,49 @@ class AbstractActionTest extends AbstractTestCase
         $this->assertInstanceOf(RedirectHttpResponse::class, $actualResponse);
         $this->assertSame(303, $actualResponse->getStatusCode());
         $this->assertSame('/articles', $actualResponse->getTargetUrl());
+    }
+
+    public function testAbortgracefullyifThrowsAnHttpexceptionIfTheConditionIsMet(): void
+    {
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage('400 Bad Request: The argument is invalid');
+
+        $templateEngineStub = $this->createStub(Engine::class);
+        $servicesStub = $this->createStub(Registry::class);
+
+        $action = new class ($templateEngineStub, $servicesStub) extends AbstractAction
+        {
+            public function __invoke(HttpRequest $request): HttpResponse
+            {
+                $this->abortGracefullyIf(true, 400, 'The argument is invalid');
+
+                return new HttpResponse();
+            }
+        };
+
+        $action(HttpRequest::createFromGlobals());
+    }
+
+    public function testAbortgracefullyifHasDefaultValues(): void
+    {
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage('400 Bad Request');
+
+        $templateEngineStub = $this->createStub(Engine::class);
+        $servicesStub = $this->createStub(Registry::class);
+
+        $action = new class ($templateEngineStub, $servicesStub) extends AbstractAction
+        {
+            public function __invoke(HttpRequest $request): HttpResponse
+            {
+                $this->abortGracefullyIf(true, 400);
+
+                return new HttpResponse();
+            }
+        };
+
+        $action(HttpRequest::createFromGlobals());
     }
 }

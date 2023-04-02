@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine\Action;
 
-use DanBettles\Marigold\Exception\HttpException\NotFoundHttpException;
+use DanBettles\Marigold\Exception\HttpException;
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\HttpResponse;
 use Miniblog\Engine\AbstractAction;
@@ -20,7 +20,7 @@ class ShowArticleAction extends AbstractAction
 {
     /**
      * @throws RuntimeException If the `id` route-parameter is missing
-     * @throws NotFoundHttpException If the article does not exist
+     * @throws HttpException If the article does not exist
      */
     public function __invoke(HttpRequest $request): HttpResponse
     {
@@ -37,9 +37,11 @@ class ShowArticleAction extends AbstractAction
         /** @var Article|null */
         $article = $thingManager->find(Article::class, $articleId);
 
-        if (null === $article) {
-            throw new NotFoundHttpException("Article `{$articleId}`");
-        }
+        $this->abortGracefullyIf(
+            null === $article,
+            HttpResponse::HTTP_NOT_FOUND,
+            "Article `{$articleId}`"
+        );
 
         return $this->renderDefault([
             'article' => $article,

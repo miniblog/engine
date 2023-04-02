@@ -29,9 +29,11 @@ class SignUpAction extends AbstractAction
             return $this->renderDefault();
         }
 
-        if ('POST' !== $request->server['REQUEST_METHOD']) {
-            throw new HttpException(HttpResponse::HTTP_BAD_REQUEST, 'The request method is invalid');
-        }
+        $this->abortGracefullyIf(
+            'POST' !== $request->server['REQUEST_METHOD'],
+            HttpResponse::HTTP_BAD_REQUEST,
+            'The request method is invalid'
+        );
 
         $submittedValues = [
             'email' => $request->request['email'] ?? '',

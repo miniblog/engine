@@ -34,16 +34,20 @@ class AddSubscriberAction extends AbstractAction
      */
     public function __invoke(HttpRequest $request): HttpResponse
     {
-        if ('POST' !== $request->server['REQUEST_METHOD']) {
-            throw new HttpException(HttpResponse::HTTP_BAD_REQUEST, 'The request method is invalid');
-        }
+        $this->abortGracefullyIf(
+            'POST' !== $request->server['REQUEST_METHOD'],
+            HttpResponse::HTTP_BAD_REQUEST,
+            'The request method is invalid'
+        );
 
         $email = $request->request['email'];
 
         // The email address *should* be valid at this stage.
-        if (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new HttpException(HttpResponse::HTTP_BAD_REQUEST, 'The email address is invalid');
-        }
+        $this->abortGracefullyIf(
+            false === filter_var($email, FILTER_VALIDATE_EMAIL),
+            HttpResponse::HTTP_BAD_REQUEST,
+            'The email address is invalid'
+        );
 
         /** @phpstan-var ConfigArray */
         $config = $this->getServices()->get('config');

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Miniblog\Engine;
 
 use DanBettles\Marigold\AbstractAction as MarigoldAbstractAction;
+use DanBettles\Marigold\Exception\HttpException;
 use DanBettles\Marigold\HttpResponse;
 use DanBettles\Marigold\HttpResponse\RedirectHttpResponse;
 use DanBettles\Marigold\Registry;
@@ -25,6 +26,22 @@ abstract class AbstractAction extends MarigoldAbstractAction
         $this->setServices($services);
 
         parent::__construct($templateEngine);
+    }
+
+    /**
+     * Makes clear the distinction between throwing an *HTTP exception* in response to something the user did, which
+     * will result in an error page, and throwing an exception in response to a program error.
+     *
+     * @throws HttpException If the condition is met
+     */
+    public function abortGracefullyIf(
+        bool $condition,
+        int $statusCode,
+        string $message = ''
+    ): void {
+        if ($condition) {
+            throw new HttpException($statusCode, $message);
+        }
     }
 
     /**

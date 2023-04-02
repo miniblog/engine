@@ -20,9 +20,10 @@ class ShowSignUpConfirmationEmailAction extends AbstractAction
         /** @phpstan-var ConfigArray */
         $config = $this->getServices()->get('config');
 
-        if ('dev' !== $config['env']) {
-            throw new HttpException(HttpResponse::HTTP_FORBIDDEN);
-        }
+        $this->abortGracefullyIf(
+            'dev' !== $config['env'],
+            HttpResponse::HTTP_FORBIDDEN
+        );
 
         /** @var ThingManager */
         $thingManager = $this->getServices()->get('thingManager');
