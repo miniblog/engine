@@ -27,9 +27,9 @@ $errors = array_replace([
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
 ?>
-<h1><?= $title ?></h1>
-
 <div class="sign-up">
+    <h1><?= $title ?></h1>
+
     <p>Join our mailing list to receive updates by email</p>
 
     <?php /** @var Router $router */ $router = $globals->get('router') ?>
