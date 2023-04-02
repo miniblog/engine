@@ -1,3 +1,5 @@
 User-agent: *
 Disallow: /sign-up/pending
 Disallow: /sign-up/complete
+Disallow: /errors/error-404.html
+Disallow: /errors/error-500.html
