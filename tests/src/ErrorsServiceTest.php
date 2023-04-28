@@ -11,8 +11,8 @@ class ErrorsServiceTest extends AbstractTestCase
 {
     public function testIsInstantiable(): void
     {
+        /** @phpstan-var ConfigArray Because we needn't add anything else in this case */
         $config = ['env' => 'dev'];
-        /** @phpstan-var ConfigArray $config */
         $service = new ErrorsService($config);
 
         $this->assertSame($config, $service->getConfig());
@@ -20,8 +20,8 @@ class ErrorsServiceTest extends AbstractTestCase
 
     public function testCreaterenderpathnameReturnsTheRenderPathnameOfAnErrorTemplate(): void
     {
+        /** @phpstan-var ConfigArray Because we needn't add anything else in this case */
         $config = [];
-        /** @phpstan-var ConfigArray $config */
         $service = new ErrorsService($config);
 
         $this->assertSame(
@@ -33,7 +33,7 @@ class ErrorsServiceTest extends AbstractTestCase
     public function testGetpagepathnamesReturnsAnArrayOfThePathnamesOfErrorPages(): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
-        /** @phpstan-var ConfigArray $config */
+        /** @phpstan-var ConfigArray Because we needn't add anything else in this case */
         $config = ['projectDir' => $projectDir];
         $service = new ErrorsService($config);
 
@@ -46,7 +46,7 @@ class ErrorsServiceTest extends AbstractTestCase
     public function testGetpagepathnameReturnsThePathnameOfTheErrorPageForAStatusCode(): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
-        /** @phpstan-var ConfigArray $config */
+        /** @phpstan-var ConfigArray Because we needn't add anything else in this case */
         $config = ['projectDir' => $projectDir];
         $service = new ErrorsService($config);
 
@@ -56,7 +56,7 @@ class ErrorsServiceTest extends AbstractTestCase
     public function testGetpagedirReturnsThePathnameOfThePageDirectory(): void
     {
         $projectDir = $this->createFixturePathname(__FUNCTION__);
-        /** @phpstan-var ConfigArray $config */
+        /** @phpstan-var ConfigArray Because we needn't add anything else in this case */
         $config = ['projectDir' => $projectDir];
         $service = new ErrorsService($config);
 

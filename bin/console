@@ -4,6 +4,8 @@
 declare(strict_types=1);
 
 use DanBettles\Marigold\HttpRequest;
+use Miniblog\Engine\Command\CompileProjectErrorPagesCommand;
+use Miniblog\Engine\Command\RefreshContentCommand;
 use Miniblog\Engine\Console;
 use Miniblog\Engine\Factory;
 
@@ -17,6 +19,11 @@ $factory = new Factory(
     new HttpRequest([], [], $_SERVER)
 );
 
-(new Console($factory->getRegistry()))
+$exitCode = (new Console($factory->getRegistry(), [
+    CompileProjectErrorPagesCommand::class,
+    RefreshContentCommand::class,
+]))
     ->handleRequest()
 ;
+
+exit($exitCode);

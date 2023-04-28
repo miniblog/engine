@@ -6,47 +6,44 @@ namespace Miniblog\Engine;
 
 use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\Registry;
-use Miniblog\Engine\Command\AssembleDefaultCssCommand;
-use Miniblog\Engine\Command\BuildCommand;
-use Miniblog\Engine\Command\CheckQualityCommand;
-use Miniblog\Engine\Command\CompileProjectErrorPagesCommand;
-use Miniblog\Engine\Command\RefreshContentCommand;
-use Miniblog\Engine\Command\TestCommand;
 use OutOfBoundsException;
+use RuntimeException;
 use Throwable;
 
-use function array_keys;
-use function array_key_exists;
-use function explode;
+use function array_filter;
+use function array_slice;
+use function count;
+use function end;
 use function implode;
 use function is_array;
 use function ksort;
 use function passthru;
-use function strpos;
+use function reset;
+use function strstr;
 
 use const false;
 use const null;
 use const PHP_EOL;
+use const true;
 
 class Console
 {
-    /**
-     * @var array<string,class-string<AbstractCommand>>
-     */
-    private const COMMAND_CLASSES = [
-        AssembleDefaultCssCommand::COMMAND_NAME => AssembleDefaultCssCommand::class,
-        BuildCommand::COMMAND_NAME => BuildCommand::class,
-        CheckQualityCommand::COMMAND_NAME => CheckQualityCommand::class,
-        TestCommand::COMMAND_NAME => TestCommand::class,
-        CompileProjectErrorPagesCommand::COMMAND_NAME => CompileProjectErrorPagesCommand::class,
-        RefreshContentCommand::COMMAND_NAME => RefreshContentCommand::class,
-    ];
-
     private Registry $registry;
 
-    public function __construct(Registry $registry)
+    /**
+     * @phpstan-var array<class-string<AbstractCommand>>
+     */
+    private array $commands;
+
+    /**
+     * @phpstan-param array<class-string<AbstractCommand>> $commands
+     */
+    public function __construct(Registry $registry, array $commands)
     {
-        $this->setRegistry($registry);
+        $this
+            ->setRegistry($registry)
+            ->setCommands($commands)
+        ;
     }
 
     /**
@@ -62,35 +59,8 @@ class Console
         echo $message . PHP_EOL;
     }
 
-    /**
-     * @return never
-     */
-    private function succeeded(string $message = null): void
-    {
-        if (null !== $message) {
-            $this->writeLn("\033[30;42m[OK] {$message}\033[0m");
-        }
-
-        // phpcs:ignore
-        exit(AbstractCommand::SUCCESS);
-    }
-
-    /**
-     * @return never
-     */
-    private function failed(
-        string $message,
-        int $exitCode = AbstractCommand::FAILURE
-    ): void {
-        $this->writeLn("\033[97;41m[ERROR] {$message}\033[0m");
-        // phpcs:ignore
-        exit($exitCode);
-    }
-
-    /**
-     * @return never
-     */
-    private function displayHelp(): void
+    // @todo Create a command from this.
+    private function displayHelp(): int
     {
         $lines = [
             // ASCII art created using https://www.kammerl.de/ascii/AsciiSignature.php
@@ -109,14 +79,9 @@ class Console
 
         $commandNamesGroupedByNamespace = [];
 
-        /** @var string $commandName */
-        foreach (array_keys(self::COMMAND_CLASSES) as $commandName) {
-            $namespace = '';
-
-            if (false !== strpos($commandName, ':')) {
-                list($namespace) = explode(':', $commandName);
-            }
-
+        foreach ($this->getCommands() as $commandClassName) {
+            $commandName = $commandClassName::COMMAND_NAME;
+            $namespace = strstr($commandName, ':', true) ?: '';
             $commandNamesGroupedByNamespace[$namespace][] = $commandName;
         }
 
@@ -136,37 +101,48 @@ class Console
 
         $this->writeLn($lines);
 
-        $this->succeeded();
+        return AbstractCommand::SUCCESS;
     }
 
     /**
      * @throws OutOfBoundsException If the command does not exist
+     * @throws RuntimeException If there are multiple commands with the same name
      */
     private function createCommandByCommandName(string $name): AbstractCommand
     {
-        if (!array_key_exists($name, self::COMMAND_CLASSES)) {
+        $matchingCommands = array_filter($this->getCommands(), function (string $commandClassName) use ($name): bool {
+            return $name === $commandClassName::COMMAND_NAME;
+        });
+
+        $numMatchingCommands = count($matchingCommands);
+
+        if (!$numMatchingCommands) {
             throw new OutOfBoundsException("The command, `{$name}`, does not exist");
         }
 
-        /** @var class-string<AbstractCommand> */
-        $commandClassName = self::COMMAND_CLASSES[$name];
+        if ($numMatchingCommands > 1) {
+            throw new RuntimeException('There are multiple commands with the same name');
+        }
+
+        /** @phpstan-var class-string<AbstractCommand> */
+        $commandClassName = reset($matchingCommands);
 
         return new $commandClassName($this);
     }
 
     /**
-     * Exits immediately if the command was not successful.
-     *
-     * @return self|never
+     * @phpstan-param CommandOptionsArray $options
      */
-    public function invokeCommand(string $commandName): self
-    {
-        $exitCode = null;
+    public function invokeCommand(
+        string $commandName,
+        array $options = []
+    ): int {
+        $exitCode = AbstractCommand::SUCCESS;
         $message = null;
 
         try {
             $command = $this->createCommandByCommandName($commandName);
-            $exitCode = $command();
+            $exitCode = $command($options);
         } catch (CommandFailedException $ex) {
             $exitCode = $ex->getExitCode();
             $message = $ex->getMessage();
@@ -176,16 +152,15 @@ class Console
         }
 
         if (AbstractCommand::SUCCESS !== $exitCode) {
-            if ($message) {
-                $message = "{$commandName}: {$message}";
-            } else {
-                $message = "Command `{$commandName}` failed with exit code `{$exitCode}`.";
-            }
+            $message = $message
+                ? "{$commandName}: {$message}"
+                : "Command `{$commandName}` failed with exit code `{$exitCode}`."
+            ;
 
-            $this->failed($message, $exitCode);
+            $this->writeLn("\033[97;41m[ERROR] {$message}\033[0m");
         }
 
-        return $this;
+        return $exitCode;
     }
 
     /**
@@ -210,7 +185,7 @@ class Console
             /** @phpstan-ignore-next-line */
             $successful = null === passthru($command, $resultCode);
 
-            /** @phpstan-var bool $successful */
+            /** @phpstan-var bool $successful Because we just ignored the line that creates the variable */
 
             if ($successful && AbstractCommand::SUCCESS !== $resultCode) {
                 $successful = false;
@@ -227,25 +202,23 @@ class Console
         return $this;
     }
 
-    /**
-     * @return never
-     */
-    public function handleRequest(): void
+    public function handleRequest(): int
     {
-        /** @var int */
-        $argc = $this->getRequest()->server['argc'];
+        /** @var HttpRequest */
+        $request = $this->getRegistry()->get('request');
+        /** @var array<string,string> */
+        $argv = $request->server['argv'];
+        $numScriptNameParts = 2;
+        $scriptNameParts = array_slice($argv, 0, $numScriptNameParts);
 
-        if ($argc < 2) {
-            $this->displayHelp();
+        if ($numScriptNameParts !== count($scriptNameParts)) {
+            return $this->displayHelp();
         }
 
-        /** @var string[] */
-        $argv = $this->getRequest()->server['argv'];
-        $requestedCommandName = $argv[1];
+        $commandName = end($scriptNameParts);
+        $options = array_slice($argv, $numScriptNameParts);
 
-        $this->invokeCommand($requestedCommandName);
-
-        $this->succeeded($requestedCommandName);
+        return $this->invokeCommand($commandName, $options);
     }
 
     private function setRegistry(Registry $registry): self
@@ -259,9 +232,20 @@ class Console
         return $this->registry;
     }
 
-    private function getRequest(): HttpRequest
+    /**
+     * @phpstan-param array<class-string<AbstractCommand>> $commands
+     */
+    private function setCommands(array $commands): self
     {
-        /** @phpstan-var HttpRequest */
-        return $this->getRegistry()->get('request');
+        $this->commands = $commands;
+        return $this;
+    }
+
+    /**
+     * @phpstan-return array<class-string<AbstractCommand>>
+     */
+    public function getCommands(): array
+    {
+        return $this->commands;
     }
 }

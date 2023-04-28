@@ -27,7 +27,7 @@ You should now see the Miniblog homepage when you navigate to the root of your w
 In Miniblog there is no configuration as such: everything is content.  Thus, to begin customising the website, you will need to update the Document containing the website metadata, and the Document containing details of the owner/principal-author of the content.  If you want to keep the about-page, you'll need to update the Document containing its content.
 
 1. Update website metadata in `data/Thing/CreativeWork/WebSite/this-website.md`.
-1. Update the details of the website's owner/principal-author in `data/Thing/Person/owner.md`.
+1. Update the details of the website's owner/principal-author in `data/Thing/Person/owner-of-this-website.md`.
 1. Update/remove `data/Thing/CreativeWork/Article/about-this-website.md`, which contains the content for the about-page.
 1. At the root of the project, run `bin/console refresh`.
 

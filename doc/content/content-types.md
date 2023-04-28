@@ -57,7 +57,7 @@ The ID (basename) of a `BlogPosting` Document is used as the slug of the blog po
   <dd>No</dd>
 </dl>
 
-At present, `Person` is used only to capture details of the owner/principal-author of the website's content: these data are stored in `data/Thing/Person/owner.md`.
+At present, `Person` is used only to capture details of the owner/principal-author of the website's content: these data are stored in `data/Thing/Person/owner-of-this-website.md`.
 
 ### Front Matter
 

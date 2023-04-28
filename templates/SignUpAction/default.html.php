@@ -24,22 +24,21 @@ $errors = array_replace([
     'email' => '',
 ], ($input['errors'] ?? []));
 
+/** @var Router $router */
+$router = $globals->get('router');
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
 ?>
-<div class="sign-up">
-    <h1><?= $title ?></h1>
+<article class="sign-up">
+    <header>
+        <h1><?= $title ?></h1>
+        <h2>Join our mailing list to receive updates by email</h2>
+    </header>
 
-    <p>Join our mailing list to receive updates by email</p>
-
-    <?php /** @var Router $router */ $router = $globals->get('router') ?>
-    <form
-        method="POST"
-        action="<?= $router->generatePath('signUp') ?>"
-    >
-        <div>
+    <form method="POST" action="<?= $router->generatePath('signUp') ?>">
+        <p>
             <?php $errorMessage = $errors['email'] ?>
-            <?php $helpId = uniqid() ?>
+            <?php $helpId = $helper->createUniqueName() ?>
 
             <input
                 type="email"
@@ -53,13 +52,13 @@ $helper = $globals->get('outputHelper');
                 data-lpignore="true"
             >
 
-            <p class="<?= $errorMessage ? 'invalid-feedback' : 'form-help' ?>" id="<?= $helpId ?>">
+            <span class="<?= $errorMessage ? 'invalid-feedback' : 'form-help' ?>" id="<?= $helpId ?>"><small>
                 <?= $errorMessage ? $helper->escape($errorMessage) : "We'll never share your email" ?>
-            </p>
-        </div>
+            </small></span>
+        </p>
 
-        <div>
+        <p>
             <button type="submit">Sign Up</button>
-        </div>
+        </p>
     </form>
-</div>
+</article>

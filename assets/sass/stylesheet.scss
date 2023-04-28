@@ -1,0 +1,83 @@
+@use "sass:math";
+@use "mikemai2awesome/typesettings.css/src/styles/typesettings";
+@use "./code";
+
+// See https://www.a11yproject.com/posts/how-to-hide-content/
+@mixin visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+form {
+    .invalid-feedback,
+    .form-help {
+        display: block;
+    }
+
+    .invalid-feedback {
+        color: #{typesettings.palette(red, dark)};
+    }
+
+    .form-help {
+        color: var(--ts-color-muted);
+    }
+}
+
+.platform-meta {
+    $logo-aspect-ratio: math.div(57, 63);
+    $logo-width: 42px;
+    $logo-height: math.div($logo-width, $logo-aspect-ratio);
+
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    margin: 0;
+
+    span {
+        @include visually-hidden;
+    }
+
+    > a {
+        display: block;
+        width: $logo-width;
+        height: $logo-height;
+        line-height: 0;
+        background: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjYzIiB2aWV3Qm94PSIwIDAgNTcgNjMiIHdpZHRoPSI1NyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PGNsaXBQYXRoIGlkPSJhIj48cGF0aCBkPSJtMCAwaDU3djYzaC01N3oiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSIgZmlsbD0iI2ZmZiI+PHBhdGggZD0ibTE1IDEyaC0zdjE1aDE1di0xNXptMCAxMnYtM2g5djN6bTktNmgtOXYtM2g5eiIvPjxwYXRoIGQ9Im0yNCAzMGgtM3YxNWgxNXYtMTV6bTkgMTJoLTl2LTloOXoiLz48cGF0aCBkPSJtMTUgMzBoLTN2MjFoM3oiLz48cGF0aCBkPSJtMzMgMTJoLTN2MTVoMTJ2MTkuNDk3NWMwIC44My0uNjcyNSAxLjUwMjUtMS41MDI1IDEuNTAyNWgtNC40OTc1bDMgM2gzLjA1NzVjMS42MjUgMCAyLjk0MjUtMS4zMTc1IDIuOTQyNS0yLjk0MjV2LTM2LjA1NzV6bTkgMTJoLTl2LTloOXoiLz48L2c+PC9zdmc+") center / contain no-repeat #c42e51;
+    }
+}
+
+// Override
+[itemprop="articleBody"] {
+    > p:first-child {
+        @extend p;
+    }
+
+    + hr {
+        margin-block-start: calc(var(--ts-paragraph-spacing) * 5);
+    }
+}
+
+.sign-up {
+    form {
+        display: flex;
+
+        > :first-child {
+            flex-grow: 1;
+            padding-right: 1em;
+
+            input {
+                width: 100%;
+            }
+        }
+
+        > :last-child {
+            flex-shrink: 0;
+            margin: 0;
+        }
+    }
+}

@@ -20,10 +20,10 @@
         {
             "type": "package",
             "package": {
-                "name": "csstools/sanitize.css",
-                "version": "13.0.0",
+                "name": "mikemai2awesome/typesettings.css",
+                "version": "0.0.0",
                 "dist": {
-                    "url": "https://github.com/csstools/sanitize.css/archive/refs/tags/v13.0.0.zip",
+                    "url": "https://github.com/mikemai2awesome/typesettings.css/archive/63a9bd1200e69221cf2ce942d0a788a665eddd71.zip",
                     "type": "zip"
                 }
             }
@@ -39,12 +39,36 @@
         "squizlabs/php_codesniffer": "^3.5",
         "danbettles/codesniffer-standard": "^2.0",
         "phpstan/phpstan": "^1.8",
-        "csstools/sanitize.css": "^13.0.0"
+        "mikemai2awesome/typesettings.css": "0.0.0"
     },
     "autoload": {
         "psr-4": {"Miniblog\\Engine\\": "src/"}
     },
     "autoload-dev": {
         "psr-4": {"Miniblog\\Engine\\Tests\\": "tests/src/"}
+    },
+    "scripts": {
+        "app:test": "phpunit --bootstrap=tests/src/.bootstrap.php --colors=always tests",
+        "app:lint": "phpcs --standard=phpcs.xml",
+        "app:analyse": "phpstan --ansi",
+        "app:check-quality": [
+            "@app:test",
+            "@app:lint",
+            "@app:analyse"
+        ],
+        "app:build-default-css": "/usr/bin/env sass assets/sass:templates -I assets/sass -I vendor --style=compressed --no-source-map -c",
+        "app:build": [
+            "@app:check-quality",
+            "@app:build-default-css",
+            "bin/console refresh"
+        ]
+    },
+    "scripts-descriptions": {
+        "app:test": "Runs all automated tests",
+        "app:lint": "Lints everything",
+        "app:analyse": "Performs static analysis on the PHP",
+        "app:check-quality": "Runs all automated tests; performs static analysis on the PHP; lints everything",
+        "app:build-default-css": "Builds the default CSS stylesheet, which is committed into the engine--and can be overridden by blog projects",
+        "app:build": "Checks quality; builds the default CSS stylesheet; refreshes content"
     }
 }

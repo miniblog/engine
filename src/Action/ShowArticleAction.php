@@ -44,6 +44,7 @@ class ShowArticleAction extends AbstractAction
         );
 
         return $this->renderDefault([
+            'author' => $thingManager->getOwnerOfThisWebsite(),
             'article' => $article,
         ]);
     }

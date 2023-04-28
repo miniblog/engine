@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e887d1f12c3023c4caeaa84a3320d5e4",
+    "content-hash": "3334d85173883357d89664a237159280",
     "packages": [
         {
             "name": "danbettles/marigold",
-            "version": "v4.0.0",
+            "version": "v4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/danbettles/marigold.git",
-                "reference": "6491e4dbac20a4819fb5f8e2998f6ec0290a4793"
+                "reference": "cdd8286a37d4fb7a54dfefa0c2de22fa13701ecc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danbettles/marigold/zipball/6491e4dbac20a4819fb5f8e2998f6ec0290a4793",
-                "reference": "6491e4dbac20a4819fb5f8e2998f6ec0290a4793",
+                "url": "https://api.github.com/repos/danbettles/marigold/zipball/cdd8286a37d4fb7a54dfefa0c2de22fa13701ecc",
+                "reference": "cdd8286a37d4fb7a54dfefa0c2de22fa13701ecc",
                 "shasum": ""
             },
             "require": {
@@ -48,9 +48,9 @@
             "description": "Marigold is a small set of tools that aims to make building simple websites easier while remaining close to the metal and adding minimal overheads; it is not a framework.",
             "support": {
                 "issues": "https://github.com/danbettles/marigold/issues",
-                "source": "https://github.com/danbettles/marigold/tree/v4.0.0"
+                "source": "https://github.com/danbettles/marigold/tree/v4.0.1"
             },
-            "time": "2023-03-26T07:50:42+00:00"
+            "time": "2023-04-08T15:46:22+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -104,15 +104,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "csstools/sanitize.css",
-            "version": "13.0.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/csstools/sanitize.css/archive/refs/tags/v13.0.0.zip"
-            },
-            "type": "library"
-        },
         {
             "name": "danbettles/codesniffer-standard",
             "version": "v2.0.0",
@@ -228,6 +219,15 @@
                 }
             ],
             "time": "2022-12-30T00:15:36+00:00"
+        },
+        {
+            "name": "mikemai2awesome/typesettings.css",
+            "version": "0.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/mikemai2awesome/typesettings.css/archive/63a9bd1200e69221cf2ce942d0a788a665eddd71.zip"
+            },
+            "type": "library"
         },
         {
             "name": "myclabs/deep-copy",
@@ -457,16 +457,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.8",
+            "version": "1.10.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9"
+                "reference": "8aa62e6ea8b58ffb650e02940e55a788cbc3fe21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0166aef76e066f0dd2adc2799bdadfa1635711e9",
-                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8aa62e6ea8b58ffb650e02940e55a788cbc3fe21",
+                "reference": "8aa62e6ea8b58ffb650e02940e55a788cbc3fe21",
                 "shasum": ""
             },
             "require": {
@@ -515,7 +515,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-24T10:28:16+00:00"
+            "time": "2023-04-04T19:17:42+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -837,16 +837,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.5",
+            "version": "9.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "86e761949019ae83f49240b2f2123fb5ab3b2fc5"
+                "reference": "b65d59a059d3004a040c16a82e07bbdf6cfdd115"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/86e761949019ae83f49240b2f2123fb5ab3b2fc5",
-                "reference": "86e761949019ae83f49240b2f2123fb5ab3b2fc5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b65d59a059d3004a040c16a82e07bbdf6cfdd115",
+                "reference": "b65d59a059d3004a040c16a82e07bbdf6cfdd115",
                 "shasum": ""
             },
             "require": {
@@ -919,7 +919,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.5"
+                "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.6"
             },
             "funding": [
                 {
@@ -935,7 +936,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-09T06:34:10+00:00"
+            "time": "2023-03-27T11:43:46+00:00"
         },
         {
             "name": "sebastian/cli-parser",

@@ -16,6 +16,7 @@ use Miniblog\Engine\ErrorsService;
 use Miniblog\Engine\Factory;
 use Miniblog\Engine\OutputHelper;
 use Miniblog\Engine\ParsedownExtended;
+use Miniblog\Engine\WebsiteNav;
 
 use function dirname;
 
@@ -112,6 +113,15 @@ class FactoryTest extends AbstractTestCase
 
         $this->assertInstanceOf(ErrorsService::class, $errorsService);
         $this->assertSame($config, $errorsService->getConfig());
+
+        /** @var WebsiteNav */
+        $websiteNav = $registry->get('websiteNav');
+
+        $this->assertInstanceOf(WebsiteNav::class, $websiteNav);
+        // @todo Look more closely at the hierarchy?
+        $this->assertIsArray($websiteNav->getHierarchy());
+        $this->assertCount(1, $websiteNav->getHierarchy());
+        $this->assertSame($request, $websiteNav->getRequest());
     }
 
     public function testGetregistryAlwaysReturnsTheSameInstance(): void

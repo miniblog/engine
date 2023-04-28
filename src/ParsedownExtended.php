@@ -43,10 +43,10 @@ class ParsedownExtended extends Parsedown
         $highlighted = preg_replace('~^<code>\s*<span[^>]*>\R*(.*?)\R*</span>\s*</code>$~s', '$1', $highlighted);
 
         $highlightColourClassNames = [
-            'highlight.comment' => 'php__comment',
-            'highlight.default' => 'php__default',
-            'highlight.keyword' => 'php__keyword',
-            'highlight.string' => 'php__string',
+            'highlight.comment' => 'code__comment',
+            'highlight.default' => 'code__default',
+            'highlight.keyword' => 'code__keyword',
+            'highlight.string' => 'code__string',
         ];
 
         foreach ($highlightColourClassNames as $iniName => $className) {

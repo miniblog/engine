@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Miniblog\Engine\Tests;
 
 use DanBettles\Marigold\AbstractTestCase;
-use DanBettles\Marigold\HttpRequest;
 use DanBettles\Marigold\Registry;
 use Miniblog\Engine\AbstractCommand;
 use Miniblog\Engine\Console;
-use Miniblog\Engine\Tests\AbstractCommandTest\TestGetscriptnameCommand;
 use Miniblog\Engine\Tests\AbstractCommandTest\TestGetCommand;
 use ReflectionNamedType;
 use stdClass;
@@ -29,7 +27,7 @@ class AbstractCommandTest extends AbstractTestCase
 
         $command = new class ($consoleStub) extends AbstractCommand
         {
-            public function __invoke(): int
+            public function __invoke(array $options = []): int
             {
                 return self::SUCCESS;
             }
@@ -46,29 +44,12 @@ class AbstractCommandTest extends AbstractTestCase
             ->add('dependency', $dependency)
         ;
 
-        $console = new Console($registry);
+        $console = new Console($registry, []);
 
         $this->assertTrue(is_subclass_of(TestGetCommand::class, AbstractCommand::class));
         $command = new TestGetCommand($console);
 
         $this->assertSame($dependency, $command->get('dependency'));
-    }
-
-    public function testGetscriptnameReturnsThePathnameOfTheScript(): void
-    {
-        $request = HttpRequest::createFromGlobals();
-        $request->server['argv'] = ['/path/to/foo', 'bar'];
-
-        $registry = (new Registry())
-            ->add('request', $request)
-        ;
-
-        $console = new Console($registry);
-
-        $this->assertTrue(is_subclass_of(TestGetscriptnameCommand::class, AbstractCommand::class));
-        $command = new TestGetscriptnameCommand($console);
-
-        $this->assertSame('/path/to/foo bar', $command->getScriptName());
     }
 
     public function testIsInvokable(): void

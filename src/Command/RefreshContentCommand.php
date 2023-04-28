@@ -13,10 +13,8 @@ class RefreshContentCommand extends AbstractCommand
      */
     public const COMMAND_NAME = 'refresh';
 
-    public function __invoke(): int
+    public function __invoke(array $options = []): int
     {
-        $this->getConsole()->invokeCommand('compile-project-error-pages');
-
-        return self::SUCCESS;
+        return $this->getConsole()->invokeCommand('compile-project-error-pages');
     }
 }

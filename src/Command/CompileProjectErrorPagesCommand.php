@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine\Command;
 
-use DanBettles\Marigold\CssMinifier;
 use DanBettles\Marigold\TemplateEngine\Engine;
 use DOMDocument;
-use DOMElement;
 use Miniblog\Engine\AbstractCommand;
 use Miniblog\Engine\ErrorsService;
 use Miniblog\Engine\ThingManager;
@@ -19,7 +17,6 @@ use function sprintf;
 
 use const false;
 use const LIBXML_NOBLANKS;
-use const null;
 use const true;
 
 /**
@@ -35,7 +32,7 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
     /**
      * @throws RuntimeException If it failed to create a file
      */
-    public function __invoke(): int
+    public function __invoke(array $options = []): int
     {
         /** @var ErrorsService */
         $errorsService = $this->get('errorsService');
@@ -77,18 +74,6 @@ class CompileProjectErrorPagesCommand extends AbstractCommand
         $domDocument = new DOMDocument();
         $domDocument->formatOutput = false;
         $domDocument->loadHTML($html, LIBXML_NOBLANKS);
-
-        $cssMinifier = new CssMinifier();
-
-        /** @var DOMElement $styleElem */
-        foreach ($domDocument->getElementsByTagName('style') as $styleElem) {
-            if (null === $styleElem->nodeValue) {
-                continue;
-            }
-
-            $styleElem->nodeValue = $cssMinifier->minify($styleElem->nodeValue);
-        }
-
         $html = $domDocument->saveHTML();
 
         libxml_use_internal_errors($prevUseLibxmlInternalErrors);

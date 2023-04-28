@@ -8,20 +8,17 @@ use DanBettles\Marigold\OutputHelper\Html5OutputHelper;
 use DanBettles\Marigold\Router;
 use DateTime;
 use IntlDateFormatter;
-use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
-use Miniblog\Engine\Schema\Thing\Person;
 
 use function array_filter;
 use function array_replace;
 use function implode;
 use function is_array;
 use function is_string;
-use function strlen;
 use function strpos;
+use function uniqid;
 
 use const false;
 use const null;
-use const true;
 
 class OutputHelper extends Html5OutputHelper
 {
@@ -37,6 +34,27 @@ class OutputHelper extends Html5OutputHelper
         ;
     }
 
+    // @todo Extract this
+    public function createUniqueName(): string
+    {
+        return uniqid('u');
+    }
+
+    /**
+     * @param string|array{0:string,1?:array<string,string>} $routeIdOrUrl
+     * @todo Rename this
+     */
+    private function createPath($routeIdOrUrl): string
+    {
+        if (is_string($routeIdOrUrl) && false !== strpos($routeIdOrUrl, ':')) {
+            return $routeIdOrUrl;
+        }
+
+        $generatePathArgs = (array) $routeIdOrUrl;
+
+        return $this->getRouter()->generatePath(...$generatePathArgs);
+    }
+
     /**
      * @param string|array{0:string,1?:array<string,string>} $routeIdOrUrl
      * @param array<string,string>|string|int|float|null $attributesOrContent
@@ -47,18 +65,7 @@ class OutputHelper extends Html5OutputHelper
         $attributesOrContent = [],
         $contentOrNothing = null
     ): string {
-        $generatePathArgs = null;
-
-        if (is_string($routeIdOrUrl) && false === strpos($routeIdOrUrl, ':')) {
-            $generatePathArgs = [$routeIdOrUrl];
-        } elseif (is_array($routeIdOrUrl)) {
-            $generatePathArgs = $routeIdOrUrl;
-        }
-
-        $url = null === $generatePathArgs
-            ? $routeIdOrUrl
-            : $this->router->generatePath(...$generatePathArgs)
-        ;
+        $url = $this->createPath($routeIdOrUrl);
 
         $attributes = $attributesOrContent;
         $content = $contentOrNothing;
@@ -90,31 +97,6 @@ class OutputHelper extends Html5OutputHelper
         $attributes['datetime'] = $datetime->format('c');
 
         return $this->createTime($attributes, $this->getDateFormatter()->format($datetime));
-    }
-
-    public function createCopyrightNotice(
-        WebSite $website,
-        Person $owner
-    ): string {
-        /** @var DateTime */
-        $websitePublishedAt = $website->getDatePublished(true);
-        $siteLaunchYear = $websitePublishedAt->format('Y');
-        $thisYear = (new DateTime())->format('Y');
-
-        $range = $siteLaunchYear === $thisYear
-            ? $siteLaunchYear
-            : "{$siteLaunchYear}-{$thisYear}"
-        ;
-
-        $ownerName = $owner->getFullName();
-
-        if (strlen((string) $owner->getEmail())) {
-            $ownerName = $this->linkTo("mailto:{$owner->getEmail()}", $ownerName);
-        }
-
-        return $this->createP([
-            'class' => 'copyright-notice',
-        ], "Copyright &copy; {$range} {$ownerName}");
     }
 
     public function createTitle(string ...$parts): string

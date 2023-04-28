@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Miniblog\Engine;
 
-use DanBettles\Marigold\HttpRequest;
 use Miniblog\Engine\Console;
-
-use function array_slice;
-use function implode;
 
 abstract class AbstractCommand
 {
@@ -25,21 +21,9 @@ abstract class AbstractCommand
     }
 
     /**
-     * Along the lines of `$0` in Bash scripts, the script-name is the command string (e.g.
-     * `/path/to/console command-name`) that actually got us to this Command.
+     * @phpstan-param CommandOptionsArray $options
      */
-    public function getScriptName(): string
-    {
-        /** @var HttpRequest */
-        $request = $this->get('request');
-        /** @var string[] */
-        $argv = $request->server['argv'];
-        $scriptName = implode(' ', array_slice($argv, 0, 2));
-
-        return $scriptName;
-    }
-
-    abstract public function __invoke(): int;
+    abstract public function __invoke(array $options = []): int;
 
     private function setConsole(Console $console): self
     {

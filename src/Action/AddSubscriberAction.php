@@ -67,7 +67,7 @@ class AddSubscriberAction extends AbstractAction
         $newEmailExists = false;
 
         try {
-            while (false !== (/** @phpstan-var array<int,string> */$data = fgetcsv($subscribersFile, 0))) {
+            while (false !== (/** @phpstan-var array<int,string|null> */$data = fgetcsv($subscribersFile, 0))) {
                 /** @var string|null */
                 $currentEmail = $data[0];
 

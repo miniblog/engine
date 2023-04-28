@@ -20,32 +20,35 @@ $output->insertInto('layout.html.php', 'mainContent', [
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
 ?>
-<div class="blog-postings">
-    <h2>Articles</h2>
+<article>
+    <header>
+        <h1 role="presentation">Recent Articles</h1>
+    </header>
 
-    <?php /** @var BlogPosting $blogPosting */ foreach ($input['blogPostings'] as $blogPosting) : ?>
-        <article
-            itemscope
-            itemtype="https://schema.org/BlogPosting"
-            class="summary blog-posting"
-        >
-            <header>
-                <h3>
-                    <?php /** @var string */ $postingId = $blogPosting->getIdentifier() ?>
-                    <?= $helper->linkTo(
-                        ['showBlogPosting', ['postingId' => $postingId]],
-                        ['itemprop' => 'url'],
-                        $blogPosting->getHeadline()
-                    ) ?>
-                </h3>
+    <ol reversed data-comfortable>
+        <?php /** @var BlogPosting $blogPosting */ foreach ($input['blogPostings'] as $blogPosting) : ?>
+            <li>
+                <div
+                    itemscope
+                    itemtype="https://schema.org/BlogPosting"
+                >
+                    <h2>
+                        <?php /** @var string */ $postingId = $blogPosting->getIdentifier() ?>
+                        <?= $helper->linkTo(
+                            ['showBlogPosting', ['postingId' => $postingId]],
+                            ['itemprop' => 'url'],
+                            $blogPosting->getHeadline()
+                        ) ?>
+                    </h2>
 
-                <div class="blog-posting__by-line">
-                    by <span class="author__name"><?= $owner->getFullName() ?></span>
-                    on <?= $helper->createDate($blogPosting->getDatePublished(true)) ?>
+                    <p><?= $blogPosting->getDescription() ?></p>
+
+                    <p><small>
+                        By <?= $owner->getFullName() ?>
+                        on <?= $helper->createDate($blogPosting->getDatePublished(true)) ?>
+                    </small></p>
                 </div>
-            </header>
-
-            <p><?= $blogPosting->getDescription() ?></p>
-        </article>
-    <?php endforeach ?>
-</div>
+            </li>
+        <?php endforeach ?>
+    </ol>
+</article>

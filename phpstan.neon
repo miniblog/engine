@@ -8,11 +8,14 @@ parameters:
         - templates
         - tests
 
+    # @todo Update `MenuItemArray.children` when recursive type-aliases are supported
     typeAliases:
         FrontMatter: 'array<string,?string>'
         ParsedDocument: 'array{frontMatter:FrontMatter,body:?string}'
         MatchedRoute: 'array{id:string,path:string,action:class-string<Miniblog\Engine\AbstractAction>,parameters:array<string,string>}'
         ConfigArray: 'array{env:string,engineDir:string,engineTemplatesDir:string,projectDir:string,projectTemplatesDir:string,dataDir:string}'
+        MenuItemArray: 'array{routeId:string,content:string,children?:mixed[]}'
+        CommandOptionsArray: 'array<string,string>'
 
     ignoreErrors:
         -

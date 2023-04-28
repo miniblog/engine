@@ -1,0 +1,30 @@
+@use "sass:color";
+@use "mikemai2awesome/typesettings.css/src/styles/typesettings";
+
+:root {
+    // Based on the "Light+" Visual Studio Code theme
+    --mb-colour-code-comment: color.scale(#008002, $lightness: -25%);
+    --mb-colour-code-default: #001080;  // E.g. variables
+    --mb-colour-code-keyword: #0430fa;  // E.g. punctuation
+    --mb-colour-code-string: #a21615;
+}
+
+.code-block {
+    @extend pre;
+}
+
+.code__comment {
+    color: var(--mb-colour-code-comment);
+}
+
+.code__default {
+    color: var(--mb-colour-code-default);
+}
+
+.code__keyword {
+    color: var(--mb-colour-code-keyword);
+}
+
+.code__string {
+    color: var(--mb-colour-code-string);
+}

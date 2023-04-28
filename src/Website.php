@@ -24,7 +24,7 @@ class Website
     }
 
     /**
-     * @param class-string<AbstractAction> $className
+     * @phpstan-param class-string<AbstractAction> $className
      */
     private function createAction(string $className): AbstractAction
     {

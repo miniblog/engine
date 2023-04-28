@@ -10,7 +10,7 @@ class TestGetCommand extends AbstractCommand
 {
     public const COMMAND_NAME = 'ignore';
 
-    public function __invoke(): int
+    public function __invoke(array $options = []): int
     {
         return self::SUCCESS;
     }

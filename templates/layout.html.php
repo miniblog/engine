@@ -1,9 +1,7 @@
 <?php
 
-use DanBettles\Marigold\HttpRequest;
 use Miniblog\Engine\OutputHelper;
 use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
-use Miniblog\Engine\Schema\Thing\Person;
 
 /** @var WebSite */
 $website = $input['website'];
@@ -11,15 +9,10 @@ $website = $input['website'];
 /** @var OutputHelper */
 $helper = $globals->get('outputHelper');
 
-/** @var HttpRequest */
-$request = $globals->get('request');
-/** @phpstan-var MatchedRoute */
-$matchedRoute = $request->attributes['route'];
-$onHomepage = 'showHomepage' === $matchedRoute['id'];
-
-/** @phpstan-var ConfigArray */
-$config = $globals->get('config');
-$showWebsiteCarbonBadge = 'prod' === $config['env'];
+// /** @phpstan-var ConfigArray */
+// $config = $globals->get('config');
+// $showWebsiteCarbonBadge = 'prod' === $config['env'];
+$showWebsiteCarbonBadge = false;
 ?>
 <!DOCTYPE html>
 <html lang="<?= $website->getInLanguage() ?>">
@@ -45,17 +38,28 @@ $showWebsiteCarbonBadge = 'prod' === $config['env'];
 
         <script>
             if (window.matchMedia) {
-                (function () {
+                window.addEventListener('DOMContentLoaded', function () {
                     const mql = window.matchMedia('(prefers-color-scheme: dark)');
 
-                    const applyPreferredColourScheme = function () {
-                        document.documentElement.dataset.colourmode = (
-                            mql.matches ? 'dark' : 'light');
-                    };
+                    function applyPreferredColourScheme() {
+                        const elem = document.querySelector('[data-typesettings]');
+
+                        if (mql.matches) {
+                            elem.dataset.typesettings += ' dark';
+                        } else {
+                            const tsModifiers = elem.dataset.typesettings.split(/\s+/);
+                            const idxOfDark = tsModifiers.indexOf('dark');
+
+                            if (idxOfDark >= 0) {
+                                tsModifiers.splice(idxOfDark, 1);
+                                elem.dataset.typesettings = tsModifiers;
+                            }
+                        }
+                    }
 
                     applyPreferredColourScheme();
                     mql.addEventListener('change', applyPreferredColourScheme);
-                })();
+                });
             }
         </script>
 
@@ -65,35 +69,31 @@ $showWebsiteCarbonBadge = 'prod' === $config['env'];
     </head>
 
     <body>
-        <div class="container">
-
-            <header class="masthead">
-                <?php $homepageLink = $helper->linkTo('showHomepage', $website->getHeadline()) ?>
-                <?= $helper->createEl(($onHomepage ? 'h1' : 'p'), ['class' => 'masthead__title'], $homepageLink) ?>
-
-                <?= $output->include('website_menu.html.php') ?>
-            </header>
+        <div data-typesettings="golden">
+            <?= $output->include('website_nav.html.php') ?>
 
             <main>
                 <?= $input['mainContent'] ?>
             </main>
-
-            <footer class="footer">
-                <?php /** @var Person */ $owner = $input['owner'] ?>
-                <?= $helper->createCopyrightNotice($website, $owner) ?>
-            </footer>
-
-            <div class="platform-meta">
-                <p>Powered by <?= $helper->linkTo('https://github.com/miniblog/engine', 'Miniblog') ?></p>
-
-                <?php if ($showWebsiteCarbonBadge) : ?>
-                    <div id="wcb"></div>
-                <?php endif ?>
-            </div>
-
         </div>
 
+        <footer>
+            <p class="platform-meta"><span>
+                This website is powered by </span><a href="https://github.com/miniblog/engine"><span>Miniblog
+            </span></a></p>
+
+            <script>
+                /** @type {HTMLElement} */
+                const platformMetaElem = document.querySelector('.platform-meta');
+                platformMetaElem.setAttribute('title', platformMetaElem.innerText);
+            </script>
+        </footer>
+
+        <?php /* @todo Restore this */ ?>
+        <?php /** @phpstan-ignore-next-line */ ?>
         <?php if ($showWebsiteCarbonBadge) : ?>
+            <div id="wcb"></div>
+
             <script>
                 if (window.fetch) {
                     (function() {

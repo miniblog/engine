@@ -17,6 +17,7 @@ use Miniblog\Engine\Action\ShowHomepageAction;
 use Miniblog\Engine\Action\ShowSignUpConfirmationEmailAction;
 use Miniblog\Engine\Action\SignUpAction;
 use Miniblog\Engine\Schema\Thing;
+use Miniblog\Engine\Schema\Thing\CreativeWork\WebSite;
 use ReflectionClass;
 
 use function dirname;
@@ -49,23 +50,18 @@ class Factory
 
     /**
      * Strictly private.
-     *
-     * @phpstan-return ConfigArray
-     * @todo Create an object!
      */
-    private function createAugmentedConfig(): array
+    private function createThingManager(Registry $registry): ThingManager
     {
-        $engineDir = dirname(__DIR__);
-        $projectDir = $this->getProjectDir();
+        $baseThingClass = new ReflectionClass(Thing::class);
+        /** @phpstan-var ConfigArray */
+        $config = $registry->get('config');
 
-        return [
-            'env' => $this->getEnv(),
-            'engineDir' => $engineDir,
-            'engineTemplatesDir' => "{$engineDir}/templates",
-            'projectDir' => $projectDir,
-            'projectTemplatesDir' => "{$projectDir}/templates",
-            'dataDir' => "{$projectDir}/data",
-        ];
+        return new ThingManager(
+            $baseThingClass->getNamespaceName(),
+            $config['dataDir'],
+            new DocumentParser(new ParsedownExtended())
+        );
     }
 
     /**
@@ -132,6 +128,38 @@ class Factory
     /**
      * Strictly private.
      */
+    private function createWebsiteNav(Registry $registry): WebsiteNav
+    {
+        /** @var HttpRequest */
+        $request = $registry->get('request');
+        /** @var ThingManager */
+        $thingManager = $registry->get('thingManager');
+        /** @var WebSite */
+        $website = $thingManager->getThisWebsite();
+        /** @var string */
+        $websiteName = $website->getHeadline();
+
+        return new WebsiteNav([
+            [
+                'routeId' => 'showHomepage',
+                'content' => $websiteName,
+                'children' => [
+                    ($thingManager->getAboutThisWebsite() ? [
+                        'routeId' => 'showAboutWebsite',
+                        'content' => 'About',
+                    ] : null),
+                    [
+                        'routeId' => 'signUp',
+                        'content' => 'Subscribe',
+                    ],
+                ],
+            ],
+        ], $request);
+    }
+
+    /**
+     * Strictly private.
+     */
     private function createTemplateFileLoader(Registry $registry): TemplateFileLoader
     {
         /** @phpstan-var ConfigArray */
@@ -168,22 +196,6 @@ class Factory
     /**
      * Strictly private.
      */
-    private function createThingManager(Registry $registry): ThingManager
-    {
-        $baseThingClass = new ReflectionClass(Thing::class);
-        /** @phpstan-var ConfigArray */
-        $config = $registry->get('config');
-
-        return new ThingManager(
-            $baseThingClass->getNamespaceName(),
-            $config['dataDir'],
-            new DocumentParser(new ParsedownExtended())
-        );
-    }
-
-    /**
-     * Strictly private.
-     */
     private function createErrorsService(Registry $registry): ErrorsService
     {
         /** @phpstan-var ConfigArray */
@@ -195,12 +207,28 @@ class Factory
     public function getRegistry(): Registry
     {
         if (!isset($this->registry)) {
+            $engineDir = dirname(__DIR__);
+            $projectDir = $this->getProjectDir();
+
+            // @todo Create an object!
+            $config = [
+                'env' => $this->getEnv(),
+                'engineDir' => $engineDir,
+                'engineTemplatesDir' => "{$engineDir}/templates",
+                'projectDir' => $projectDir,
+                'projectTemplatesDir' => "{$projectDir}/templates",
+                'dataDir' => "{$projectDir}/data",
+            ];
+
             $this->registry = (new Registry())
-                ->add('config', $this->createAugmentedConfig())
+                ->add('config', $config)
                 ->add('request', $this->getRequest())
 
                 ->addFactory('router', function (): Router {
                     return $this->createRouter();
+                })
+                ->addFactory('websiteNav', function (Registry $registry): WebsiteNav {
+                    return $this->createWebsiteNav($registry);
                 })
                 ->addFactory('templateFileLoader', function (Registry $registry): TemplateFileLoader {
                     return $this->createTemplateFileLoader($registry);

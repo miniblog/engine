@@ -1,0 +1,53 @@
+:root {
+    --mb-colour-highlight: #caca8b;
+    --mb-colour-background: #1e1e1e;
+}
+
+body {
+    font-family: "Courier New", Courier, monospace;
+    color: #d7997c;
+    background-color: var(--mb-colour-background);
+}
+
+a:link,
+a:visited,
+a:active {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--mb-colour-highlight);
+}
+
+a:hover {
+    color: var(--mb-colour-background);
+    background-color: var(--mb-colour-highlight);
+}
+
+a::before {
+    content: "< ";
+}
+
+a::after {
+    content: " >";
+}
+
+main {
+    max-width: 80ch;
+}
+
+.game-over {
+    margin-bottom: 3em;
+}
+
+.game-over pre {
+    font-family: inherit;
+    font-size: smaller;
+    font-weight: bold;
+}
+
+.game-over__detail {
+    margin-top: 2em;
+}
+
+.confirm__choices > :first-child {
+    margin-right: 2ch;
+}
